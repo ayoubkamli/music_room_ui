@@ -4,7 +4,7 @@ import 'package:myapp/app_navigator.dart';
 import 'package:myapp/auth/auth_repository.dart';
 import 'package:myapp/session_cubit.dart';
 
-void main() {
+void main()  {
   runApp(MyApp());
 }
 

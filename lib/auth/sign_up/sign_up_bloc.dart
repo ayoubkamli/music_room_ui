@@ -1,17 +1,17 @@
+import 'dart:convert';
+
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/auth_repository.dart';
 import 'package:myapp/auth/form_submission_status.dart';
 import 'package:myapp/auth/sign_up/sign_up_event.dart';
 import 'package:myapp/auth/sign_up/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthRepository authRepo;
   final AuthCubit? authCubit;
-
-  // String username = '';
-  // String email = '';
-  // String password = '';
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   SignUpBloc({required this.authRepo, required this.authCubit})
       : super(SignUpState());
@@ -34,17 +34,30 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(formStatus: FormSubmitting());
 
       try {
-        await authRepo.signUp(
-          state.username,
+        var res = await authRepo.signUp(
           state.email,
           state.password,
         );
-        yield state.copyWith(formStatus: SubmissionSuccess());
-        authCubit!.showConfirmationSignUp(
-          username: state.username,
-          email: state.email,
-          password: state.password,
-        );
+        print('this is the state====---------=========.');
+
+        var data = jsonDecode(res.body);
+        print('this is the data=====> ${data["data"]["mailConfCode"]}');
+        print('this is the data=====> ${data["data"]["mailConfToken"]}');
+        print('this is the response=====> ${res.statusCode}');
+        if (res.statusCode == 201) {
+          SharedPreferences prefs = await _prefs;
+          await prefs.setString("Token", data["data"]["mailConfToken"]);
+          var p = prefs.getString("Token");
+          print('this is the shared token ooooOOOOOoooo $p');
+          authCubit!.showConfirmationSignUp(
+            username: state.username,
+            email: state.email,
+            password: state.password,
+          );
+          yield state.copyWith(formStatus: SubmissionSuccess());
+        } else {
+          yield state.copyWith(formStatus: SubmissionFailed('flail signUp'));
+        }
       } catch (e) {
         yield state.copyWith(formStatus: SubmissionFailed(e.toString()));
       }
