@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:myapp/auth/auth_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -57,11 +55,11 @@ class AuthRepository {
   Future<http.Response> confirmationSignUp({
     String? confirmationCode,
   }) async {
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-    final SharedPreferences prefs = await _prefs;
+    // final SharedPreferences prefs = await _prefs;
 
-    String? token = prefs.getString('Token');
+    /*    String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
 
     final response =
@@ -73,14 +71,16 @@ class AuthRepository {
             body: jsonEncode(<String, dynamic>{
               'code': int.parse(confirmationCode!),
             }));
-    print('this is the conformation code $confirmationCode');
-    if (response.statusCode == 200) {
+    print('this is the conformation code $confirmationCode'); */
+    final response = ConfirmSignUp(confirmationCode!).confirmCode();
+    /*  if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
       String token = data['data']['token'];
       prefs.setString('Token', token);
     }
-    print(response.body);
+    print(response.body); */
+    ////todo bloc confirmation logic
     return response;
   }
 
