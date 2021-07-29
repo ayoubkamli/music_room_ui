@@ -68,8 +68,7 @@ class SignUpView extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return TextFormField(
         keyboardType: TextInputType.emailAddress,
-        decoration:
-            InputDecoration(icon: Icon(Icons.person), hintText: 'email'),
+        decoration: InputDecoration(icon: Icon(Icons.email), hintText: 'email'),
         validator: (value) => state.isValidUsername ? null : 'Invalid email',
         onChanged: (value) => context.read<SignUpBloc>().add(
               SignUpEmailChanged(email: value),

@@ -1,14 +1,15 @@
 import 'package:myapp/auth/form_submission_status.dart';
+import 'package:myapp/auth/validation/MyValidator.dart';
 
 class SignUpState {
   final String username;
   bool get isValidUsername => username.length > 3;
 
   final String email;
-  bool get isValidemail => email.contains('@');
+  bool get isValidemail => MyInputValidator().validateEmail(email);
 
   final String password;
-  bool get isValidPassword => password.length > 6;
+  bool get isValidPassword => MyInputValidator().isPasswordValid(password);
 
   final FormSubmissionStatus formStatus;
 

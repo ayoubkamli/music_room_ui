@@ -28,7 +28,7 @@ dependencies:
   shared_preferences:
 
   flutter_dotenv:
-  formz:
+  regexed_validator: 
 
 
   # The following adds the Cupertino Icons font to your application.
