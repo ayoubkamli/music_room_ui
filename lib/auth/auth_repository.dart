@@ -1,6 +1,7 @@
 import 'package:myapp/auth/auth_api.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   Future<String> attemptAutoLogin() async {
@@ -8,13 +9,12 @@ class AuthRepository {
     throw Exception('not signed in');
   }
 
-  Future<String> login(
-    String username,
+  Future<http.Response> login(
+    String email,
     String password,
   ) async {
-    print('attemping login');
-    await Future.delayed(Duration(seconds: 3));
-    return 'abc';
+    final response = LoginUser(password, email).loginUser();
+    return response;
   }
 
   Future<http.Response> signUp(
@@ -37,6 +37,11 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    await Future.delayed(Duration(seconds: 2));
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+    final SharedPreferences prefs = await _prefs;
+    await prefs.clear();
+
+    //prefs.remove('Token');
   }
 }

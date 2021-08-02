@@ -69,7 +69,7 @@ class SignUpView extends StatelessWidget {
       return TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(icon: Icon(Icons.email), hintText: 'email'),
-        validator: (value) => state.isValidUsername ? null : 'Invalid email',
+        validator: (value) => state.isValidemail ? null : 'Invalid email',
         onChanged: (value) => context.read<SignUpBloc>().add(
               SignUpEmailChanged(email: value),
             ),
@@ -100,6 +100,8 @@ class SignUpView extends StatelessWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   context.read<SignUpBloc>().add(SignUpSubmitted());
+                } else {
+                  _showErrorText(context);
                 }
               },
               child: Text('Sign Up'));
@@ -112,6 +114,12 @@ class SignUpView extends StatelessWidget {
       child: Text('Don\'t have an account? Sign up.'),
       onPressed: () => context.read<AuthCubit>().showLogin(),
     ));
+  }
+
+  Widget _showErrorText(BuildContext context) {
+    return Container(
+      child: Text('error'),
+    );
   }
 
   void _showSnackBar(BuildContext context, String message) {

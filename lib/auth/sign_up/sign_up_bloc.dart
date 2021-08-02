@@ -38,13 +38,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           state.email,
           state.password,
         );
-        print('this is the state====---------=========.');
+        print('this is the state====---------=========. ');
 
         var data = jsonDecode(res.body);
-        print('this is the data=====> ${data["data"]["mailConfCode"]}');
-        print('this is the data=====> ${data["data"]["mailConfToken"]}');
+        // print('this is the data=====> ${data["data"]["mailConfCode"]}');
+        // print('this is the data=====> ${data["data"]["mailConfToken"]}');
         print('this is the response=====> ${res.statusCode}');
         if (res.statusCode == 201) {
+          print('this is the data=====> ${data["data"]["mailConfCode"]}');
+          print('this is the data=====> ${data["data"]["mailConfToken"]}');
           SharedPreferences prefs = await _prefs;
           await prefs.setString("Token", data["data"]["mailConfToken"]);
           var p = prefs.getString("Token");
@@ -57,6 +59,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           yield state.copyWith(formStatus: SubmissionSuccess());
         } else {
           yield state.copyWith(formStatus: SubmissionFailed('flail signUp'));
+          throw Error();
         }
       } catch (e) {
         yield state.copyWith(formStatus: SubmissionFailed(e.toString()));

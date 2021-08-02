@@ -58,3 +58,27 @@ class ConfirmSignUp {
     return response;
   }
 }
+
+class LoginUser {
+  final String password;
+  final String email;
+  final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
+
+  LoginUser(this.password, this.email);
+
+  Future<http.Response> loginUser() async {
+    print('trying to login user $email - $password');
+    final response = await http.post(
+      loginUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    return response;
+  }
+}

@@ -40,7 +40,7 @@ class LoginView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _usernameField(),
+                _emailField(),
                 _passwordField(),
                 _loginButton(),
               ],
@@ -49,14 +49,14 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _usernameField() {
+  Widget _emailField() {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFormField(
-        decoration:
-            InputDecoration(icon: Icon(Icons.person), hintText: 'Username'),
-        validator: (value) => state.isValidUsername ? null : 'is too short',
+        decoration: InputDecoration(
+            icon: Icon(Icons.email), hintText: 'Email@eample.com'),
+        validator: (value) => state.isValidEmail ? null : 'Invalid email',
         onChanged: (value) => context.read<LoginBloc>().add(
-              LoginUsernameChanged(username: value),
+              LoginEmailChanged(email: value),
             ),
       );
     });
