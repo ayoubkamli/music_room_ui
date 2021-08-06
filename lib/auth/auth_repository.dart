@@ -40,6 +40,9 @@ class AuthRepository {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
     final SharedPreferences prefs = await _prefs;
+    final response = await LogOut().logoutUser();
+    final res = (response.statusCode);
+    print(res);
     await prefs.clear();
 
     //prefs.remove('Token');

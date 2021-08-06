@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:myapp/constant/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'constant/constant.dart';
 
 class CreateUser {
   final String password;
   final String email;
-  final Uri registerUrl = Uri.parse('http://$ip/api/auth/register');
 
   CreateUser(this.password, this.email);
 
@@ -31,7 +30,7 @@ class CreateUser {
 
 class ConfirmSignUp {
   final String confirmationCode;
-  final Uri consirmationUrl = Uri.parse('http://$ip/api/email/confirm');
+
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   // final SharedPreferences prefs = await _prefs;
 
@@ -62,7 +61,6 @@ class ConfirmSignUp {
 class LoginUser {
   final String password;
   final String email;
-  final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
 
   LoginUser(this.password, this.email);
 
@@ -82,3 +80,59 @@ class LoginUser {
     return response;
   }
 }
+
+class LogOut {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<http.Response> logoutUser() async {
+    final SharedPreferences prefs = await _prefs;
+    String? token = prefs.getString('Token');
+    String bearerToken = 'Bearer $token';
+    print('logout function in api called');
+    final response = await http.post(
+      logoutUrl,
+      headers: <String, String>{
+        'Authorization': '$bearerToken',
+      },
+    );
+    return response;
+  }
+}
+/* 
+class ForgotPassword {
+  final String? email;
+  final String? inputPassword;
+  final int? inputCode;
+  final codeUrl = Uri.parse('http://$ip/api/password/forgot');
+  final validatCodeUrl = Uri.parse('http://$ip/api/password/change');
+
+  ForgotPassword({this.email, this.inputPassword, this.inputCode});
+
+  Future<http.Response> sendCode() async {
+    final response = await http.post(
+      codeUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": email!,
+      }),
+    );
+    return response;
+  }
+
+  Future<http.Response> validatCode() async {
+    final response = await http.post(
+      validatCodeUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "code": inputCode!,
+        "password": inputPassword,
+      }),
+    );
+    return response;
+  }
+}
+ */
