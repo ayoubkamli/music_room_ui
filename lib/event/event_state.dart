@@ -1,25 +1,25 @@
-import 'package:myapp/event/event_model.dart';
-
-abstract class EventState {}
+abstract class EventState {
+  set events(List<dynamic> events) {}
+}
 
 class InitialState extends EventState {
-  List<Object> get props => [];
+  List<dynamic> get props => [];
 }
 
 class LoadingState extends EventState {
-  List<Object> get props => [];
+  List<dynamic> get props => [];
 }
 
 class LoadedState extends EventState {
-  final EventModel events;
+  final List<dynamic> events;
 
   LoadedState(this.events);
 
-  List<Object> get props => [events];
+  List<dynamic> get props => [events];
 }
 
 class ErrorState extends EventState {
-  List<Object> get props => [];
+  List<dynamic> get props => [];
 }
 
 ///to do view for events

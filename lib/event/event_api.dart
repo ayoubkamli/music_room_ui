@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CreateEvent {
   final String name;
   final String desc;
-  final List<String> musicPreference;
+  final List<dynamic> musicPreference;
   final String visibility;
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -17,13 +17,13 @@ class CreateEvent {
   Future<http.Response> createEvent() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
-    //String bearerToken = 'Bearer $token';
+    String bearerToken = 'Bearer $token';
 
     print('creating event called');
     final response = await http.post(eventUrl,
         headers: <String, String>{
           'ContentType': 'application/json; charset=UTF-8',
-          'Authorization': '$token',
+          'Authorization': '$bearerToken',
         },
         body: jsonEncode(<String, dynamic>{
           'name': name,
@@ -36,12 +36,13 @@ class CreateEvent {
   }
 }
 
-class GetEvents {
+class GetAllEvents {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<http.Response> fetchAllEvents() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
+    String? bearerToken = 'Bearer: $token';
 
     print('fetch all event was called');
 
@@ -49,7 +50,7 @@ class GetEvents {
       eventUrl,
       headers: <String, String>{
         'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$token',
+        'Authorization': '$bearerToken',
       },
     );
     return response;
@@ -62,16 +63,19 @@ class GetMyEvents {
   Future<http.Response> fetchAllMyEvents() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
+    String? bearerToken = 'Bearer: $token';
 
-    print('fetch all my events was called');
+    print('fetch My  events was called');
 
     final response = await http.get(
       eventUrl,
       headers: <String, String>{
         'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$token',
+        'Authorization': '$bearerToken',
       },
     );
+    print(
+        'response of fetch event body: ${response.body} code: ${response.statusCode}');
     return response;
   }
 }
@@ -82,6 +86,8 @@ class GetEvent {
   Future<http.Response> fetchEvent() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
+    String? bearerToken = 'Bearer: $token';
+
     String eventId = '';
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId');
     print('fetch single event was called');
@@ -90,7 +96,7 @@ class GetEvent {
       eventIdUrl,
       headers: <String, String>{
         'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$token',
+        'Authorization': '$bearerToken',
       },
     );
     return response;
@@ -110,6 +116,8 @@ class EditEvent {
   Future<http.Response> editEvent() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
+    String? bearerToken = 'Bearer: $token';
+
     String eventId = '';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId');
@@ -120,7 +128,7 @@ class EditEvent {
       eventIdUrl,
       headers: <String, String>{
         'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$token',
+        'Authorization': '$bearerToken',
       },
       body: jsonEncode(
         <String, dynamic>{

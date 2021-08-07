@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/auth_navigator.dart';
+import 'package:myapp/event/event_view.dart';
+
 import 'package:myapp/loading_view.dart';
 import 'package:myapp/session_cubit.dart';
 import 'package:myapp/session_state.dart';
-import 'package:myapp/session_view.dart';
 
 class AppNavigator extends StatelessWidget {
   @override
@@ -21,7 +22,10 @@ class AppNavigator extends StatelessWidget {
                   AuthCubit(sessionCubit: context.read<SessionCubit>()),
               child: AuthNavigator(),
             )),
-          if (state is Authenticated) MaterialPage(child: SessionView())
+          if (state is Authenticated)
+            MaterialPage(
+              child: EventView(),
+            )
         ],
         onPopPage: (route, result) => route.didPop(result),
       );
