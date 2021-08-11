@@ -1,7 +1,7 @@
 class EventModel {
   String name;
   String desc;
-  List<String> musicPreference;
+  List<dynamic> musicPreference;
   String visibility;
 
   EventModel(

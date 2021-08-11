@@ -27,6 +27,8 @@ dependencies:
   http:
   shared_preferences:
 
+  page_transition:
+
   flutter_dotenv:
   regexed_validator: 
 

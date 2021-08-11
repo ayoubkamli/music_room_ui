@@ -52,6 +52,7 @@ class LoginView extends StatelessWidget {
   Widget _emailField() {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFormField(
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             icon: Icon(Icons.email), hintText: 'Email@eample.com'),
         validator: (value) => state.isValidEmail ? null : 'Invalid email',

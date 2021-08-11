@@ -31,7 +31,7 @@ class CreateEvent {
           'musicPreference': musicPreference,
           'visibility': visibility,
         }));
-    print('response from create Event $response');
+    //print('response from create Event $response');
     return response;
   }
 }
@@ -53,6 +53,8 @@ class GetAllEvents {
         'Authorization': '$bearerToken',
       },
     );
+    /*  print(
+        'response of fetch event body: ${response.body} code: ${response.statusCode}'); */
     return response;
   }
 }
@@ -74,8 +76,8 @@ class GetMyEvents {
         'Authorization': '$bearerToken',
       },
     );
-    print(
-        'response of fetch event body: ${response.body} code: ${response.statusCode}');
+    // print(
+    //  'response of fetch event body: ${response.body} code: ${response.statusCode}');
     return response;
   }
 }
