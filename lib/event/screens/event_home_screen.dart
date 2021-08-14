@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/event/create_event/create_event_view.dart';
 import 'package:myapp/event/event_model.dart';
 import 'package:myapp/event/screens/album_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -20,29 +21,39 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: getAppBar(),
-      body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
-        if (state is LoadingState) {
-          print('Loading state was very fast');
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is LoadedState) {
-          final events = state.props;
-          print('------------------------ ${events[0]}');
-          return getBody(events);
-        } else if (state is ErrorState) {
-          print('${state.props}');
-          return Center(
-              child: Icon(
-            Icons.close,
-          ));
-        } else {
-          return Container();
-        }
-      }),
-    );
+        backgroundColor: Colors.black,
+        appBar: getAppBar(),
+        body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
+          if (state is LoadingState) {
+            print('Loading state was very fast');
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is LoadedState) {
+            final events = state.props;
+            print('------------------------ ${events[0]}');
+            return getBody(events);
+          } else if (state is ErrorState) {
+            print('${state.props}');
+            return Center(
+                child: Icon(
+              Icons.close,
+            ));
+          } else {
+            return Container();
+          }
+        }),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateEventView()),
+            );
+          },
+          label: const Text('ADD EVENT'),
+          icon: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ));
   }
 
   Widget getBody(List events) {
@@ -120,8 +131,8 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                   child: Row(
                     children: List.generate(events[0].length, (index) {
                       final data = EventModel.fromJson(events[0][index]);
-                      print(
-                          'data model index ${events.length} $index ===== ${data.name}');
+                      /*  print(
+                          'data model index ${events.length} $index ===== ${data.imgUrl}');*/
                       return Padding(
                         padding: const EdgeInsets.only(right: 30),
                         child: GestureDetector(
@@ -137,17 +148,16 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                           },
                           child: Column(
                             children: [
-                              /*     Container(
+                              Container(
                                 width: 180,
                                 height: 180,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image:
-                                            AssetImage(events[index]["image"]),
+                                        image: NetworkImage(data.imgUrl),
                                         fit: BoxFit.cover),
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(10)),
-                              ), */
+                              ),
                               SizedBox(
                                 height: 20,
                               ),
@@ -207,5 +217,9 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
         ),
       ),
     );
+  }
+
+  addEvent() {
+    return Container();
   }
 }

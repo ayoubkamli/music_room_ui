@@ -1,4 +1,4 @@
-import 'package:myapp/auth/form_submission_status.dart';
+import 'package:myapp/formStatus/form_submission_status.dart';
 
 class ConfirmationState {
   final String code;

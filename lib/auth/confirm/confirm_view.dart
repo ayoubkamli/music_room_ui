@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/auth_repository.dart';
-import 'package:myapp/auth/form_submission_status.dart';
+import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/confirm/confirm_bloc.dart';
 import 'package:myapp/auth/confirm/confirm_event.dart';
 import 'package:myapp/auth/confirm/confirm_state.dart';

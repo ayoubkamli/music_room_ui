@@ -5,3 +5,5 @@ final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
 final Uri logoutUrl = Uri.parse('http://$ip/api/auth/logout');
 final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
+
+final List<String> prefList = ["POP", "R&B", "HIP HOP", "JAZZ", "K-POP"];

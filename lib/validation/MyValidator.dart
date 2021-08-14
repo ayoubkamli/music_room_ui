@@ -23,4 +23,20 @@ class MyInputValidator {
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     return RegExp(pattern).hasMatch(email);
   }
+
+  bool isEventNameValid(String eventName) {
+    return eventName.length > 3;
+  }
+
+  bool isEventdescriptionValid(String eventDescription) {
+    return eventDescription.length > 3;
+  }
+
+  bool isEventStatusValid(String eventStatus) {
+    return (eventStatus == 'public' || eventStatus == 'privat');
+  }
+
+  bool isPrefListValid(List<String> pref) {
+    return pref.length > 0;
+  }
 }

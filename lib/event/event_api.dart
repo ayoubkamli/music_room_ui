@@ -7,31 +7,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CreateEvent {
   final String name;
   final String desc;
-  final List<dynamic> musicPreference;
+  final List<String> pref;
   final String visibility;
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  CreateEvent(this.name, this.desc, this.musicPreference, this.visibility);
+  CreateEvent(this.name, this.desc, this.pref, this.visibility);
 
   Future<http.Response> createEvent() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
 
-    print('creating event called');
+    print(
+        'creating event called $name / $desc / $visibility /$eventUrl / $pref');
     final response = await http.post(eventUrl,
         headers: <String, String>{
-          'ContentType': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': '$bearerToken',
         },
         body: jsonEncode(<String, dynamic>{
-          'name': name,
-          'desc': desc,
-          'musicPreference': musicPreference,
-          'visibility': visibility,
+          "name": name,
+          "desc": desc,
+          "musicPreference": pref
         }));
-    //print('response from create Event $response');
+    print('response from create Event ${response.body}');
     return response;
   }
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/auth_repository.dart';
-import 'package:myapp/auth/form_submission_status.dart';
+import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/sign_up/sign_up_event.dart';
 import 'package:myapp/auth/sign_up/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,5 +1,5 @@
-import 'package:myapp/auth/form_submission_status.dart';
-import 'package:myapp/auth/validation/MyValidator.dart';
+import 'package:myapp/formStatus/form_submission_status.dart';
+import 'package:myapp/validation/MyValidator.dart';
 
 class LoginState {
   final String email;

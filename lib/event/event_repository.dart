@@ -4,14 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/event/event_api.dart';
 
 class EventRepository {
-  Future<http.Response> createEvent({
-    String name = 'first name',
-    String desc = 'description',
-    List<dynamic>? musicPreference,
-    String visibility = 'private',
-  }) async {
-    final response = await CreateEvent(name, desc, musicPreference!, visibility)
-        .createEvent();
+  Future<http.Response> createEvent(
+    String name,
+    String description,
+    List<String> selectedPrefList,
+    String eventStatus,
+  ) async {
+    final response =
+        await CreateEvent(name, description, selectedPrefList, eventStatus)
+            .createEvent();
     return response;
   }
 
