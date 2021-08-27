@@ -6,4 +6,7 @@ final Uri logoutUrl = Uri.parse('http://$ip/api/auth/logout');
 final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
 
+final String imageUrl =
+    'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
+
 final List<String> prefList = ["POP", "R&B", "HIP HOP", "JAZZ", "K-POP"];

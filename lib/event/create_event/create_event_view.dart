@@ -5,6 +5,7 @@ import 'package:myapp/event/create_event/create_event_bloc.dart';
 import 'package:myapp/event/create_event/create_event_event.dart';
 import 'package:myapp/event/create_event/create_event_state.dart';
 import 'package:myapp/event/create_event/multi_select_chip.dart';
+import 'package:myapp/event/create_event/uplaod_photo.dart';
 import 'package:myapp/event/event_cubit.dart';
 import 'package:myapp/event/event_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
@@ -16,8 +17,11 @@ class CreateEventView extends StatefulWidget {
 
 class _CreateEventViewState extends State<CreateEventView> {
   final _formKey = GlobalKey<FormState>();
-  bool isSelected = false;
+
   List<String> selectedPrefList = [];
+
+  bool isSwitched = true;
+  String visibilityText = 'Public Event';
 
   int activeMenu1 = 0;
   int activeMenu2 = 0;
@@ -84,6 +88,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                 _nameField(),
                 _descriptionField(),
                 _shipSelect(),
+                _switchButton(),
                 _addEventButton(),
               ],
             ),
@@ -133,6 +138,14 @@ class _CreateEventViewState extends State<CreateEventView> {
                       .read<CreateEventBloc>()
                       .add(CreateEventPrefChanged(prefs: selectedPrefList));
                   context.read<CreateEventBloc>().add(CreateEventSubmitted());
+                  //
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              UploadPhoto(title: 'upload photo')));
+                  //
                 }
               },
               child: Text('Create Event'));
@@ -185,6 +198,45 @@ class _CreateEventViewState extends State<CreateEventView> {
             ],
           );
         });
+  }
+
+  Widget _switchButton() {
+    return BlocBuilder<CreateEventBloc, CreateEventState>(
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.only(top: 10, bottom: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                visibilityText,
+              ),
+              Switch(
+                value: isSwitched,
+                onChanged: (value) {
+                  setState(() {
+                    isSwitched = value;
+                    if (isSwitched == true) {
+                      visibilityText = 'Public Event ';
+                      context
+                          .read<CreateEventBloc>()
+                          .add(CreateEventStatusChanged(status: 'public'));
+                    } else {
+                      visibilityText = 'Private Event';
+                      context
+                          .read<CreateEventBloc>()
+                          .add(CreateEventStatusChanged(status: 'private'));
+                    }
+                  });
+                },
+                activeTrackColor: Colors.lightGreenAccent,
+                activeColor: Colors.green,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void _showSnackBar(BuildContext context, String message) {

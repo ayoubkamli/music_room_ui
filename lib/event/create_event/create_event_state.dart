@@ -8,6 +8,7 @@ class CreateEventState {
   final String description;
   bool get isEventDescriptionValid =>
       MyInputValidator().isEventdescriptionValid(description);
+
   final String eventStatus;
 
   final List<String> selectedPrefList;
@@ -20,7 +21,7 @@ class CreateEventState {
     this.name = '',
     this.description = '',
     this.selectedPrefList = const [],
-    this.eventStatus = '',
+    this.eventStatus = 'public',
     this.formStatus = const InitialFormStatus(),
   });
 

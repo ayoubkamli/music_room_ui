@@ -29,7 +29,8 @@ class CreateEvent {
         body: jsonEncode(<String, dynamic>{
           "name": name,
           "desc": desc,
-          "musicPreference": pref
+          "musicPreference": pref,
+          "visibility": visibility,
         }));
     print('response from create Event ${response.body}');
     return response;
@@ -53,6 +54,7 @@ class GetAllEvents {
         'Authorization': '$bearerToken',
       },
     );
+    print('response to string : ${response.body.toString()}');
     /*  print(
         'response of fetch event body: ${response.body} code: ${response.statusCode}'); */
     return response;
@@ -101,6 +103,7 @@ class GetEvent {
         'Authorization': '$bearerToken',
       },
     );
+
     return response;
   }
 }

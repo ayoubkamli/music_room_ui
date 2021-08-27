@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/event/create_event/create_event_view.dart';
 import 'package:myapp/event/event_model.dart';
 import 'package:myapp/event/screens/album_page.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../event_cubit.dart';
 import '../event_state.dart';
@@ -25,13 +24,11 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
         appBar: getAppBar(),
         body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
           if (state is LoadingState) {
-            print('Loading state was very fast');
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is LoadedState) {
             final events = state.props;
-            print('------------------------ ${events[0]}');
             return getBody(events);
           } else if (state is ErrorState) {
             print('${state.props}');
@@ -57,17 +54,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
   }
 
   Widget getBody(List events) {
-    /*   final data = EventModel(
-        name: events[0][0]["name"],
-        desc: events[0][0]["des"],
-        musicPreference: events[0][0]["musicPreference"],
-        visibility: events[0][0]["visibility"]);
-     */
-
-    /*   final data = EventModel.fromJson(events[0][index]);
-    print('data model 0000000 ===== ${data.name}'); */
-
-    //print(events[0][0]);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,14 +123,7 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                         padding: const EdgeInsets.only(right: 30),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    alignment: Alignment.bottomCenter,
-                                    child: AlbumPage(
-                                      song: data.name,
-                                    ),
-                                    type: PageTransitionType.scale));
+                            goToAlbum(events[0][index]);
                           },
                           child: Column(
                             children: [
@@ -221,5 +200,15 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
 
   addEvent() {
     return Container();
+  }
+
+  Future<dynamic> goToAlbum(dynamic data) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AlbumPage(
+                data: data,
+              )),
+    );
   }
 }
