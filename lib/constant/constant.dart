@@ -1,4 +1,4 @@
-const ip = '192.168.99.100';
+const ip = '192.168.99.102';
 final Uri registerUrl = Uri.parse('http://$ip/api/auth/register');
 final Uri consirmationUrl = Uri.parse('http://$ip/api/email/confirm');
 final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');

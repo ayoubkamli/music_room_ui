@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/event/screens/event_model.dart';
+import 'package:myapp/event/screens/song_model.dart';
 
 class AlbumPage extends StatefulWidget {
-  final Map<String, dynamic> data;
+  final AlbumModel data;
   const AlbumPage({required this.data, Key? key}) : super(key: key);
 
   @override
@@ -22,17 +20,22 @@ class _AlbumPageState extends State<AlbumPage> {
     );
   }
 
-  Widget getBody(data) {
+  Widget getBody(AlbumModel data) {
     var size = MediaQuery.of(context).size;
 
-    print(data.toString());
+    print('this is the data ' + data.toString());
 
-    SongModel s = SongModel.fromJson(data);
-    print('ssssssssssssssssss--------->>>> ${s}');
+    // SongModel s = SongModel.fromJson(data);
+    // print('ssssssssssssssssss--------->>>> ${s}');
+
+    // final newData = data.toString();
+    // final data2 = jsonDecode(newData);
+
+    // final s = songModelFromJson(data2);
 
     /// EventModel songData = EventModel.fromJson(data);
     /// String s = songData.toString() + ' ----- test';
-    /// print('s is s --------' + s);
+    // print('s is s --------' + s);
 
     /// EventModel songData = EventModel.fromJson(data);
 
@@ -78,9 +81,9 @@ class _AlbumPageState extends State<AlbumPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            onPressed: () => print(data['playlist'][0]),
+                            onPressed: () {},
                             child: Text(
-                              data['name'],
+                              data.name!,
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,
@@ -90,7 +93,7 @@ class _AlbumPageState extends State<AlbumPage> {
                           Container(
                             width: 150,
                             child: Text(
-                              data['desc'],
+                              data.desc!,
                               maxLines: 1,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -118,8 +121,8 @@ class _AlbumPageState extends State<AlbumPage> {
             height: 20,
           ),
           Column(
-            children: List.generate(data['playlist'].length, (index) {
-              return track(data['playlist'][index]);
+            children: List.generate(data.playlist!.length, (index) {
+              return track(data.playlist![index]);
             }),
           )
         ],
@@ -127,7 +130,7 @@ class _AlbumPageState extends State<AlbumPage> {
     );
   }
 
-  Widget track(data) {
+  Widget track(Playlist data) {
     // EventModel songData = EventModel.fromJson(data);
 
     /// print('song data ------------------------');
@@ -143,7 +146,7 @@ class _AlbumPageState extends State<AlbumPage> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'vote',
+                      text: data.vote.toString(),
                     ),
                   ],
                 ),
@@ -151,7 +154,7 @@ class _AlbumPageState extends State<AlbumPage> {
           TextButton(
             onPressed: () => null,
             child: Text(
-              'name',
+              data.name.toString(),
               style: TextStyle(color: Colors.white.withOpacity(0.5)),
             ),
           ),
@@ -190,13 +193,13 @@ class _AlbumPageState extends State<AlbumPage> {
     );
   }
 
-  Future<dynamic> goToAlbum(dynamic data) {
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AlbumPage(
-                data: data,
-              )),
-    );
-  }
+  // Future<dynamic> goToAlbum(dynamic data) {
+  //   return Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => AlbumPage(
+  //               data: data,
+  //             )),
+  //   );
+  // }
 }

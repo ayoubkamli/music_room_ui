@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/event/create_event/create_event_view.dart';
 import 'package:myapp/event/event_model.dart';
 import 'package:myapp/event/screens/album_page.dart';
+import 'package:myapp/event/screens/event_model.dart';
+import 'package:myapp/event/screens/song_model.dart';
 
 import '../event_cubit.dart';
 import '../event_state.dart';
@@ -117,12 +121,16 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                   child: Row(
                     children: List.generate(events[0].length, (index) {
                       final data = EventModel.fromJson(events[0][index]);
+
                       /*  print(
                           'data model index ${events.length} $index ===== ${data.imgUrl}');*/
                       return Padding(
                         padding: const EdgeInsets.only(right: 30),
                         child: GestureDetector(
                           onTap: () {
+                            print('-----');
+                            print(events[0][index]["playlist"]);
+                            print('-----');
                             goToAlbum(events[0][index]);
                           },
                           child: Column(
@@ -202,13 +210,18 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
     return Container();
   }
 
-  Future<dynamic> goToAlbum(dynamic data) {
+  Future<dynamic> goToAlbum(Map<String, dynamic> data) {
+    print(data);
+    //SongModel item = SongModel.fromJson(data);
+    AlbumModel item = AlbumModel.fromJson(data);
+    print("item  $item");
     return Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AlbumPage(
-                data: data,
-              )),
+        builder: (context) => AlbumPage(
+          data: item,
+        ),
+      ),
     );
   }
 }
