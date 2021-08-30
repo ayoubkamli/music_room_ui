@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constant/constant.dart';
+// import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/event/screens/song_model.dart';
+
+import 'music_details.dart';
 
 class AlbumPage extends StatefulWidget {
   final AlbumModel data;
@@ -25,23 +28,6 @@ class _AlbumPageState extends State<AlbumPage> {
 
     print('this is the data ' + data.toString());
 
-    // SongModel s = SongModel.fromJson(data);
-    // print('ssssssssssssssssss--------->>>> ${s}');
-
-    // final newData = data.toString();
-    // final data2 = jsonDecode(newData);
-
-    // final s = songModelFromJson(data2);
-
-    /// EventModel songData = EventModel.fromJson(data);
-    /// String s = songData.toString() + ' ----- test';
-    // print('s is s --------' + s);
-
-    /// EventModel songData = EventModel.fromJson(data);
-
-    /// String newData = songData.name.toString();
-    /*   print(
-        'songData.images.toString() +++++++++++++++++++++++++ ${songData.toString()}'); */
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -81,7 +67,13 @@ class _AlbumPageState extends State<AlbumPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => ExampleApp()),
+                              // );
+                            },
                             child: Text(
                               data.name!,
                               style: TextStyle(
@@ -117,6 +109,7 @@ class _AlbumPageState extends State<AlbumPage> {
               ),
             ),
           ),
+          ExampleApp(),
           SizedBox(
             height: 20,
           ),
@@ -133,8 +126,8 @@ class _AlbumPageState extends State<AlbumPage> {
   Widget track(Playlist data) {
     // EventModel songData = EventModel.fromJson(data);
 
-    /// print('song data ------------------------');
-    /// print(songData.toJson());
+    print('song data ------------------------');
+    print(data.previewUrl);
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(
@@ -192,14 +185,4 @@ class _AlbumPageState extends State<AlbumPage> {
       ),
     );
   }
-
-  // Future<dynamic> goToAlbum(dynamic data) {
-  //   return Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => AlbumPage(
-  //               data: data,
-  //             )),
-  //   );
-  // }
 }

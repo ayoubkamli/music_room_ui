@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/event/create_event/create_event_view.dart';
 import 'package:myapp/event/event_model.dart';
 import 'package:myapp/event/screens/album_page.dart';
-import 'package:myapp/event/screens/event_model.dart';
 import 'package:myapp/event/screens/song_model.dart';
 
 import '../event_cubit.dart';
