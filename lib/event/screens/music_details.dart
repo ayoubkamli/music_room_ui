@@ -35,11 +35,8 @@ class _ExampleAppState extends State<ExampleApp> {
           value: advancedPlayer.onAudioPositionChanged,
         ),
       ],
-      child: DefaultTabController(
-        length: 1,
-        child: Scaffold(
-          body: remoteUrl(),
-        ),
+      child: Scaffold(
+        body: remoteUrl(),
       ),
     );
   }

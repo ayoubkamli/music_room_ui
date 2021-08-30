@@ -1,9 +1,14 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/event/screens/player_widget.dart';
 // import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/event/screens/song_model.dart';
 
-import 'music_details.dart';
+
+
+const kUrl1 =
+    'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
 
 class AlbumPage extends StatefulWidget {
   final AlbumModel data;
@@ -14,6 +19,11 @@ class AlbumPage extends StatefulWidget {
 }
 
 class _AlbumPageState extends State<AlbumPage> {
+  AudioCache audioCache = AudioCache();
+  AudioPlayer advancedPlayer = AudioPlayer();
+  String? localFilePath;
+  String? localAudioCacheURI;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +119,11 @@ class _AlbumPageState extends State<AlbumPage> {
               ),
             ),
           ),
-          ExampleApp(),
+          SizedBox(
+            height: 20,
+          ),
+          remoteUrl(),
+          // ExampleApp(),
           SizedBox(
             height: 20,
           ),
@@ -121,6 +135,10 @@ class _AlbumPageState extends State<AlbumPage> {
         ],
       ),
     );
+  }
+
+  Widget remoteUrl() {
+    return PlayerWidget(url: kUrl1);
   }
 
   Widget track(Playlist data) {

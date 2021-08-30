@@ -4,7 +4,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/constant/constant.dart';
 
 class PlayerWidget extends StatefulWidget {
   final String url;
@@ -31,7 +30,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   Duration? _duration;
   Duration? _position;
 
-  PlayerState _playerState = PlayerState.STOPPED;
+  // PlayerState _playerState = PlayerState.STOPPED;
   // PlayingRoute _playingRouteState = PlayingRoute.SPEAKERS;
   StreamSubscription? _durationSubscription;
   StreamSubscription? _positionSubscription;
@@ -40,8 +39,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   StreamSubscription? _playerStateSubscription;
   StreamSubscription<PlayerControlCommand>? _playerControlCommandSubscription;
 
-  bool get _isPlaying => _playerState == PlayerState.PLAYING;
-  bool get _isPaused => _playerState == PlayerState.PAUSED;
+  // bool get _isPlaying => _playerState == PlayerState.PLAYING;
+  // bool get _isPaused => _playerState == PlayerState.PAUSED;
   String get _durationText => _duration?.toString().split('.').first ?? '';
   String get _positionText => _position?.toString().split('.').first ?? '';
 
@@ -54,6 +53,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   void initState() {
     super.initState();
     _initAudioPlayer();
+    _play();
   }
 
   @override
@@ -73,40 +73,40 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              key: const Key('play_button'),
-              onPressed: _isPlaying ? null : _play,
-              iconSize: iconSize,
-              icon: const Icon(Icons.play_arrow),
-              color: Colors.green,
-            ),
-            IconButton(
-              key: const Key('pause_button'),
-              onPressed: _isPlaying ? _pause : null,
-              iconSize: iconSize,
-              icon: const Icon(Icons.pause),
-              color: Colors.green,
-            ),
-            IconButton(
-              key: const Key('stop_button'),
-              onPressed: _isPlaying || _isPaused ? _stop : null,
-              iconSize: iconSize,
-              icon: const Icon(Icons.stop),
-              color: Colors.green,
-            ),
-            // IconButton(
-            //   onPressed: _earpieceOrSpeakersToggle,
-            //   iconSize: iconSize,
-            //   icon: _isPlayingThroughEarpiece
-            /////       ? const Icon(Icons.volume_up)
-            //       : const Icon(Icons.hearing),
-            //   color: Colors.cyan,
-            // ),
-          ],
-        ),
+        // Row(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     IconButton(
+        //       key: const Key('play_button'),
+        //       onPressed: _isPlaying ? null : _play,
+        //       iconSize: iconSize,
+        //       icon: const Icon(Icons.play_arrow),
+        //       color: Colors.green,
+        //     ),
+        //     IconButton(
+        //       key: const Key('pause_button'),
+        //       onPressed: _isPlaying ? _pause : null,
+        //       iconSize: iconSize,
+        //       icon: const Icon(Icons.pause),
+        //       color: Colors.green,
+        //     ),
+        //     IconButton(
+        //       key: const Key('stop_button'),
+        //       onPressed: _isPlaying || _isPaused ? _stop : null,
+        //       iconSize: iconSize,
+        //       icon: const Icon(Icons.stop),
+        //       color: Colors.green,
+        //     ),
+        //     // IconButton(
+        //     //   onPressed: _earpieceOrSpeakersToggle,
+        //     //   iconSize: iconSize,
+        //     //   icon: _isPlayingThroughEarpiece
+        //     /////       ? const Icon(Icons.volume_up)
+        //     //       : const Icon(Icons.hearing),
+        //     //   color: Colors.cyan,
+        //     // ),
+        //   ],
+        // ),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -122,22 +122,23 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                         activeColor: Colors.green,
                         inactiveColor: Colors.greenAccent[100],
                         onChanged: (v) {
-                          final duration = _duration;
-                          if (duration == null) {
-                            return;
-                          }
-                          final position = v * duration.inMilliseconds;
-                          _audioPlayer
-                              .seek(Duration(milliseconds: position.round()));
+                          // final duration = _duration;
+                          // if (duration == null) {
+                          //   return;
+                          // }
+                          // final position = v * duration.inMilliseconds;
+                          // _audioPlayer
+                          //     .seek(Duration(milliseconds: position.round()));
                         },
-                        value: (_position != null &&
-                                _duration != null &&
-                                _position!.inMilliseconds > 0 &&
-                                _position!.inMilliseconds <
-                                    _duration!.inMilliseconds)
-                            ? _position!.inMilliseconds /
-                                _duration!.inMilliseconds
-                            : 0.0,
+                        value: 0.95,
+                        // value: (_position != null &&
+                        //         _duration != null &&
+                        //         _position!.inMilliseconds > 0 &&
+                        //         _position!.inMilliseconds <
+                        //             _duration!.inMilliseconds)
+                        /////     ? _position!.inMilliseconds /
+                        //         _duration!.inMilliseconds
+                        //     : 0.0,
                       ),
                     ),
                   ),
@@ -146,7 +147,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             ),
             Text(
               _position != null
-                  ? '$_positionText / $_durationText'
+                  ? '$_positionText'
+                  // ? '$_positionText / $_durationText'
                   : _duration != null
                       ? _durationText
                       : '',
@@ -191,7 +193,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
     _playerCompleteSubscription =
         _audioPlayer.onPlayerCompletion.listen((event) {
-      _onComplete();
+      // _onComplete();
       setState(() {
         _position = _duration;
       });
@@ -200,7 +202,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     _playerErrorSubscription = _audioPlayer.onPlayerError.listen((msg) {
       print('audioPlayer error : $msg');
       setState(() {
-        _playerState = PlayerState.STOPPED;
+        // _playerState = PlayerState.STOPPED;
         _duration = const Duration();
         _position = const Duration();
       });
@@ -238,20 +240,20 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         ? _position
         : null;
     final result = await _audioPlayer.play(url, position: playPosition);
-    if (result == 1) {
-      setState(() => _playerState = PlayerState.PLAYING);
-    }
+    // if (result == 1) {
+    //   setState(() => _playerState = PlayerState.PLAYING);
+    // }
 
     return result;
   }
 
-  Future<int> _pause() async {
-    final result = await _audioPlayer.pause();
-    if (result == 1) {
-      setState(() => _playerState = PlayerState.PAUSED);
-    }
-    return result;
-  }
+  // Future<int> _pause() async {
+  //   final result = await _audioPlayer.pause();
+  //   if (result == 1) {
+  //     setState(() => _playerState = PlayerState.PAUSED);
+  //   }
+  //   return result;
+  // }
 
   // Future<int> _earpieceOrSpeakersToggle() async {
   //   final result = await _audioPlayer.earpieceOrSpeakersToggle();
@@ -261,18 +263,18 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   //   return result;
   // }
 
-  Future<int> _stop() async {
-    final result = await _audioPlayer.stop();
-    if (result == 1) {
-      setState(() {
-        _playerState = PlayerState.STOPPED;
-        _position = const Duration();
-      });
-    }
-    return result;
-  }
+  // Future<int> _stop() async {
+  //   final result = await _audioPlayer.stop();
+  //   if (result == 1) {
+  //     setState(() {
+  //       _playerState = PlayerState.STOPPED;
+  //       _position = const Duration();
+  //     });
+  //   }
+  //   return result;
+  // }
 
-  void _onComplete() {
-    setState(() => _playerState = PlayerState.STOPPED);
-  }
+  // void _onComplete() {
+  //   setState(() => _playerState = PlayerState.STOPPED);
+  // }
 }
