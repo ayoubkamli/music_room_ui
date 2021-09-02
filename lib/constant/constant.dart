@@ -5,6 +5,7 @@ final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
 final Uri logoutUrl = Uri.parse('http://$ip/api/auth/logout');
 final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
+final Uri playlistUrl = Uri.parse('http://$ip/api/playlists');
 
 final String imageUrl =
     'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
