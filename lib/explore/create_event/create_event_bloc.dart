@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/event/create_event/create_event_event.dart';
-import 'package:myapp/event/create_event/create_event_state.dart';
-import 'package:myapp/event/event_cubit.dart';
-import 'package:myapp/event/event_repository.dart';
+import 'package:myapp/explore/create_event/create_event_event.dart';
+import 'package:myapp/explore/create_event/create_event_state.dart';
+import 'package:myapp/explore/event/event_cubit.dart';
+import 'package:myapp/explore/event/event_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 
 class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {

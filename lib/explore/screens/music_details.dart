@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'player_widget.dart';
+import '../widget/player_widget.dart';
 
 typedef OnError = void Function(Exception exception);
 

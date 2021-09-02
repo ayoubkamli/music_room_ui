@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/app_navigator.dart';
 import 'package:myapp/auth/auth_repository.dart';
-import 'package:myapp/event/event_cubit.dart';
-import 'package:myapp/event/event_repository.dart';
+import 'package:myapp/explore/event/event_cubit.dart';
+import 'package:myapp/explore/event/event_repository.dart';
 
 import 'package:myapp/session_cubit.dart';
 

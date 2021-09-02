@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/auth_navigator.dart';
-import 'package:myapp/event/event_view.dart';
+import 'package:myapp/explore/event/event_view.dart';
 
 import 'package:myapp/loading_view.dart';
 import 'package:myapp/session_cubit.dart';

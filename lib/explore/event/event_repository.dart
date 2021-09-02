@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:myapp/event/event_api.dart';
+import 'package:myapp/explore/event/event_api.dart';
 
 class EventRepository {
   Future<http.Response> createEvent(

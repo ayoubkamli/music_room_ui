@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/event/screens/player_widget.dart';
+import 'package:myapp/explore/widget/player_widget.dart';
 // import 'package:myapp/event/screens/music_details.dart';
-import 'package:myapp/event/screens/song_model.dart';
+import 'package:myapp/explore/screens/song_model.dart';
 
 
 

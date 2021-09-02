@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/event/event_cubit.dart';
-import 'package:myapp/event/event_state.dart';
-import 'package:myapp/event/screens/event_home_screen.dart';
+import 'package:myapp/explore/event/event_cubit.dart';
+import 'package:myapp/explore/event/event_state.dart';
+import 'package:myapp/explore/screens/explor.dart';
 
 class EventView extends StatefulWidget {
   @override
@@ -28,16 +28,6 @@ class _EventViewState extends State<EventView> {
       index: activeTab,
       children: [
         EventHomeScreen(),
-        Center(
-          child: Text(
-            "Home",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         Center(
           child: Text(
             "Library",
@@ -99,7 +89,6 @@ class _EventViewState extends State<EventView> {
     );
   }
 }
-
 
 /** return Scaffold(
       body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
