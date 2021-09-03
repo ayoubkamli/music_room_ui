@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class GetAllPlaylist {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  Future<http.Response> fetchAllEvents() async {
+  Future<http.Response> fetchAllPlaylists() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String? bearerToken = 'Bearer: $token';

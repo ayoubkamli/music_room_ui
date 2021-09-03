@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/explore/event/event_cubit.dart';
 import 'package:myapp/explore/event/event_state.dart';
-import 'package:myapp/explore/screens/explor.dart';
+import 'package:myapp/explore/event/event_home_screen.dart';
 
-class EventView extends StatefulWidget {
+class ExploreView extends StatefulWidget {
   @override
-  _EventViewState createState() => _EventViewState();
+  _ExploreViewState createState() => _ExploreViewState();
 }
 
-class _EventViewState extends State<EventView> {
+class _ExploreViewState extends State<ExploreView> {
   int activeTab = 0;
   @override
   Widget build(BuildContext context) {

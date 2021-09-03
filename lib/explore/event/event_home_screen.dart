@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/explore/create_event/create_event_view.dart';
 import 'package:myapp/explore/widget/body.dart';
 
-import '../event/event_cubit.dart';
-import '../event/event_state.dart';
+import 'event_cubit.dart';
+import 'event_state.dart';
 
 class EventHomeScreen extends StatefulWidget {
   const EventHomeScreen({Key? key}) : super(key: key);

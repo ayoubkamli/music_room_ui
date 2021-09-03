@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:myapp/explore/event/event_repository.dart';
 import 'package:myapp/explore/event/event_state.dart';
 
