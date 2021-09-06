@@ -19,9 +19,8 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, EventState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
+        return Container(
+          child: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
             if (state is LoadingState) {
               return Center(
                 child: CircularProgressIndicator(),

@@ -16,9 +16,8 @@ class _PlaylistHomeViewState extends State<PlaylistHomeView> {
   Widget build(BuildContext context) {
     return BlocBuilder<PlaylistCubit, PlaylistState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: BlocBuilder<PlaylistCubit, PlaylistState>(
+        return Container(
+          child: BlocBuilder<PlaylistCubit, PlaylistState>(
             builder: (context, state) {
               if (state is PlaylistLoadingState) {
                 return Center(

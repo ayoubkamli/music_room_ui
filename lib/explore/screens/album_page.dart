@@ -5,13 +5,11 @@ import 'package:myapp/explore/widget/player_widget.dart';
 // import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/explore/screens/song_model.dart';
 
-
-
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
 
 class AlbumPage extends StatefulWidget {
-  final AlbumModel data;
+  final dynamic data;
   const AlbumPage({required this.data, Key? key}) : super(key: key);
 
   @override
@@ -33,7 +31,7 @@ class _AlbumPageState extends State<AlbumPage> {
     );
   }
 
-  Widget getBody(AlbumModel data) {
+  Widget getBody(dynamic data) {
     var size = MediaQuery.of(context).size;
 
     print('this is the data ' + data.toString());

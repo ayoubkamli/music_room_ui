@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/explore/playlist/playlist_model.dart';
 import 'package:myapp/explore/screens/album_page.dart';
 import 'package:myapp/explore/screens/song_model.dart';
 
@@ -30,7 +31,7 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
                 child: GestureDetector(
                   onTap: () {
                     print('-----');
-                    print(events[0][index]["playlist"]);
+                    print(events[0][index]);
                     print('-----');
                     goToAlbum(events[0][index], context);
                   },
@@ -84,8 +85,15 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
 
 Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
   print(data);
+  print('++++++++++');
+  dynamic item;
   //SongModel item = SongModel.fromJson(data);
-  AlbumModel item = AlbumModel.fromJson(data);
+  if (data['subscribes'] == null) {
+    print('okkkkkkkkkkk');
+    item = PlaylistModel.fromJson(data);
+  } else {
+    item = AlbumModel.fromJson(data);
+  }
   print("item  $item");
   return Navigator.push(
     context,

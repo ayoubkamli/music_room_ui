@@ -40,11 +40,26 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
+  Widget explore() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EventHomeScreen(),
+          SizedBox(
+            height: 20,
+          ),
+          PlaylistHomeView(),
+        ],
+      ),
+    );
+  }
+
   Widget getBody() {
     return IndexedStack(
       index: activeTab,
       children: [
-        PlaylistHomeView(),
+        explore(),
         Center(
           child: Text(
             "Library",
