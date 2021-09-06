@@ -1,22 +1,22 @@
 abstract class PlaylistState {
-  set playlist(List<dynamic> playlist) {}
+  set allPlaylists(List<dynamic> allPlaylists) {}
 }
 
-class InitialState extends PlaylistState {
+class PlaylistInitialState extends PlaylistState {
   List<dynamic> get props => [];
 }
 
-class LoadingState extends PlaylistState {
+class PlaylistLoadingState extends PlaylistState {
   List<dynamic> get props => [];
 }
 
-class LoadedState extends PlaylistState {
+class PlaylistLoadedState extends PlaylistState {
   final List<dynamic> allPlaylists;
 
-  LoadedState(this.allPlaylists);
+  PlaylistLoadedState(this.allPlaylists);
   List<dynamic> get props => [allPlaylists];
 }
 
-class ErrorState extends PlaylistState {
+class PlaylistErrorState extends PlaylistState {
   List<dynamic> get props => [];
 }

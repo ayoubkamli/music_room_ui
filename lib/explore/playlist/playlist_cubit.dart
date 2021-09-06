@@ -7,22 +7,24 @@ import 'package:myapp/explore/playlist/playlist_state.dart';
 class PlaylistCubit extends Cubit<PlaylistState> {
   final PlaylistRepository playlistRepository;
 
-  PlaylistCubit(this.playlistRepository) : super(InitialState()) {
-    getAll();
+  PlaylistCubit({required this.playlistRepository})
+      : super(PlaylistInitialState()) {
+    getAllPlaylists();
   }
-  Future<void> getAll() async {
+
+  Future<void> getAllPlaylists() async {
     try {
-      emit(LoadingState());
-      final allPlaylist = await playlistRepository.getAllplaylists();
-      if (allPlaylist.statusCode == 200) {
-        final data = jsonDecode(allPlaylist.body);
+      emit(PlaylistLoadingState());
+      final playlists = await playlistRepository.getAllPlaylists();
+      if (playlists.statusCode == 200) {
+        final data = jsonDecode(playlists.body);
         final datalist = data['data'];
-        emit(LoadedState(datalist));
+        emit(PlaylistLoadedState(datalist));
       } else {
         throw Error();
       }
     } catch (e) {
-      emit(ErrorState());
+      emit(PlaylistErrorState());
     }
   }
 }

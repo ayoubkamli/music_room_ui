@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/explore/event/event_cubit.dart';
+
+/// import 'package:myapp/explore/event/event_cubit.dart';
 import 'package:myapp/session_cubit.dart';
 
 class SessionView extends StatelessWidget {
@@ -15,7 +16,8 @@ class SessionView extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            _eventButton(context),
+
+            /// _eventButton(context),
             _signOutButton(context),
           ],
         )),
@@ -23,13 +25,13 @@ class SessionView extends StatelessWidget {
     );
   }
 
-  Widget _eventButton(BuildContext context) {
-    return SafeArea(
-        child: TextButton(
-      child: Text('Event '),
-      onPressed: () => context.read<EventCubit>().getAllEvents(),
-    ));
-  }
+  /// Widget _eventButton(BuildContext context) {
+  ///   return SafeArea(
+  ///       child: TextButton(
+  ///     child: Text('Event '),
+  ///     onPressed: () => context.read<EventCubit>().getAllEvents(),
+  ///   ));
+  /// }
 
   Widget _signOutButton(BuildContext context) {
     return SafeArea(

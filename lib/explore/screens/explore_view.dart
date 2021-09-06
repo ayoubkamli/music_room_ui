@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/explore/event/event_cubit.dart';
-import 'package:myapp/explore/event/event_state.dart';
 import 'package:myapp/explore/event/event_home_screen.dart';
+import 'package:myapp/explore/playlist/playlist_home_view.dart';
 
 class ExploreView extends StatefulWidget {
   @override
@@ -13,13 +11,32 @@ class _ExploreViewState extends State<ExploreView> {
   int activeTab = 0;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventCubit, EventState>(
-      builder: (context, state) {
-        return Scaffold(
-            backgroundColor: Colors.black,
-            bottomNavigationBar: getFooter(),
-            body: getBody());
-      },
+    return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: getAppBar('Explore'),
+        bottomNavigationBar: getFooter(),
+        body: getBody());
+  }
+
+  PreferredSizeWidget getAppBar(String title) {
+    return AppBar(
+      backgroundColor: Colors.black,
+      elevation: 0,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                )),
+            Icon(Icons.list)
+          ],
+        ),
+      ),
     );
   }
 
@@ -27,7 +44,7 @@ class _ExploreViewState extends State<ExploreView> {
     return IndexedStack(
       index: activeTab,
       children: [
-        EventHomeScreen(),
+        PlaylistHomeView(),
         Center(
           child: Text(
             "Library",
