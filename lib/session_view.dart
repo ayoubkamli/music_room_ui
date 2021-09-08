@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// import 'package:myapp/explore/event/event_cubit.dart';
-import 'package:myapp/session_cubit.dart';
+import 'package:myapp/blocs/cubits/session_cubit.dart';
 
 class SessionView extends StatelessWidget {
   @override

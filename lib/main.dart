@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/app_navigator.dart';
-import 'package:myapp/auth/auth_repository.dart';
-import 'package:myapp/explore/event/event_cubit.dart';
-import 'package:myapp/explore/event/event_repository.dart';
-import 'package:myapp/explore/playlist/playlist_cubit.dart';
-import 'package:myapp/explore/playlist/playlist_repository.dart';
+import 'package:myapp/blocs/resources/auth_repository.dart';
+import 'package:myapp/blocs/cubits/event_cubit.dart';
+import 'package:myapp/blocs/resources/event_repository.dart';
+import 'package:myapp/blocs/cubits/playlist_cubit.dart';
+import 'package:myapp/blocs/resources/playlist_repository.dart';
 
-import 'package:myapp/session_cubit.dart';
+import 'package:myapp/blocs/cubits/session_cubit.dart';
 
 void main() {
   runApp(MyApp());
