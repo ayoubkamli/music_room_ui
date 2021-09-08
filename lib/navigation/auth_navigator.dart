@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/blocs/cubits/auth_cubit.dart';
-import 'package:myapp/pages/confirm_view.dart';
-import 'package:myapp/pages/login_view.dart';
-import 'package:myapp/pages/sign_up_view.dart';
+import 'package:myapp/auth/blocs/auth_cubit.dart';
+import 'package:myapp/auth/screens/confirm_view.dart';
+import 'package:myapp/auth/screens/login_view.dart';
+import 'package:myapp/auth/screens/sign_up_view.dart';
 
 class AuthNavigator extends StatelessWidget {
   @override

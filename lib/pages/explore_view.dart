@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/event_home_screen.dart';
-import 'package:myapp/pages/playlist_home_view.dart';
+import 'package:myapp/events/screens/event_home_screen.dart';
+import 'package:myapp/playlists/screens/playlist_home_view.dart';
 
 class ExploreView extends StatefulWidget {
   @override

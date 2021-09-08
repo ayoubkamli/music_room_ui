@@ -1,0 +1,26 @@
+AUTH -> - Bloc 
+            - files.dart
+        - Repository 
+            -  files.dart
+        - Networking
+            -  files.dart
+        - Models
+            - files.dart
+        - Screens
+            -  files.dart
+
+
+HOME -> 
+
+
+PLAYLIST -> 
+
+WIDGETS -> 
+
+Utils -> AUTH.dart, validator.dart
+
+Naivgation -> 
+
+constants -> 
+
+
