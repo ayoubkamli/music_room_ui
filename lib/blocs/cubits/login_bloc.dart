@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:myapp/blocs/auth_navigation/auth_credentials.dart';
+import 'package:myapp/blocs/cridentials/auth_credentials.dart';
 import 'package:myapp/blocs/cubits/auth_cubit.dart';
 import 'package:myapp/blocs/resources/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';

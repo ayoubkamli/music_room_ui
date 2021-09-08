@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/blocs/cubits/auth_cubit.dart';
-import 'package:myapp/blocs/auth_navigation/auth_navigator.dart';
+import 'package:myapp/navigation/auth_navigator.dart';
 import 'package:myapp/pages/explore_view.dart';
 
 import 'package:myapp/utils/loading_view.dart';
 import 'package:myapp/blocs/cubits/session_cubit.dart';
-import 'package:myapp/session_state.dart';
+import 'package:myapp/blocs/states/session_state.dart';
 
 class AppNavigator extends StatelessWidget {
   @override

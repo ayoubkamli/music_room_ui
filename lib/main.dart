@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/app_navigator.dart';
+import 'package:myapp/navigation/app_navigator.dart';
 import 'package:myapp/blocs/resources/auth_repository.dart';
 import 'package:myapp/blocs/cubits/event_cubit.dart';
 import 'package:myapp/blocs/resources/event_repository.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/blocs/auth_navigation/auth_credentials.dart';
+import 'package:myapp/blocs/cridentials/auth_credentials.dart';
 import 'package:myapp/blocs/cubits/session_cubit.dart';
 
 enum AuthState { login, signUp, confirmationSignUp }
