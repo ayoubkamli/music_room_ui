@@ -5,7 +5,7 @@ import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/blocs/login_bloc.dart';
 import 'package:myapp/auth/events/login_event.dart';
-import 'package:myapp/auth/repositories/login_state.dart';
+import 'package:myapp/auth/blocs/login_state.dart';
 
 class LoginView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

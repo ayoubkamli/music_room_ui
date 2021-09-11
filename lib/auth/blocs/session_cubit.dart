@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
-import 'package:myapp/auth/repositories/session_state.dart';
+import 'package:myapp/auth/blocs/session_state.dart';
 
 class SessionCubit extends Cubit<SessionState> {
   final AuthRepository authRepo;

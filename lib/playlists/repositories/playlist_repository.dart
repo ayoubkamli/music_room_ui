@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/playlists/networking/playlist_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlaylistRepository {
@@ -22,6 +23,14 @@ class PlaylistRepository {
     print('response to string : ${response.body.toString()}');
     /*  print(
         'response of fetch event body: ${response.body} code: ${response.statusCode}'); */
+    return response;
+  }
+
+  Future<http.Response> createPlaylist(String name, String description,
+      List<String> playlistSelectedPrefList, String playlistStatus) async {
+    final response = await CreatePlaylist(
+            name, description, playlistSelectedPrefList, playlistStatus)
+        .createPlaylist();
     return response;
   }
 }

@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/blocs/create_event_bloc.dart';
-import 'package:myapp/events/events/create_event_event.dart';
-import 'package:myapp/events/repositories/create_event_state.dart';
-import 'package:myapp/widgets/multi_select_chip.dart';
-import 'package:myapp/widgets/uplaod_photo.dart';
-import 'package:myapp/events/blocs/event_cubit.dart';
-import 'package:myapp/events/repositories/event_repository.dart';
+import 'package:myapp/constant/style.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
+import 'package:myapp/playlists/blocs/create_playlist_State.dart';
+import 'package:myapp/playlists/blocs/create_playlist_bloc.dart';
+import 'package:myapp/playlists/blocs/playlist_cubit.dart';
+import 'package:myapp/playlists/events/create_playlist_event.dart';
+import 'package:myapp/playlists/repositories/playlist_repository.dart';
+import 'package:myapp/widgets/multi_select_chip.dart';
 
-class CreateEventView extends StatefulWidget {
+class CreateplaylistView extends StatefulWidget {
   @override
-  _CreateEventViewState createState() => _CreateEventViewState();
+  _CreateplaylistViewState createState() => _CreateplaylistViewState();
 }
 
-class _CreateEventViewState extends State<CreateEventView> {
+class _CreateplaylistViewState extends State<CreateplaylistView> {
   final _formKey = GlobalKey<FormState>();
 
   List<String> selectedPrefList = [];
 
   bool isSwitched = true;
   String visibilityText = 'Public Event';
+
+  OutlineInputBorder textFieldBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(32.0),
+      borderSide: BorderSide(color: const Color(0xff01d277)));
 
   // int activeMenu1 = 0;
   // int activeMenu2 = 0;
@@ -32,13 +36,16 @@ class _CreateEventViewState extends State<CreateEventView> {
       backgroundColor: Colors.blueGrey,
       appBar: getAppBar(),
       body: BlocProvider(
-          create: (context) => CreateEventBloc(
-              context.read<EventRepository>(), context.read<EventCubit>()),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _createEventForm(),
-            ],
+          create: (context) => CreatePlaylistBloc(
+              context.read<PlaylistRepository>(),
+              context.read<PlaylistCubit>()),
+          child: SingleChildScrollView(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                _createEventForm(),
+              ],
+            ),
           )),
     );
   }
@@ -66,9 +73,9 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Widget _createEventForm() {
-    return BlocListener<CreateEventBloc, CreateEventState>(
+    return BlocListener<CreatePlaylistBloc, CreatePlaylistState>(
       listener: (context, state) {
-        final formStatus = state.formStatus;
+        final formStatus = state.playlistFormStatus;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
         } else if (formStatus is SubmissionSuccess) {
@@ -79,31 +86,32 @@ class _CreateEventViewState extends State<CreateEventView> {
           });
         }
       },
-      child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.all(40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _nameField(),
-                _descriptionField(),
-                _shipSelect(),
-                _switchButton(),
-                _addEventButton(),
-              ],
-            ),
-          )),
+      child: Container(
+        child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _nameField(),
+                  _descriptionField(),
+                  _shipSelect(),
+                  _switchButton(),
+                  _addEventButton(),
+                ],
+              ),
+            )),
+      ),
     );
   }
 
   Widget _nameField() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<CreatePlaylistBloc, CreatePlaylistState>(
         builder: (context, state) {
       return TextFormField(
         decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+            enabledBorder: outlineInputStyle,
             icon: Icon(
               Icons.music_note,
               color: Colors.white,
@@ -111,68 +119,83 @@ class _CreateEventViewState extends State<CreateEventView> {
             hintText: 'Event name',
             hintStyle: TextStyle(color: Colors.white)),
         validator: (value) =>
-            state.isEventNameValid ? null : 'Invalid event name',
-        onChanged: (value) => context.read<CreateEventBloc>().add(
-              CreateEventNameChanged(name: value),
+            state.isPlaylistNameValid ? null : 'Invalid event name',
+        onChanged: (value) => context.read<CreatePlaylistBloc>().add(
+              CreatePlaylistNameChanged(name: value),
             ),
       );
     });
   }
 
   Widget _descriptionField() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<CreatePlaylistBloc, CreatePlaylistState>(
         builder: (context, state) {
-      return TextFormField(
-        decoration: InputDecoration(
-            icon: Icon(Icons.music_video), hintText: 'Description'),
-        validator: (value) =>
-            state.isEventDescriptionValid ? null : 'Invalid description',
-        onChanged: (value) => context
-            .read<CreateEventBloc>()
-            .add(CreateEventDescriptionChanged(description: value)),
+      return Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: TextFormField(
+          decoration: InputDecoration(
+            enabledBorder: outlineInputStyle,
+            icon: Icon(
+              Icons.music_video,
+              color: Colors.white,
+            ),
+            hintText: 'Description',
+            hintStyle: TextStyle(color: Colors.white),
+          ),
+          validator: (value) =>
+              state.isPlaylistDescriptionValid ? null : 'Invalid description',
+          onChanged: (value) => context
+              .read<CreatePlaylistBloc>()
+              .add(CreatePlaylistDescriptionChanged(description: value)),
+        ),
       );
     });
   }
 
   Widget _addEventButton() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<CreatePlaylistBloc, CreatePlaylistState>(
         builder: (context, state) {
-      return state.formStatus is FormSubmitting
+      return state.playlistFormStatus is FormSubmitting
           ? CircularProgressIndicator()
           : ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   context
-                      .read<CreateEventBloc>()
-                      .add(CreateEventPrefChanged(prefs: selectedPrefList));
-                  context.read<CreateEventBloc>().add(CreateEventSubmitted());
+                      .read<CreatePlaylistBloc>()
+                      .add(CreatePlaylistPrefChanged(prefs: selectedPrefList));
+                  context
+                      .read<CreatePlaylistBloc>()
+                      .add(CreatePlaylistSubmitted());
                   //
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              UploadPhoto(title: 'upload photo')));
-                  //
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             UploadPhoto(title: 'upload photo')));
+                  // //
                 }
               },
-              child: Text('Create Event'));
+              child: Text('Create Playlist'));
     });
   }
 
   Widget _shipSelect() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<CreatePlaylistBloc, CreatePlaylistState>(
       builder: (context, state) {
         return Center(
           child: Column(
             children: [
               TextButton(
-                child: Text('Add preferences'),
+                child: Text(
+                  'Add preferences',
+                  style: (TextStyle(color: Colors.white)),
+                ),
                 onPressed: () => {
                   _showPrefDialog(),
                   context
-                      .read<CreateEventBloc>()
-                      .add(CreateEventPrefChanged(prefs: selectedPrefList))
+                      .read<CreatePlaylistBloc>()
+                      .add(CreatePlaylistPrefChanged(prefs: selectedPrefList))
                 },
               ),
               Text(selectedPrefList.join(" , ")),
@@ -209,7 +232,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Widget _switchButton() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<CreatePlaylistBloc, CreatePlaylistState>(
       builder: (context, state) {
         return Container(
           padding: EdgeInsets.only(top: 10, bottom: 15),
@@ -218,6 +241,7 @@ class _CreateEventViewState extends State<CreateEventView> {
             children: [
               Text(
                 visibilityText,
+                style: TextStyle(color: Colors.white),
               ),
               Switch(
                 value: isSwitched,
@@ -227,13 +251,13 @@ class _CreateEventViewState extends State<CreateEventView> {
                     if (isSwitched == true) {
                       visibilityText = 'Public Event ';
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventStatusChanged(status: 'public'));
+                          .read<CreatePlaylistBloc>()
+                          .add(CreatePlaylistStatusChanged(status: 'public'));
                     } else {
                       visibilityText = 'Private Event';
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventStatusChanged(status: 'private'));
+                          .read<CreatePlaylistBloc>()
+                          .add(CreatePlaylistStatusChanged(status: 'private'));
                     }
                   });
                 },

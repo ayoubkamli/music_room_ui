@@ -6,7 +6,7 @@ import 'package:myapp/pages/explore_view.dart';
 
 import 'package:myapp/utils/loading_view.dart';
 import 'package:myapp/auth/blocs/session_cubit.dart';
-import 'package:myapp/auth/repositories/session_state.dart';
+import 'package:myapp/auth/blocs/session_state.dart';
 
 class AppNavigator extends StatelessWidget {
   @override
