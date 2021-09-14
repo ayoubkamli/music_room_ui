@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mime_type/mime_type.dart';
 
 class UploadPhoto extends StatefulWidget {
   final String title;
@@ -19,20 +21,23 @@ class UploadPhoto extends StatefulWidget {
 class _UploadPhotoState extends State<UploadPhoto> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   XFile? _imageFile;
-  final String uploadUrl = '$eventUrl/611a5fb1e88a7b001f8c7ab7/upload';
+  final String uploadUrl = '$eventUrl/6140c0dc71403a001e6b1f18/upload';
   final ImagePicker _picker = ImagePicker();
 
   Future<StreamedResponse> uploadImage(filepath, url) async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
-    print('url $uploadUrl');
+    print('url $uploadUrl : filepath--> $filepath');
+    // print("type " + mimeType!);
+    List? mimeType = mime(filepath)!.split("/");
+
+    // print("mimeType " + mimeType!);
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.files.add(await http.MultipartFile.fromPath('file', filepath));
+    request.files.add(await http.MultipartFile.fromPath('file', filepath,
+        contentType: new MediaType(mimeType[0], mimeType[1])));
 
     request.headers.addAll({
-      //'Content-Type': 'image/*; charset=UTF-8',
-      'Content-Type': ' multipart/form-data;',
       'Authorization': '$bearerToken',
     });
 
@@ -40,6 +45,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
     http.Response.fromStream(res).then((response) {
       print('response.body ' + response.body);
       print(response.headers);
+      print(filepath);
     });
     return res;
   }
@@ -70,7 +76,6 @@ class _UploadPhotoState extends State<UploadPhoto> {
             ),
             TextButton(
               onPressed: () async {
-                print(_imageFile!.path);
                 var res = await uploadImage(_imageFile!.path, uploadUrl);
                 print(res.statusCode);
               },

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
-import 'package:myapp/auth/blocs/session_cubit.dart';
+import 'package:myapp/auth/logic/session_cubit.dart';
 
 enum AuthState { login, signUp, confirmationSignUp }
 
@@ -29,9 +29,3 @@ class AuthCubit extends Cubit<AuthState> {
   void launchSession(AuthCredentials credentials) =>
       sessionCubit!.showSession(credentials);
 }
-
-
-/**
- 
-  bloc => 
- */

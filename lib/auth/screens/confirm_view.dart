@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/auth/blocs/auth_cubit.dart';
+import 'package:myapp/auth/logic/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
-import 'package:myapp/auth/blocs/confirm_bloc.dart';
+import 'package:myapp/auth/logic/confirm_bloc.dart';
 import 'package:myapp/auth/events/confirm_event.dart';
-import 'package:myapp/auth/blocs/confirm_state.dart';
+import 'package:myapp/auth/logic/confirm_state.dart';
 
 class ConfirmationView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

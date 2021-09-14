@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:myapp/auth/blocs/auth_cubit.dart';
+import 'package:myapp/auth/logic/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/events/sign_up_event.dart';
-import 'package:myapp/auth/blocs/sign_up_state.dart';
+import 'package:myapp/auth/logic/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

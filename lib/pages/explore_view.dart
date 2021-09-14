@@ -9,6 +9,8 @@ class ExploreView extends StatefulWidget {
 
 class _ExploreViewState extends State<ExploreView> {
   int activeTab = 0;
+ 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/playlists/blocs/playlist_cubit.dart';
+import 'package:myapp/playlists/logic/playlist_cubit.dart';
 import 'package:myapp/playlists/models/playlist_model.dart';
-import 'package:myapp/playlists/networking/playlist_api.dart';
 import 'package:myapp/playlists/screens/create_playlist_view.dart';
 import 'package:myapp/playlists/widgets/playlist_player.dart';
 import 'package:myapp/playlists/repositories/playlist_state.dart';

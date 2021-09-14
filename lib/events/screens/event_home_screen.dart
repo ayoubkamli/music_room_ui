@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/events/screens/create_event_view.dart';
+import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/events/screens/album_page.dart';
 import 'package:myapp/events/models/song_model.dart';
+import 'package:myapp/events/screens/create_event_view.dart';
 
-import '../blocs/event_cubit.dart';
+import '../logic/event_cubit.dart';
 import '../models/event_model.dart';
 import '../repositories/event_state.dart';
 
@@ -18,6 +19,7 @@ class EventHomeScreen extends StatefulWidget {
 class _EventHomeScreenState extends State<EventHomeScreen> {
   // int activeMenu1 = 0;
   int activeMenu2 = 0;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, EventState>(
@@ -72,21 +74,69 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                 style:
                     TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CreateEventView()),
-                  );
-                },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.green)),
-                child: Text(
-                  'ADD EVENT ',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => CreateEventView()),
+              //     );
+
+              //   },
+              //   style: ButtonStyle(
+              //       backgroundColor: MaterialStateProperty.all(Colors.green)),
+              //   child: Text(
+              //     'ADD EVENT ',
+              //     style: TextStyle(
+              //         color: Colors.white, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+
+              PopupMenuButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.green,
+                  ),
+                  color: Colors.black,
+                  onSelected: (selectedValue) {
+                    print(selectedValue);
+                    if (selectedValue == '1') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllEventsView()),
+                      );
+                    }
+                    if (selectedValue == '2') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllEventsView()),
+                      );
+                    }
+                    if (selectedValue == '3') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateEventView()),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext ctx) => [
+                        PopupMenuItem(
+                            child: Text('All Events',
+                                style: (TextStyle(color: Colors.white))),
+                            value: '1'),
+                        PopupMenuItem(
+                          child: Text('My Events',
+                              style: (TextStyle(color: Colors.white))),
+                          value: '2',
+                        ),
+                        PopupMenuItem(
+                          child: Text('Create event',
+                              style: (TextStyle(color: Colors.white))),
+                          value: '3',
+                        ),
+                      ]),
             ],
           ),
         ),

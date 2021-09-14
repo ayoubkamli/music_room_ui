@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/blocs/create_event_bloc.dart';
+import 'package:myapp/events/logic/create_event_bloc.dart';
 import 'package:myapp/events/events/create_event_event.dart';
 import 'package:myapp/events/repositories/create_event_state.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
 import 'package:myapp/widgets/uplaod_photo.dart';
-import 'package:myapp/events/blocs/event_cubit.dart';
+import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 
 class CreateEventView extends StatefulWidget {
+  const CreateEventView({Key? key}) : super(key: key);
   @override
   _CreateEventViewState createState() => _CreateEventViewState();
 }
@@ -141,20 +142,18 @@ class _CreateEventViewState extends State<CreateEventView> {
           ? CircularProgressIndicator()
           : ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  context
-                      .read<CreateEventBloc>()
-                      .add(CreateEventPrefChanged(prefs: selectedPrefList));
-                  context.read<CreateEventBloc>().add(CreateEventSubmitted());
-                  //
+                // if (_formKey.currentState!.validate()) {
+                //   context
+                //       .read<CreateEventBloc>()
+                //       .add(CreateEventPrefChanged(prefs: selectedPrefList));
+                //   context.read<CreateEventBloc>().add(CreateEventSubmitted());
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              UploadPhoto(title: 'upload photo')));
-                  //
-                }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            UploadPhoto(title: 'upload photo')));
+                // }
               },
               child: Text('Create Event'));
     });
