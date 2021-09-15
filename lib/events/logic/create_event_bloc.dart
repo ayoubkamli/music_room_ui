@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/events/create_event_event.dart';
 import 'package:myapp/events/repositories/create_event_state.dart';
@@ -31,13 +33,14 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
           state.eventStatus,
         );
         if (response.statusCode == 200) {
-          print(response);
+          print(jsonDecode(response.body[0]));
           state.copyWith(
             name: '',
             description: '',
             selectedPrefList: [],
             eventStatus: '',
           );
+          print('response from state ${state.data}');
           yield state.copyWith(formStatus: SubmissionSuccess());
           yield state.copyWith(formStatus: InitialFormStatus());
         } else {

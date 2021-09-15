@@ -43,18 +43,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
               return Container();
             }
           }),
-
-          /// floatingActionButton: FloatingActionButton.extended(
-          ///   onPressed: () {
-          ///     Navigator.push(
-          ///       context,
-          ///       MaterialPageRoute(builder: (context) => CreateEventView()),
-          ///     );
-          ///   },
-          ///   label: const Text('ADD EVENT'),
-          ///   icon: const Icon(Icons.add),
-          ///   backgroundColor: Colors.green,
-          /// ),
         );
       },
     );
@@ -74,23 +62,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                 style:
                     TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               ),
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => CreateEventView()),
-              //     );
-
-              //   },
-              //   style: ButtonStyle(
-              //       backgroundColor: MaterialStateProperty.all(Colors.green)),
-              //   child: Text(
-              //     'ADD EVENT ',
-              //     style: TextStyle(
-              //         color: Colors.white, fontWeight: FontWeight.bold),
-              //   ),
-              // ),
-
               PopupMenuButton(
                   icon: Icon(
                     Icons.more_vert,
@@ -161,16 +132,7 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                     },
                     child: Column(
                       children: [
-                        Container(
-                          width: 180,
-                          height: 180,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(data.imgUrl),
-                                  fit: BoxFit.cover),
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
+                        image(data),
                         SizedBox(
                           height: 20,
                         ),
@@ -205,6 +167,22 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
         )
       ],
     );
+  }
+
+  Widget image(data) {
+    if (data.imgUrl != null) {
+      return Container(
+        width: 180,
+        height: 180,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(data.imgUrl!), fit: BoxFit.cover),
+            color: Colors.green,
+            borderRadius: BorderRadius.circular(10)),
+      );
+    } else {
+      return CircularProgressIndicator();
+    }
   }
 
   Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {

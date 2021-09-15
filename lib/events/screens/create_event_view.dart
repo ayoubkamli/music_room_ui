@@ -24,6 +24,8 @@ class _CreateEventViewState extends State<CreateEventView> {
   bool isSwitched = true;
   String visibilityText = 'Public Event';
 
+  var data;
+
   // int activeMenu1 = 0;
   // int activeMenu2 = 0;
 
@@ -38,7 +40,7 @@ class _CreateEventViewState extends State<CreateEventView> {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              _createEventForm(),
+              SingleChildScrollView(child: _createEventForm()),
             ],
           )),
     );
@@ -142,18 +144,18 @@ class _CreateEventViewState extends State<CreateEventView> {
           ? CircularProgressIndicator()
           : ElevatedButton(
               onPressed: () {
-                // if (_formKey.currentState!.validate()) {
-                //   context
-                //       .read<CreateEventBloc>()
-                //       .add(CreateEventPrefChanged(prefs: selectedPrefList));
-                //   context.read<CreateEventBloc>().add(CreateEventSubmitted());
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            UploadPhoto(title: 'upload photo')));
-                // }
+                if (_formKey.currentState!.validate()) {
+                  context
+                      .read<CreateEventBloc>()
+                      .add(CreateEventPrefChanged(prefs: selectedPrefList));
+                  context.read<CreateEventBloc>().add(CreateEventSubmitted());
+                  print('add event buttton ${state.data}');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UploadPhoto(
+                              title: 'upload photo', data: state.data)));
+                }
               },
               child: Text('Create Event'));
     });

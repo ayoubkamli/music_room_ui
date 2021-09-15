@@ -3,6 +3,8 @@ import 'package:myapp/auth/utils/MyValidator.dart';
 
 class CreateEventState {
   final String name;
+
+  var data;
   bool get isEventNameValid => MyInputValidator().isEventNameValid(name);
 
   final String description;
@@ -33,10 +35,11 @@ class CreateEventState {
     FormSubmissionStatus? formStatus,
   }) {
     return CreateEventState(
-        name: name ?? this.name,
-        description: description ?? this.description,
-        selectedPrefList: selectedPrefList ?? this.selectedPrefList,
-        eventStatus: eventStatus ?? this.eventStatus,
-        formStatus: formStatus ?? this.formStatus);
+      name: name ?? this.name,
+      description: description ?? this.description,
+      selectedPrefList: selectedPrefList ?? this.selectedPrefList,
+      eventStatus: eventStatus ?? this.eventStatus,
+      formStatus: formStatus ?? this.formStatus,
+    );
   }
 }

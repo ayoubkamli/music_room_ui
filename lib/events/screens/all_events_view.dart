@@ -100,7 +100,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                       height: 180,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data.imgUrl),
+                              image: NetworkImage(data.imgUrl!),
                               fit: BoxFit.cover),
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(5)),
@@ -115,7 +115,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                           width: 35,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(data.imgUrl),
+                                  image: NetworkImage(data.imgUrl!),
                                   fit: BoxFit.cover),
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(35)),

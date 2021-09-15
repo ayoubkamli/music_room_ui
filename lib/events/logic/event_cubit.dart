@@ -18,10 +18,8 @@ class EventCubit extends Cubit<EventState> {
       final events = await eventRepository.getEvents();
       //print(events.statusCode);
       if (events.statusCode == 200) {
-        // print('dody --------------- from cubit ${jsonDecode(events.body)}');
         final data = jsonDecode(events.body);
         final datalist = data['data'];
-        //  print('this is data list +++++++++++++++ $datalist');
 
         emit(LoadedState(datalist));
       } else {

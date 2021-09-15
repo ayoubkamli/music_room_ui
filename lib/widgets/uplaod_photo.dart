@@ -12,7 +12,7 @@ import 'package:mime_type/mime_type.dart';
 class UploadPhoto extends StatefulWidget {
   final String title;
 
-  const UploadPhoto({Key? key, required this.title}) : super(key: key);
+  const UploadPhoto({Key? key, required this.title, data}) : super(key: key);
 
   @override
   _UploadPhotoState createState() => _UploadPhotoState();
@@ -22,12 +22,14 @@ class _UploadPhotoState extends State<UploadPhoto> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   XFile? _imageFile;
   final String uploadUrl = '$eventUrl/6140c0dc71403a001e6b1f18/upload';
+
   final ImagePicker _picker = ImagePicker();
 
   Future<StreamedResponse> uploadImage(filepath, url) async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
+    print('loololololololol' + widget.toString());
     print('url $uploadUrl : filepath--> $filepath');
     // print("type " + mimeType!);
     List? mimeType = mime(filepath)!.split("/");
