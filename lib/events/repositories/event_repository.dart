@@ -13,6 +13,8 @@ class EventRepository {
     final response =
         await CreateEvent(name, description, selectedPrefList, eventStatus)
             .createEvent();
+    print('response status code from -event repo-' +
+        response.statusCode.toString());
     return response;
   }
 

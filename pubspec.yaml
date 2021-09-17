@@ -23,15 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: 
-  http:
-  shared_preferences:
+  flutter_bloc: ^7.2.0
+  http: ^0.13.3
+  shared_preferences: ^2.0.7
 
-  page_transition:
+  page_transition: ^2.0.2
 
-  flutter_dotenv:
-  regexed_validator: 
-  image_picker:
+  flutter_dotenv: ^5.0.2 
+  image_picker: 
   http_parser: ^4.0.0
 
   popup_menu: ^1.0.5

@@ -5,7 +5,7 @@ import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/repositories/event_state.dart';
 
 class AllEventsView extends StatefulWidget {
-  const AllEventsView({Key? key}) : super(key: key);
+  const AllEventsView() : super();
 
   @override
   _AllEventsViewState createState() => _AllEventsViewState();

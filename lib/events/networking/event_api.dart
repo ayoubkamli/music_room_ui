@@ -32,7 +32,7 @@ class CreateEvent {
           "musicPreference": pref,
           "visibility": visibility,
         }));
-    print('response from create Event ${response.body}');
+    print('response from create Event -event api- ${response.body}');
     return response;
   }
 }

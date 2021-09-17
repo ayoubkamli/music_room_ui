@@ -24,4 +24,10 @@ class CreateEventStatusChanged extends CreateEventEvent {
   CreateEventStatusChanged({this.status});
 }
 
+class CreateEventUploadphoto extends CreateEventEvent {
+  final String? data;
+
+  CreateEventUploadphoto(this.data);
+}
+
 class CreateEventSubmitted extends CreateEventEvent {}

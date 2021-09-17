@@ -6,13 +6,17 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/events/models/upload_photo_model.dart';
+import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime_type/mime_type.dart';
 
 class UploadPhoto extends StatefulWidget {
   final String title;
+  final UploadPhotoModel data;
 
-  const UploadPhoto({Key? key, required this.title, data}) : super(key: key);
+  const UploadPhoto({Key? key, required this.title, required this.data})
+      : super(key: key);
 
   @override
   _UploadPhotoState createState() => _UploadPhotoState();
@@ -21,7 +25,6 @@ class UploadPhoto extends StatefulWidget {
 class _UploadPhotoState extends State<UploadPhoto> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   XFile? _imageFile;
-  final String uploadUrl = '$eventUrl/6140c0dc71403a001e6b1f18/upload';
 
   final ImagePicker _picker = ImagePicker();
 
@@ -29,8 +32,13 @@ class _UploadPhotoState extends State<UploadPhoto> {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
-    print('loololololololol' + widget.toString());
-    print('url $uploadUrl : filepath--> $filepath');
+    UploadPhotoModel data = widget.data;
+
+    /********** */
+    print('this is the owner id' + data.data!.ownerId.toString());
+
+    /********** */
+    print('url  : filepath--> $filepath');
     // print("type " + mimeType!);
     List? mimeType = mime(filepath)!.split("/");
 
@@ -45,9 +53,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
 
     var res = await request.send();
     http.Response.fromStream(res).then((response) {
-      print('response.body ' + response.body);
-      print(response.headers);
-      print(filepath);
+      print('response.body from upload_photo' + response.body[0]);
     });
     return res;
   }
@@ -67,6 +73,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
   }
 
   Widget _previewImage() {
+    UploadPhotoModel data = widget.data;
+    String eventId = data.data!.sId.toString();
+    String uploadUrl = '$eventUrl/$eventId/upload';
     if (_imageFile != null) {
       return Center(
         child: Column(
@@ -76,13 +85,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
             SizedBox(
               height: 20,
             ),
-            TextButton(
-              onPressed: () async {
-                var res = await uploadImage(_imageFile!.path, uploadUrl);
-                print(res.statusCode);
-              },
-              child: const Text('Upload'),
-            )
+            uploadButton(uploadUrl),
           ],
         ),
       );
@@ -92,6 +95,20 @@ class _UploadPhotoState extends State<UploadPhoto> {
         textAlign: TextAlign.center,
       );
     }
+  }
+
+  Widget uploadButton(uploadUrl) {
+    return TextButton(
+      onPressed: () async {
+        var res = await uploadImage(_imageFile!.path, uploadUrl);
+        print(res.statusCode);
+        if (res.statusCode == 200) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AllEventsView()));
+        }
+      },
+      child: const Text('Upload'),
+    );
   }
 
   void _pickImage() async {

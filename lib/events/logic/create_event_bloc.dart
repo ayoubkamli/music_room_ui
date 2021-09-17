@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/events/create_event_event.dart';
+import 'package:myapp/events/models/upload_photo_model.dart';
 import 'package:myapp/events/repositories/create_event_state.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
@@ -24,7 +25,9 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
     } else if (event is CreateEventPrefChanged) {
       yield state.copyWith(selectedPrefList: event.prefs);
     } else if (event is CreateEventSubmitted) {
+      print('Create event submmited from create event bloc.');
       yield state.copyWith(formStatus: FormSubmitting());
+      print('Create event formStatus: FormSubmitting()from create event bloc.');
       try {
         final response = await repository.createEvent(
           state.name,
@@ -32,14 +35,18 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
           state.selectedPrefList,
           state.eventStatus,
         );
+        print('look at this ************ +${response.statusCode}');
         if (response.statusCode == 200) {
-          print(jsonDecode(response.body[0]));
+          // emit(CreateEventUploadphoto(eventId));
           state.copyWith(
             name: '',
             description: '',
             selectedPrefList: [],
             eventStatus: '',
           );
+          CreateEventUploadphoto(jsonDecode(response.body).toString());
+          yield state.copyWith(
+              data: UploadPhotoModel.fromJson(jsonDecode(response.body)));
           print('response from state ${state.data}');
           yield state.copyWith(formStatus: SubmissionSuccess());
           yield state.copyWith(formStatus: InitialFormStatus());
