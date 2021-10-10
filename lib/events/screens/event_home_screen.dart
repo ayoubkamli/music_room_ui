@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/events/screens/album_page.dart';
 import 'package:myapp/events/models/song_model.dart';
@@ -171,12 +172,19 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
 
   Widget image(data) {
     if (data.imgUrl != null) {
+      print(data.imgUrl);
+      String url = data.imgUrl.toString();
+      List<String>? s = url.split("/");
+      String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
+
+      print(imageUrl);
+
       return Container(
         width: 180,
         height: 180,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage(data.imgUrl!), fit: BoxFit.cover),
+                image: NetworkImage(imageUrl), fit: BoxFit.cover),
             color: Colors.green,
             borderRadius: BorderRadius.circular(10)),
       );

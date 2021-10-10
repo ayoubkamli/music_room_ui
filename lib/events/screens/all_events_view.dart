@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/repositories/event_state.dart';
@@ -85,6 +86,9 @@ class _AllEventsViewState extends State<AllEventsView> {
         child: Column(
           children: List.generate(events[0].length, (index) {
             final data = EventModel.fromJson(events[0][index]);
+            String url = data.imgUrl.toString();
+            List<String>? s = url.split("/");
+            String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
             return Padding(
               padding: const EdgeInsets.only(right: 30),
               child: GestureDetector(
@@ -100,8 +104,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                       height: 180,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data.imgUrl!),
-                              fit: BoxFit.cover),
+                              image: NetworkImage(imageUrl), fit: BoxFit.cover),
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(5)),
                     ),
@@ -115,7 +118,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                           width: 35,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(data.imgUrl!),
+                                  image: NetworkImage(imageUrl),
                                   fit: BoxFit.cover),
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(35)),
