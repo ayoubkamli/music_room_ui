@@ -11,8 +11,8 @@ class LoginState {
   final FormSubmissionStatus formStatus;
 
   LoginState(
-      {this.email = 'user081@gmail.com',
-      this.password = 'User081*',
+      {this.email = 'user001@gmail.com',
+      this.password = 'User001@',
       this.formStatus = const InitialFormStatus()});
 
   LoginState copyWith({

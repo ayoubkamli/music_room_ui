@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+/// import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateUser {
   final String password;
@@ -31,14 +33,15 @@ class CreateUser {
 class ConfirmSignUp {
   final String confirmationCode;
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   // final SharedPreferences prefs = await _prefs;
 
   ConfirmSignUp(this.confirmationCode);
 
   Future<http.Response> confirmCode() async {
-    final SharedPreferences prefs = await _prefs;
-    String? token = prefs.getString('Token');
+    /// final SharedPreferences prefs = await _prefs;
+    /// String? token = prefs.getString('Token');
+    String token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
 
     final response = await http.post(
@@ -82,11 +85,12 @@ class LoginUser {
 }
 
 class LogOut {
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<http.Response> logoutUser() async {
-    final SharedPreferences prefs = await _prefs;
-    String? token = prefs.getString('Token');
+    /// final SharedPreferences prefs = await _prefs;
+    /// String? token = prefs.getString('Token');
+    String token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
     print('logout function in api called');
     final response = await http.post(

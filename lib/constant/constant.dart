@@ -1,4 +1,4 @@
-const ip = '192.168.99.109';
+const ip = '192.168.99.100';
 final Uri registerUrl = Uri.parse('http://$ip/api/auth/register');
 final Uri consirmationUrl = Uri.parse('http://$ip/api/email/confirm');
 final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
@@ -6,6 +6,7 @@ final Uri logoutUrl = Uri.parse('http://$ip/api/auth/logout');
 final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
 final Uri playlistUrl = Uri.parse('http://$ip/api/playlists');
+final Uri userDataUrl = Uri.parse('http://$ip/api/me');
 
 final String imageUrl =
     'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
