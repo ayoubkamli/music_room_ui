@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/auth/logic/session_cubit.dart';
 import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExploreView extends StatefulWidget {
   @override
@@ -9,7 +11,6 @@ class ExploreView extends StatefulWidget {
 
 class _ExploreViewState extends State<ExploreView> {
   int activeTab = 0;
- 
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class _ExploreViewState extends State<ExploreView> {
         backgroundColor: Colors.black,
         appBar: getAppBar('Explore'),
         bottomNavigationBar: getFooter(),
-        body: getBody());
+        body: getBody(context));
   }
 
   PreferredSizeWidget getAppBar(String title) {
@@ -57,7 +58,7 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
-  Widget getBody() {
+  Widget getBody(BuildContext context) {
     return IndexedStack(
       index: activeTab,
       children: [
@@ -83,12 +84,17 @@ class _ExploreViewState extends State<ExploreView> {
           ),
         ),
         Center(
-          child: Text(
-            "Settings",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          child: TextButton(
+            onPressed: () {
+              context.read<SessionCubit>().signOut();
+            },
+            child: Text(
+              "Settings",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         )

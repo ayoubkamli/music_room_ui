@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:myapp/auth/networking/auth_api.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myapp/auth/screens/login_view.dart';
 
 class AuthRepository {
   Future<String> attemptAutoLogin() async {
@@ -37,14 +38,7 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-    final SharedPreferences prefs = await _prefs;
-    final response = await LogOut().logoutUser();
-    final res = (response.statusCode);
-    print(res);
-    await prefs.clear();
-
-    //prefs.remove('Token');
+    await LogOut().logoutUser();
+    MaterialPageRoute(builder: (_) => LoginView());
   }
 }

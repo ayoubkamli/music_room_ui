@@ -87,7 +87,7 @@ class LoginUser {
 class LogOut {
   /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  Future<http.Response> logoutUser() async {
+  Future<void> logoutUser() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
     String token = await MyToken().getToken();
@@ -99,7 +99,9 @@ class LogOut {
         'Authorization': '$bearerToken',
       },
     );
-    return response;
+    print(response.body.toString());
+    print(response.statusCode.toString());
+    MyToken().clearToken();
   }
 }
 /* 

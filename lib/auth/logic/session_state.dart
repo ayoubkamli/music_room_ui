@@ -1,3 +1,5 @@
+import 'package:myapp/auth/models/user.dart';
+
 abstract class SessionState {}
 
 class UnknownSessionState extends SessionState {}

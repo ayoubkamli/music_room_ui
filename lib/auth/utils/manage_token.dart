@@ -12,4 +12,9 @@ class MyToken {
     SharedPreferences prefs = await _prefs;
     return prefs.getString("Token").toString();
   }
+
+  clearToken() async {
+    SharedPreferences prefs = await _prefs;
+    prefs.clear();
+  }
 }
