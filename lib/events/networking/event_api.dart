@@ -40,7 +40,7 @@ class CreateEvent {
 
 class GetAllEvents {
   /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
+  late final response;
   Future<http.Response> fetchAllEvents() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
@@ -48,14 +48,19 @@ class GetAllEvents {
     String? bearerToken = 'Bearer: $token';
 
     print('fetch all event was called');
+    try {
+      response = await http.get(
+        eventUrl,
+        headers: <String, String>{
+          'ContentType': 'application/json; charset=UTF-8',
+          'Authorization': '$bearerToken',
+        },
+      );
+    } catch (e) {
+      print(e);
+      throw Error();
+    }
 
-    final response = await http.get(
-      eventUrl,
-      headers: <String, String>{
-        'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$bearerToken',
-      },
-    );
     print('response to string : ${response.body.toString()}');
     /*  print(
         'response of fetch event body: ${response.body} code: ${response.statusCode}'); */

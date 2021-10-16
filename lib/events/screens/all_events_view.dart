@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/models/event_model.dart';
-import 'package:myapp/events/repositories/event_state.dart';
+import 'package:myapp/events/logic/event_state.dart';
 
 class AllEventsView extends StatefulWidget {
   const AllEventsView() : super();

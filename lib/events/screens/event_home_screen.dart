@@ -8,7 +8,7 @@ import 'package:myapp/events/screens/create_event_view.dart';
 
 import '../logic/event_cubit.dart';
 import '../models/event_model.dart';
-import '../repositories/event_state.dart';
+import '../logic/event_state.dart';
 
 class EventHomeScreen extends StatefulWidget {
   const EventHomeScreen({Key? key}) : super(key: key);

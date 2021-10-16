@@ -18,6 +18,8 @@ class LoadedState extends EventState {
   List<dynamic> get props => [events];
 }
 
+class RefreshState extends EventState {}
+
 class ErrorState extends EventState {
   List<dynamic> get props => [];
 }
