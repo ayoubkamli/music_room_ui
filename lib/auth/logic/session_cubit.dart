@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/auth/logic/session_state.dart';
