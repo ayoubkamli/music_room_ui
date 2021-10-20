@@ -23,6 +23,7 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
+
   void showAuth() => emit(Unauthenticated());
   void showSession(AuthCredentials credentials) {
     // final user = dataRepo.getUser(credentials.userId);
