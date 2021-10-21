@@ -17,7 +17,7 @@ class CreateEvent {
   Future<http.Response> createEvent() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
 
     print(
@@ -44,7 +44,7 @@ class GetAllEvents {
   Future<http.Response> fetchAllEvents() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
     print('fetch all event was called');
@@ -74,7 +74,7 @@ class GetMyEvents {
   Future<http.Response> fetchAllMyEvents() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
     print('fetch My  events was called');
@@ -98,7 +98,7 @@ class GetEvent {
   Future<http.Response> fetchEvent() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
     String eventId = '';
@@ -130,7 +130,7 @@ class EditEvent {
   Future<http.Response> editEvent() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
     String eventId = '';

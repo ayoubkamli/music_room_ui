@@ -41,7 +41,7 @@ class ConfirmSignUp {
   Future<http.Response> confirmCode() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
 
     final response = await http.post(
@@ -90,7 +90,7 @@ class LogOut {
   Future<void> logoutUser() async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
-    String token = await MyToken().getToken();
+    String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
     print('logout function in api called');
     final response = await http.post(

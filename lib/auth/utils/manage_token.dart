@@ -8,7 +8,7 @@ class MyToken {
     await prefs.setString("Token", token);
   }
 
-  getToken() async {
+  Future<String>? getToken() async {
     SharedPreferences prefs = await _prefs;
     return prefs.getString("Token").toString();
   }
