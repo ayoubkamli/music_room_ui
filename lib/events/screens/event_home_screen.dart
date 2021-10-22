@@ -133,6 +133,18 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                     },
                     child: Column(
                       children: [
+                        /// BlocProvider(
+                        ///   create: (BuildContext context) => ImageEventCubit(),
+                        ///   child: BlocConsumer<ImageEventCubit, ImageEventState>(
+                        ///     listener: (BuildContext context, state) {},
+                        ///     builder: (BuildContext context, state) {
+                        ///       ImageEventCubit cubit =
+                        ///           ImageEventCubit.get(context);
+                        ///       String url = cubit.imageUrl;
+                        ///       return
+                        ///     },
+                        ///   ),
+                        /// ),
                         image(data),
                         SizedBox(
                           height: 20,
@@ -171,26 +183,56 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
   }
 
   Widget image(data) {
-    if (data.imgUrl != null) {
-      print(data.imgUrl);
-      String url = data.imgUrl.toString();
-      List<String>? s = url.split("/");
-      String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
+    /// if (url) {
+    print(data.imgUrl);
+    String url = data.imgUrl.toString();
+    List<String>? s = url.split("/");
+    String? imgUrl = "http://$ip/api/media/${s[s.length - 1]}";
 
-      print(imageUrl);
+    /// print(url);
 
-      return Container(
-        width: 180,
-        height: 180,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(imageUrl), fit: BoxFit.cover),
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(10)),
-      );
-    } else {
-      return CircularProgressIndicator();
-    }
+    /// try {
+    return Container(
+      width: 180,
+      height: 180,
+      child: Image.network(
+        imgUrl,
+        fit: BoxFit.fill,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!.toInt()
+                  : null,
+            ),
+          );
+        },
+      ),
+
+      /// decoration: BoxDecoration(
+      ///     image: DecorationImage(
+      ///         image: NetworkImage(
+      ///           url,
+      ///         ),
+      ///         fit: BoxFit.cover),
+      ///     color: Colors.green,
+      ///     borderRadius: BorderRadius.circular(10)),
+    );
+
+    /// } catch (e) {}
+
+    /// } else {
+    ///   return CircularProgressIndicator();
+    /// }
+    /// return Container(
+    ///   width: 180,
+    ///   height: 180,
+    ///   decoration: BoxDecoration(
+    ///       color: Colors.green, borderRadius: BorderRadius.circular(10)),
+    /// );
   }
 
   Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {

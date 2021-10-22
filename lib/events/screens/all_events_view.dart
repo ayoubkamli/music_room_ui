@@ -14,8 +14,8 @@ class AllEventsView extends StatefulWidget {
 
 class _AllEventsViewState extends State<AllEventsView> {
   // int activeMenu1 = 0;
-  int activeMenu2 = 0;
-  int activeTab = 0;
+  /// int activeMenu2 = 0;
+  /// int activeTab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -100,17 +100,31 @@ class _AllEventsViewState extends State<AllEventsView> {
                 },
                 child: Column(
                   children: [
-                    Container(
-                      height: 180,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(imageUrl), fit: BoxFit.cover),
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(5)),
+                    /// Container(
+                    ///   height: 180,
+                    ///   decoration: BoxDecoration(
+                    ///       image: DecorationImage(
+                    ///           image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                    ///       color: Colors.green,
+                    ///       borderRadius: BorderRadius.circular(5)),
+                    /// ),
+                    /// // SizedBox(
+                    /// //   height: 5,
+                    /// // ),
+                    Image.network(
+                      'https://example.does.not.exist/image.jpg',
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        // Appropriate logging or analytics, e.g.
+                        // myAnalytics.recordError(
+                        //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                        //   exception,
+                        //   stackTrace,
+                        // );
+                        return const Text('ð¢');
+                      },
                     ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
+
                     Row(
                       children: [
                         Container(
