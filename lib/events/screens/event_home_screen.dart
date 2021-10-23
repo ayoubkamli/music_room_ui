@@ -6,6 +6,7 @@ import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/events/screens/album_page.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/screens/create_event_view.dart';
+import 'package:myapp/events/widgets/future_image.dart';
 
 import '../logic/event_cubit.dart';
 import '../models/event_model.dart';
@@ -123,6 +124,9 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
             child: Row(
               children: List.generate(events[0].length, (index) {
                 final data = EventModel.fromJson(events[0][index]);
+                String url = data.imgUrl.toString();
+                List<String>? s = url.split("/");
+                String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
                 return Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
@@ -134,20 +138,8 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                     },
                     child: Column(
                       children: [
-                        /// BlocProvider(
-                        ///   create: (BuildContext context) => ImageEventCubit(),
-                        ///   child: BlocConsumer<ImageEventCubit, ImageEventState>(
-                        ///     listener: (BuildContext context, state) {},
-                        ///     builder: (BuildContext context, state) {
-                        ///       ImageEventCubit cubit =
-                        ///           ImageEventCubit.get(context);
-                        ///       String url = cubit.imageUrl;
-                        ///       return
-                        ///     },
-                        ///   ),
-                        /// ),
                         FutureBuilder<String>(
-                          future: _getImageUrl(data.imgUrl),
+                          future: getImageUrl(imageUrl),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               print(' snapshot.data! ' + snapshot.data!);
@@ -167,7 +159,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                             return CircularProgressIndicator();
                           },
                         ),
-                        // image(data),
                         SizedBox(
                           height: 20,
                         ),
@@ -203,58 +194,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
       ],
     );
   }
-
-  Future<String> _getImageUrl(url) async {
-    try {
-      final http.Response response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        print('get image url 2000002222');
-        return url;
-      }
-    } catch (e) {
-      print('get image url 11111');
-      return imageUrl;
-    }
-    print('get image url 00000');
-    return imageUrl;
-  }
-
-  // Widget image(data) {
-  //   /// if (url) {
-  //   print(data.imgUrl);
-  //   String url = data.imgUrl.toString();
-  //   List<String>? s = url.split("/");
-  //   String? imgUrl = "http://$ip/api/media/${s[s.length - 1]}";
-
-  /// print(url);
-
-  /// try {
-  // return Container(
-  //   width: 180,
-  //   height: 180,
-
-  /// child: decoration: BoxDecoration(
-  ///     image: DecorationImage(
-  ///         image: NetworkImage(
-  ///           url,
-  ///         ),
-  ///         fit: BoxFit.cover),
-  ///     color: Colors.green,
-  ///     borderRadius: BorderRadius.circular(10)),
-  // );
-
-  /// } catch (e) {}
-
-  /// } else {
-  ///   return CircularProgressIndicator();
-  /// }
-  /// return Container(
-  ///   width: 180,
-  ///   height: 180,
-  ///   decoration: BoxDecoration(
-  ///       color: Colors.green, borderRadius: BorderRadius.circular(10)),
-  /// );
-  // }
 
   Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
     print(data);

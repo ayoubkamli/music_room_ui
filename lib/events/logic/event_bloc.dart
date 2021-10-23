@@ -20,6 +20,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       yield LoadingState();
     }
     if (event is EventRefresh) {
+      print('rororororororroroo');
       yield RefreshState();
       final events = GetAllEvents().fetchAllEvents();
       yield LoadedState(jsonDecode(events.toString()));

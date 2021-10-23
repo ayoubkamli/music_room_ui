@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/models/upload_photo_model.dart';
 import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,6 +105,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
         var res = await uploadImage(_imageFile!.path, uploadUrl);
         print(res.statusCode);
         if (res.statusCode == 200) {
+          BlocProvider.of<EventCubit>(context).getAllEvents();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => AllEventsView()));
         }
