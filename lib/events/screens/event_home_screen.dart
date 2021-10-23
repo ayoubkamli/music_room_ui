@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/events/screens/album_page.dart';
@@ -145,7 +146,28 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                         ///     },
                         ///   ),
                         /// ),
-                        image(data),
+                        FutureBuilder<String>(
+                          future: _getImageUrl(data.imgUrl),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              print(' snapshot.data! ' + snapshot.data!);
+                              return Container(
+                                width: 180,
+                                height: 180,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                          snapshot.data!,
+                                        ),
+                                        fit: BoxFit.cover),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(10)),
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          },
+                        ),
+                        // image(data),
                         SizedBox(
                           height: 20,
                         ),
@@ -182,58 +204,57 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
     );
   }
 
-  Widget image(data) {
-    /// if (url) {
-    print(data.imgUrl);
-    String url = data.imgUrl.toString();
-    List<String>? s = url.split("/");
-    String? imgUrl = "http://$ip/api/media/${s[s.length - 1]}";
-
-    /// print(url);
-
-    /// try {
-    return Container(
-      width: 180,
-      height: 180,
-      child: Image.network(
-        imgUrl,
-        fit: BoxFit.fill,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!.toInt()
-                  : null,
-            ),
-          );
-        },
-      ),
-
-      /// decoration: BoxDecoration(
-      ///     image: DecorationImage(
-      ///         image: NetworkImage(
-      ///           url,
-      ///         ),
-      ///         fit: BoxFit.cover),
-      ///     color: Colors.green,
-      ///     borderRadius: BorderRadius.circular(10)),
-    );
-
-    /// } catch (e) {}
-
-    /// } else {
-    ///   return CircularProgressIndicator();
-    /// }
-    /// return Container(
-    ///   width: 180,
-    ///   height: 180,
-    ///   decoration: BoxDecoration(
-    ///       color: Colors.green, borderRadius: BorderRadius.circular(10)),
-    /// );
+  Future<String> _getImageUrl(url) async {
+    try {
+      final http.Response response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        print('get image url 2000002222');
+        return url;
+      }
+    } catch (e) {
+      print('get image url 11111');
+      return imageUrl;
+    }
+    print('get image url 00000');
+    return imageUrl;
   }
+
+  // Widget image(data) {
+  //   /// if (url) {
+  //   print(data.imgUrl);
+  //   String url = data.imgUrl.toString();
+  //   List<String>? s = url.split("/");
+  //   String? imgUrl = "http://$ip/api/media/${s[s.length - 1]}";
+
+  /// print(url);
+
+  /// try {
+  // return Container(
+  //   width: 180,
+  //   height: 180,
+
+  /// child: decoration: BoxDecoration(
+  ///     image: DecorationImage(
+  ///         image: NetworkImage(
+  ///           url,
+  ///         ),
+  ///         fit: BoxFit.cover),
+  ///     color: Colors.green,
+  ///     borderRadius: BorderRadius.circular(10)),
+  // );
+
+  /// } catch (e) {}
+
+  /// } else {
+  ///   return CircularProgressIndicator();
+  /// }
+  /// return Container(
+  ///   width: 180,
+  ///   height: 180,
+  ///   decoration: BoxDecoration(
+  ///       color: Colors.green, borderRadius: BorderRadius.circular(10)),
+  /// );
+  // }
 
   Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
     print(data);
