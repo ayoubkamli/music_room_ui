@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:myapp/events/networking/event_api.dart';
 
@@ -25,11 +23,11 @@ class EventRepository {
     return response;
   }
 
-  Future<List<dynamic>> getMyEvents() async {
+  Future<http.Response> getMyEvents() async {
     final response = await GetMyEvents().fetchAllMyEvents();
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data;
+      // final data = jsonDecode(response.body);
+      return response;
     } else {
       throw Exception('FALID LAODING DATA EVENTS');
     }

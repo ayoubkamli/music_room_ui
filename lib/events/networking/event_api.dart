@@ -76,18 +76,22 @@ class GetMyEvents {
     /// String? token = prefs.getString('Token');
     String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
+    late http.Response response;
+    print('fetch My  events was called' + bearerToken);
 
-    print('fetch My  events was called');
-
-    final response = await http.get(
-      eventUrl,
-      headers: <String, String>{
-        'ContentType': 'application/json; charset=UTF-8',
-        'Authorization': '$bearerToken',
-      },
-    );
-    // print(
-    //  'response of fetch event body: ${response.body} code: ${response.statusCode}');
+    try {
+      response = await http.get(
+        Uri.parse('http://$ip/api/my-events'),
+        headers: <String, String>{
+          'ContentType': 'application/json; charset=UTF-8',
+          'Authorization': '$bearerToken',
+        },
+      );
+    } catch (e) {
+      print('yooooo' + e.toString());
+    }
+    print(
+        'fffffffffffffffff f f f f f f fresponse of fetch event body: ${response.body} code: ${response.statusCode}');
     return response;
   }
 }

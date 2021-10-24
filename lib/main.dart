@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
+import 'package:myapp/events/logic/my_event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/navigation/app_navigator.dart';
 import 'package:myapp/playlists/logic/playlist_cubit.dart';
@@ -52,6 +53,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (BuildContext newcontext) {
             return PlaylistCubit(
               playlistRepository: newcontext.read<PlaylistRepository>(),
+            );
+          }),
+          BlocProvider(create: (BuildContext newcontext) {
+            return MyEventCubit(
+              eventRepository: newcontext.read<EventRepository>(),
             );
           })
         ],

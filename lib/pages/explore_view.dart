@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/auth/logic/session_cubit.dart';
 import 'package:myapp/events/screens/event_home_screen.dart';
+import 'package:myapp/events/screens/my_events.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,21 +61,35 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
+  Widget myEvents() {
+    return SafeArea(child: MyEvents());
+    //   child: SingleChildScrollView(
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         MyEvents(),
+    //       ],
+    //     ),
+    //   ),
+    // );
+  }
+
   Widget getBody(BuildContext context) {
     return IndexedStack(
       index: activeTab,
       children: [
         explore(),
-        Center(
-          child: Text(
-            "Library",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        // Center(
+        //   child: Text(
+        //     "Library",
+        //     style: TextStyle(
+        //       fontSize: 20,
+        //       color: Colors.white,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
+        myEvents(),
         Center(
           child: Text(
             "Search",
