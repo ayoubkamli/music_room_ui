@@ -16,44 +16,46 @@ class _ExploreViewState extends State<ExploreView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        appBar: getAppBar('Explore'),
+        // appBar: getAppBar('Explore'),
         bottomNavigationBar: getFooter(),
         body: getBody(context));
   }
 
-  PreferredSizeWidget getAppBar(String title) {
-    return AppBar(
-      backgroundColor: Colors.black,
-      elevation: 0,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                )),
-            Icon(Icons.list)
-          ],
-        ),
-      ),
-    );
-  }
+  // PreferredSizeWidget getAppBar(String title) {
+  //   return AppBar(
+  //     backgroundColor: Colors.black,
+  //     elevation: 0,
+  //     title: Padding(
+  //       padding: const EdgeInsets.only(left: 10, right: 10),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Text(title,
+  //               style: TextStyle(
+  //                 fontSize: 20,
+  //                 color: Colors.white,
+  //                 fontWeight: FontWeight.bold,
+  //               )),
+  //           Icon(Icons.list)
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget explore() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          EventHomeScreen(),
-          SizedBox(
-            height: 20,
-          ),
-          PlaylistHomeView(),
-        ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            EventHomeScreen(),
+            SizedBox(
+              height: 20,
+            ),
+            PlaylistHomeView(),
+          ],
+        ),
       ),
     );
   }

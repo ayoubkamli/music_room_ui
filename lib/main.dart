@@ -20,40 +20,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  /// late String isLoggedIn = '';
-
   void initState() {
     super.initState();
-
-    /// _isLoggedIn().then((value) => setState(() {
-    ///       isLoggedIn = value;
-    ///       print(isLoggedIn);
-    ///     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    /// print('Widget build' + isLoggedIn.toString());
     return MaterialApp(debugShowCheckedModeBanner: false, home: _body());
   }
-
-  /// Future<String> _isLoggedIn() async {
-  ///   try {
-  ///     String? token = await MyToken().getToken();
-
-  ///     if (token != null) {
-  ///       print('okkkkkkk theris a token' + token.toString());
-  ///       print('1');
-  ///       return await getUserData(token);
-  ///     } else {
-  ///       print('There is no token it\'s null');
-  ///       return Future<String>.value('null');
-  ///     }
-  ///   } catch (e) {
-  ///     print(e);
-  ///     return Future<String>.value('null');
-  ///   }
-  /// }
 
   _body() {
     return MultiRepositoryProvider(
@@ -85,21 +59,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  /// Future<String> getUserData(String token) async {
-  ///   String bearerToken = 'Bearer $token';
-  ///   final response = await http.get(userDataUrl, headers: <String, String>{
-  ///     'Content-Type': 'application/json; charset=UTF-8',
-  ///     'Authorization': '$bearerToken',
-  ///   });
-  ///   print('user data from user profile ' + response.body.toString());
-  ///   print('user response from user profile ' + response.statusCode.toString());
-  ///   if (response.statusCode == 200) {
-  ///     print('200');
-  ///     return 'loggedIn';
-  ///   } else {
-  ///     print('400');
-  ///     return 'invalide';
-  ///   }
-  /// }
 }

@@ -15,10 +15,6 @@ class AllEventsView extends StatefulWidget {
 }
 
 class _AllEventsViewState extends State<AllEventsView> {
-  // int activeMenu1 = 0;
-  /// int activeMenu2 = 0;
-  /// int activeTab = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +22,7 @@ class _AllEventsViewState extends State<AllEventsView> {
       appBar: getAppBar('All events'),
       body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
         return Container(
+          padding: EdgeInsets.only(top: 20),
           child: BlocBuilder<EventCubit, EventState>(
             builder: (context, state) {
               if (state is LoadingState) {
@@ -34,10 +31,8 @@ class _AllEventsViewState extends State<AllEventsView> {
                 );
               } else if (state is LoadedState) {
                 final events = state.props;
-                print('ok');
                 return getBody(events, context);
               } else if (state is ErrorState) {
-                print('${state.props}');
                 return Center(
                   child: Icon(Icons.close),
                 );
@@ -101,9 +96,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                           future: getImageUrl(imageUrl),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              // print(' snapshot.data! ' + snapshot.data!);
                               return Container(
-                                // width: 180,
                                 height: 180,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
