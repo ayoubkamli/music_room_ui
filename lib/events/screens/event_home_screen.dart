@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/events/screens/album_page.dart';
@@ -142,7 +141,7 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                           future: getImageUrl(imageUrl),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              print(' snapshot.data! ' + snapshot.data!);
+                              // print(' snapshot.data! ' + snapshot.data!);
                               return Container(
                                 width: 180,
                                 height: 180,

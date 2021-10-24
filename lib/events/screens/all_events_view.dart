@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/events/event_event.dart';
-import 'package:myapp/events/logic/event_bloc.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/logic/event_state.dart';
@@ -65,7 +63,12 @@ class _AllEventsViewState extends State<AllEventsView> {
         leading: IconButton(
           icon: Icon(Icons.home),
           onPressed: () {
-            MaterialPageRoute(builder: (context) => ExploreView());
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExploreView(),
+              ),
+            );
           },
         ));
   }
@@ -98,7 +101,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                           future: getImageUrl(imageUrl),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              print(' snapshot.data! ' + snapshot.data!);
+                              // print(' snapshot.data! ' + snapshot.data!);
                               return Container(
                                 // width: 180,
                                 height: 180,
