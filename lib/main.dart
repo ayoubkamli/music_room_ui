@@ -10,6 +10,8 @@ import 'package:myapp/playlists/logic/playlist_cubit.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 
 import 'package:myapp/auth/logic/session_cubit.dart';
+import 'package:myapp/search/bloc/search_bloc.dart';
+import 'package:myapp/search/bloc/search_repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,6 +40,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(
           create: (context) => PlaylistRepository(),
         ),
+        RepositoryProvider(create: (context) => SearchRepositoryTracks())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -58,6 +61,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (BuildContext newcontext) {
             return MyEventCubit(
               eventRepository: newcontext.read<EventRepository>(),
+            );
+          }),
+          BlocProvider(create: (BuildContext newContext) {
+            return SearchBloc(
+              searchRepository: newContext.read<SearchRepositoryTracks>(),
             );
           })
         ],
