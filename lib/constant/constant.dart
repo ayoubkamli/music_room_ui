@@ -7,8 +7,10 @@ final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
 final Uri playlistUrl = Uri.parse('http://$ip/api/playlists');
 final Uri userDataUrl = Uri.parse('http://$ip/api/me');
-final Uri searchTracksUrl = Uri.parse(
-    'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');
+// final Uri searchTracksUrl = Uri.parse(
+//     'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');
+
+final String searchTrackUrl = 'http://$ip/api/tracks/search?name=';
 
 final String imageUrl =
     'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
