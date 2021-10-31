@@ -24,7 +24,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         print(
             'artisste name ------ \n ${tracks.data[1].artists[0].name.toString()}');
 
-        yield SearchLoaded(tracks: jsonDecode(response.body));
+        yield SearchLoaded(tracks: tracks);
       } catch (e) {
         yield SearchError();
       }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:myapp/search/tracks_model.dart';
 
 abstract class SearchState extends Equatable {}
 
@@ -9,7 +10,7 @@ class SearchUninitialized extends SearchState {
 
 // ignore: must_be_immutable
 class SearchLoaded extends SearchState {
-  List<dynamic> tracks;
+  TracksModel tracks;
   SearchLoaded({
     required this.tracks,
   });
