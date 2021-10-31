@@ -122,42 +122,46 @@ class GetEvent {
 }
 
 class EditEvent {
-  final String name;
-  final String desc;
-  final List<String> musicPreference;
-  final String visibility;
+  // final String name;
+  // final String desc;
+  // final List<String> musicPreference;
+  // final String visibility;
+  // final String id;
 
   /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  EditEvent(this.name, this.desc, this.musicPreference, this.visibility);
+  EditEvent();
+  // this.name, this.desc, this.musicPreference, this.visibility, this.id);
 
-  Future<http.Response> editEvent() async {
+  Future<http.Response> editEvent(
+      name, desc, musicPreference, visibility, id) async {
     /// final SharedPreferences prefs = await _prefs;
     /// String? token = prefs.getString('Token');
     String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
-    String eventId = '';
+    final Uri eventIdUrl = Uri.parse('$eventUrl/$id');
 
-    final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId');
-
-    print('editEvent was called');
+    print('editEvent was called ${eventIdUrl.toString()}');
+    print('editEvent was data $name $desc $musicPreference $visibility');
 
     final response = await http.put(
       eventIdUrl,
       headers: <String, String>{
-        'ContentType': 'application/json; charset=UTF-8',
+        'ContentType': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': '$bearerToken',
       },
       body: jsonEncode(
         <String, dynamic>{
           'name': name,
-          'desc': desc,
+          'desc': desc.toString(),
           'musicPreference': musicPreference,
-          'visibility': visibility,
+          'visibility': visibility.toString(),
         },
       ),
     );
+    print('yoooo   ' + response.body);
     return response;
   }
 }

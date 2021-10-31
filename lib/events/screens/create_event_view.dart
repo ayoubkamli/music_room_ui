@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/logic/create_event_bloc.dart';
 import 'package:myapp/events/events/create_event_event.dart';
-import 'package:myapp/events/repositories/create_event_state.dart';
+import 'package:myapp/events/logic/create_event_state.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
 import 'package:myapp/widgets/uplaod_photo.dart';
 import 'package:myapp/events/logic/event_cubit.dart';

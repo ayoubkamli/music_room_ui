@@ -33,7 +33,7 @@ class SearchTracksScreen extends SearchDelegate<List> {
 
   String? queryString;
   @override
-  List<Widget>? buildActions(BuildContext context) {
+  List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
           onPressed: () {
@@ -44,8 +44,8 @@ class SearchTracksScreen extends SearchDelegate<List> {
   }
 
   @override
-  Widget? buildLeading(BuildContext context) {
-    IconButton(
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
         onPressed: () {
           close(context, []);
         },

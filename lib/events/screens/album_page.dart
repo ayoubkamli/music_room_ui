@@ -1,6 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constant/constant.dart';
+
+import 'package:myapp/events/screens/edit_event_view.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 // import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/events/models/song_model.dart';
@@ -104,10 +106,58 @@ class _AlbumPageState extends State<AlbumPage> {
                           ),
                         ],
                       ),
-                      Icon(
-                        Icons.more_vert,
-                        color: Colors.white,
-                      ),
+                      PopupMenuButton(
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: Colors.green,
+                          ),
+                          color: Colors.black,
+                          onSelected: (selectedValue) {
+                            print(selectedValue);
+                            if (selectedValue == '1') {
+                              print('1');
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditEventView(data: widget.data)),
+                              );
+                            }
+                            if (selectedValue == '2') {
+                              print('2');
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => AllEventsView()),
+                              // );
+                            }
+                            if (selectedValue == '3') {
+                              print('3');
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => CreateEventView()),
+                              // );
+                            }
+                          },
+                          itemBuilder: (BuildContext ctx) => [
+                                PopupMenuItem(
+                                    child: Text('Edit event',
+                                        style:
+                                            (TextStyle(color: Colors.white))),
+                                    value: '1'),
+                                PopupMenuItem(
+                                  child: Text('Delete event',
+                                      style: (TextStyle(color: Colors.white))),
+                                  value: '2',
+                                ),
+                                PopupMenuItem(
+                                  child: Text('------',
+                                      style: (TextStyle(color: Colors.white))),
+                                  value: '3',
+                                ),
+                              ]),
                     ],
                   ),
                   SizedBox(

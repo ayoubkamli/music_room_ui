@@ -1,4 +1,4 @@
-const ip = '192.168.99.116';
+const ip = '192.168.99.117';
 final Uri registerUrl = Uri.parse('http://$ip/api/auth/register');
 final Uri consirmationUrl = Uri.parse('http://$ip/api/email/confirm');
 final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
@@ -20,3 +20,5 @@ const kUrl2 = 'https://luan.xyz/files/audio/nasa_on_a_mission.mp3';
 const kUrl3 = 'http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1xtra_mf_p';
 
 const iconSize = 30.0;
+
+// http://192.168.99.116/api/tracks/search?name=sia

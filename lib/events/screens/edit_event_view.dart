@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/logic/create_event_bloc.dart';
-import 'package:myapp/events/events/create_event_event.dart';
-import 'package:myapp/events/repositories/create_event_state.dart';
-import 'package:myapp/widgets/multi_select_chip.dart';
-import 'package:myapp/widgets/uplaod_photo.dart';
+
+import 'package:myapp/events/events/edit_event_event.dart';
+
+import 'package:myapp/events/logic/edit_event_bloc.dart';
+import 'package:myapp/events/logic/edite_event_state.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
+import 'package:myapp/events/screens/all_events_view.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
+import 'package:myapp/widgets/multi_select_chip.dart';
 
-class CreateEventView extends StatefulWidget {
-  const CreateEventView({Key? key}) : super(key: key);
+class EditEventView extends StatefulWidget {
+  final dynamic data;
+  EditEventView({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
   @override
-  _CreateEventViewState createState() => _CreateEventViewState();
+  _EditEventViewState createState() => _EditEventViewState();
 }
 
-class _CreateEventViewState extends State<CreateEventView> {
+class _EditEventViewState extends State<EditEventView> {
   final _formKey = GlobalKey<FormState>();
 
   List<String> selectedPrefList = [];
@@ -24,21 +31,19 @@ class _CreateEventViewState extends State<CreateEventView> {
   bool isSwitched = true;
   String visibilityText = 'Public Event';
 
-  // int activeMenu1 = 0;
-  // int activeMenu2 = 0;
-
   @override
   Widget build(BuildContext context) {
+    print(widget.data.sId.toString());
+
     return Scaffold(
-      // backgroundColor: Colors.blueGrey,
       appBar: getAppBar(),
       body: BlocProvider(
-          create: (context) => CreateEventBloc(
+          create: (context) => EditEventBloc(
               context.read<EventRepository>(), context.read<EventCubit>()),
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              SingleChildScrollView(child: _createEventForm()),
+              SingleChildScrollView(child: _editEventForm()),
             ],
           )),
     );
@@ -53,7 +58,7 @@ class _CreateEventViewState extends State<CreateEventView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Create Event",
+            Text("Edit Event ${widget.data.name}",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
@@ -66,25 +71,28 @@ class _CreateEventViewState extends State<CreateEventView> {
     );
   }
 
-  Widget _createEventForm() {
-    return BlocListener<CreateEventBloc, CreateEventState>(
+  Widget _editEventForm() {
+    return BlocListener<EditEventBloc, EditEventState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
         } else if (formStatus is SubmissionSuccess) {
-          _showSnackBar(context, 'Event Created with success');
+          _showSnackBar(context, 'Event edited with success');
           _formKey.currentState!.reset();
           print(
               'form status is submissionSuccess from create_event_view ${state.data}');
           setState(() {
             selectedPrefList = [];
           });
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      UploadPhoto(title: 'upload photo', data: state.data!)));
+          //   Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //           builder: (context) =>
+          //               UploadPhoto(title: 'upload photo', data: state.data!)));
+
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AllEventsView()));
         }
       },
       child: Form(
@@ -98,7 +106,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                 _descriptionField(),
                 _switchButton(),
                 _shipSelect(),
-                _addEventButton(),
+                _editEventButton(),
               ],
             ),
           )),
@@ -106,7 +114,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Widget _nameField() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<EditEventBloc, EditEventState>(
         builder: (context, state) {
       return Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -124,10 +132,12 @@ class _CreateEventViewState extends State<CreateEventView> {
             hintText: 'Event name',
             // hintStyle: TextStyle(color: Colors.black),
           ),
+          initialValue: widget.data.name,
+          autofocus: true,
           validator: (value) =>
               state.isEventNameValid ? null : 'Invalid event name',
-          onChanged: (value) => context.read<CreateEventBloc>().add(
-                CreateEventNameChanged(name: value),
+          onChanged: (value) => context.read<EditEventBloc>().add(
+                EditEventNameChanged(name: value),
               ),
         ),
       );
@@ -135,7 +145,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Widget _descriptionField() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    return BlocBuilder<EditEventBloc, EditEventState>(
         builder: (context, state) {
       return Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -151,18 +161,20 @@ class _CreateEventViewState extends State<CreateEventView> {
               labelText: 'Event Description',
               labelStyle: TextStyle(color: Colors.green),
               hintText: 'Description'),
+          // controller: TextEditingController()..text = widget.data.desc,
+          initialValue: widget.data.desc,
           validator: (value) =>
               state.isEventDescriptionValid ? null : 'Invalid description',
           onChanged: (value) => context
-              .read<CreateEventBloc>()
-              .add(CreateEventDescriptionChanged(description: value)),
+              .read<EditEventBloc>()
+              .add(EditEventDescriptionChanged(description: value)),
         ),
       );
     });
   }
 
-  Widget _addEventButton() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+  Widget _editEventButton() {
+    return BlocBuilder<EditEventBloc, EditEventState>(
         builder: (context, state) {
       return state.formStatus is FormSubmitting
           ? CircularProgressIndicator()
@@ -182,20 +194,24 @@ class _CreateEventViewState extends State<CreateEventView> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventPrefChanged(prefs: selectedPrefList));
+                          .read<EditEventBloc>()
+                          .add(EditEventPrefChanged(prefs: selectedPrefList));
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventSubmitted());
+                          .read<EditEventBloc>()
+                          .add(EditEventIdChanged(id: widget.data.sId));
+                      context.read<EditEventBloc>().add(EditEventSubmitted());
                     }
                   },
-                  child: Text('Create Event')),
+                  child: Text('Edit Event')),
             );
     });
   }
 
   Widget _shipSelect() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    setState(() {
+      selectedPrefList = widget.data.musicPreference;
+    });
+    return BlocBuilder<EditEventBloc, EditEventState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -223,8 +239,8 @@ class _CreateEventViewState extends State<CreateEventView> {
                   onPressed: () => {
                     _showPrefDialog(),
                     context
-                        .read<CreateEventBloc>()
-                        .add(CreateEventPrefChanged(prefs: selectedPrefList))
+                        .read<EditEventBloc>()
+                        .add(EditEventPrefChanged(prefs: selectedPrefList))
                   },
                 ),
                 Text(selectedPrefList.join(" , ")),
@@ -262,7 +278,14 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Widget _switchButton() {
-    return BlocBuilder<CreateEventBloc, CreateEventState>(
+    setState(() {
+      if (widget.data.visibility == 'public') {
+        isSwitched = true;
+      } else {
+        isSwitched = false;
+      }
+    });
+    return BlocBuilder<EditEventBloc, EditEventState>(
       builder: (context, state) {
         return Container(
           padding: EdgeInsets.only(top: 10, bottom: 15),
@@ -280,13 +303,13 @@ class _CreateEventViewState extends State<CreateEventView> {
                     if (isSwitched == true) {
                       visibilityText = 'Public Event ';
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventStatusChanged(status: 'public'));
+                          .read<EditEventBloc>()
+                          .add(EditEventStatusChanged(status: 'public'));
                     } else {
                       visibilityText = 'Private Event';
                       context
-                          .read<CreateEventBloc>()
-                          .add(CreateEventStatusChanged(status: 'private'));
+                          .read<EditEventBloc>()
+                          .add(EditEventStatusChanged(status: 'private'));
                     }
                   });
                 },

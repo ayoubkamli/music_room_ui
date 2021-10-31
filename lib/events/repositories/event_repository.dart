@@ -38,9 +38,10 @@ class EventRepository {
     String desc,
     List<String> musicPreference,
     String visibility,
+    String id,
   ) async {
     final response =
-        await EditEvent(name, desc, musicPreference, visibility).editEvent();
+        await EditEvent().editEvent(name, desc, musicPreference, visibility, id);
     return response;
   }
 }
