@@ -70,59 +70,88 @@ class SearchTracksScreen extends SearchDelegate<List> {
           if (state.tracks.data.isNotEmpty) {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: List.generate(state.tracks.data.length, (index) {
-                    return Padding(
+                    print('${state.tracks.data[index].trakId} \n');
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.only(right: 30),
                       child: GestureDetector(
                         onTap: () {
-                          // print('-----');
-                          // print(events[0][index]);
-                          // print('-----');
+                          print('-----');
+                          print('${state.tracks.data[index].trakId}');
+                          print('-----');
                           // goToAlbum(events[0][index], context);
                         },
                         child: Column(
                           children: [
-                            // print(' snapshot.data! ' + snapshot.data!);
-                            Container(
-                              width: 180,
-                              height: 180,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        state.tracks.data[index].images.first
-                                            .url,
-                                      ),
-                                      fit: BoxFit.cover),
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(10)),
+                            SizedBox(
+                              height: 10,
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // print(' snapshot.data! ' + snapshot.data!);
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            state.tracks.data[index].images
+                                                .first.url,
+                                          ),
+                                          fit: BoxFit.cover),
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
 
-                            SizedBox(
-                              height: 20,
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          150,
+                                      child: Text(
+                                        state.tracks.data[index].name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          150,
+                                      child: Text(
+                                        state.tracks.data[index].artists.first
+                                            .name,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Icon(Icons.more_vert)
+                              ],
                             ),
-                            Text(
-                              state.tracks.data[index].name,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                                width: 180,
-                                child: Text(
-                                  state.tracks.data[index].artists.first.name,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w600),
-                                ))
                           ],
                         ),
                       ),
