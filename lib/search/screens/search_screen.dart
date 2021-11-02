@@ -6,7 +6,9 @@ import 'package:myapp/search/bloc/search_event.dart';
 import 'package:myapp/search/bloc/search_state.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

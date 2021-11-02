@@ -1,11 +1,14 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
 
 import 'package:myapp/events/screens/edit_event_view.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 // import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/events/models/song_model.dart';
+import 'package:myapp/search/bloc/search_bloc.dart';
+import 'package:myapp/search/screens/search_screen.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -137,8 +140,14 @@ class _AlbumPageState extends State<AlbumPage> {
                               // Navigator.push(
                               //   context,
                               //   MaterialPageRoute(
-                              //       builder: (context) => CreateEventView()),
+                              //       builder: (context) => SearchScreen()),
                               // );
+                              showSearch(
+                                  context: context,
+                                  delegate: SearchTracksScreen(
+                                    
+                                      searchBloc: BlocProvider.of<SearchBloc>(
+                                          context)));
                             }
                           },
                           itemBuilder: (BuildContext ctx) => [
@@ -153,7 +162,7 @@ class _AlbumPageState extends State<AlbumPage> {
                                   value: '2',
                                 ),
                                 PopupMenuItem(
-                                  child: Text('------',
+                                  child: Text('add track',
                                       style: (TextStyle(color: Colors.white))),
                                   value: '3',
                                 ),
