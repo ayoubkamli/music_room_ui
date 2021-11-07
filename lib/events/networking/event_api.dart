@@ -206,3 +206,28 @@ class AddTrackToEvent {
     return response;
   }
 }
+
+class RemoveTrackFromEvent {
+  Future<http.Response> removeTrackToEvent(eventId, trackId) async {
+    String? token = await MyToken().getToken();
+    String? bearerToken = 'Bearer: $token';
+
+    final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
+    print('add track to event was called');
+
+    final response = await http.delete(eventIdUrl,
+        headers: <String, String>{
+          'ContentType': 'application/json; charset=UTF-8',
+          'Authorization': '$bearerToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "trackId": '$trackId',
+        }));
+
+    print('this is the response body from remove track to event api below');
+    print(response.body.toString());
+    print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
+
+    return response;
+  }
+}

@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/logic/manage_track_event_cubit.dart';
 import 'package:myapp/events/logic/mange_track_event_state.dart';
 import 'package:myapp/events/networking/event_api.dart';
@@ -9,7 +8,6 @@ import 'package:myapp/events/networking/event_api.dart';
 import 'package:myapp/events/screens/edit_event_view.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
-// import 'package:myapp/event/screens/music_details.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
@@ -49,9 +47,7 @@ class _AlbumPageState extends State<AlbumPage> {
       create: (context) => TrackEventCubit(),
       child: SingleChildScrollView(
         child: BlocConsumer<TrackEventCubit, TrackEventState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             TrackEventCubit cubit = TrackEventCubit.get(context);
 
@@ -216,7 +212,7 @@ class _AlbumPageState extends State<AlbumPage> {
                 ),
                 Column(
                   children: List.generate(data.playlist!.length, (index) {
-                    return track(data.playlist![index]);
+                    return track(data.playlist![index], cubit.eventId);
                   }),
                 )
               ],
@@ -231,10 +227,10 @@ class _AlbumPageState extends State<AlbumPage> {
     return PlayerWidget(url: kUrl1);
   }
 
-  Widget track(Playlist data) {
+  Widget track(Playlist data, String eventId) {
     // EventModel songData = EventModel.fromJson(data);
 
-    print('song data ------------------------');
+    print('song data ------------------------ $data');
     print(data.previewUrl);
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
@@ -259,7 +255,9 @@ class _AlbumPageState extends State<AlbumPage> {
               style: TextStyle(color: Colors.white.withOpacity(0.5)),
             ),
           ),
-          vote(),
+          Column(
+            children: [vote(), removeTrack(eventId, data.trackId)],
+          )
         ],
       ),
     );
@@ -268,8 +266,25 @@ class _AlbumPageState extends State<AlbumPage> {
   vote() {
     return TextButton(
         onPressed: null,
-        child: Icon(Icons.thumb_up_outlined,
+        child: Icon(Icons.arrow_upward_outlined,
             color: Colors.white.withOpacity(0.5)));
+  }
+
+  removeTrack(eventId, trackId) {
+    return BlocProvider(
+        create: (context) => TrackEventCubit(),
+        child: BlocConsumer<TrackEventCubit, TrackEventState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              TrackEventCubit cubit = TrackEventCubit.get(context);
+
+              return IconButton(
+                  onPressed: () => cubit.remove(eventId, trackId),
+                  icon: Icon(
+                    Icons.remove_circle_outline,
+                    color: Colors.white.withOpacity(0.5),
+                  ));
+            }));
   }
 
   PreferredSizeWidget getAppBar() {

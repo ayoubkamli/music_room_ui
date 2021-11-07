@@ -63,15 +63,6 @@ class _ExploreViewState extends State<ExploreView> {
 
   Widget myEvents() {
     return SafeArea(child: MyEvents());
-    //   child: SingleChildScrollView(
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         MyEvents(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget getBody(BuildContext context) {
@@ -79,27 +70,19 @@ class _ExploreViewState extends State<ExploreView> {
       index: activeTab,
       children: [
         explore(),
-        // Center(
-        //   child: Text(
-        //     "Library",
-        //     style: TextStyle(
-        //       fontSize: 20,
-        //       color: Colors.white,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //   ),
-        // ),
+
         myEvents(),
-        // Center(
-        //   child: Text(
-        //     "Search",
-        //     style: TextStyle(
-        //       fontSize: 20,
-        //       color: Colors.white,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //   ),
-        // ),
+        Center(
+          child: Text(
+            "Search",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
         /// SearchTracksScreen(),
         Center(
           child: TextButton(

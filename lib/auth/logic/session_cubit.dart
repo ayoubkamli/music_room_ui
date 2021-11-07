@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/auth/logic/session_state.dart';
-import 'package:myapp/auth/screens/login_view.dart';
 import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/constant/constant.dart';
 
@@ -50,7 +48,7 @@ class SessionCubit extends Cubit<SessionState> {
   void signOut() {
     authRepo.signOut();
     emit(Unauthenticated());
+    showAuth();
     print('signout from session cubit was called');
-    MaterialPageRoute(builder: (_) => LoginView());
   }
 }
