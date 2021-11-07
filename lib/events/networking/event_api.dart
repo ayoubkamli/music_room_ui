@@ -97,11 +97,7 @@ class GetMyEvents {
 }
 
 class GetEvent {
-  /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   Future<http.Response> fetchEvent() async {
-    /// final SharedPreferences prefs = await _prefs;
-    /// String? token = prefs.getString('Token');
     String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
@@ -162,6 +158,51 @@ class EditEvent {
       ),
     );
     print('yoooo   ' + response.body);
+    return response;
+  }
+}
+
+class RemoveEvent {
+  Future<http.Response> deleteEvent(eventId) async {
+    String? token = await MyToken().getToken();
+    String? bearerToken = 'Bearer: $token';
+
+    final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId');
+    print('delete event was called');
+
+    final response = await http.delete(
+      eventIdUrl,
+      headers: <String, String>{
+        'ContentType': 'application/json; charset=UTF-8',
+        'Authorization': '$bearerToken',
+      },
+    );
+
+    return response;
+  }
+}
+
+class AddTrackToEvent {
+  Future<http.Response> addTrackToEvent(eventId, trackId) async {
+    String? token = await MyToken().getToken();
+    String? bearerToken = 'Bearer: $token';
+
+    final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
+    print('add track to event was called');
+
+    final response = await http.post(eventIdUrl,
+        headers: <String, String>{
+          'ContentType': 'application/json; charset=UTF-8',
+          'Authorization': '$bearerToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "trackId": '$trackId',
+        }));
+
+    print('this is the response body from add track to event api below');
+    print(response.body.toString());
+    print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
+
     return response;
   }
 }

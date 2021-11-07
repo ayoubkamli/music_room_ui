@@ -4,7 +4,6 @@ import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/events/screens/my_events.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/search/screens/search_screen.dart';
 
 class ExploreView extends StatefulWidget {
   @override
@@ -101,7 +100,7 @@ class _ExploreViewState extends State<ExploreView> {
         //     ),
         //   ),
         // ),
-        SearchScreen(),
+        /// SearchTracksScreen(),
         Center(
           child: TextButton(
             onPressed: () {

@@ -11,20 +11,23 @@ class AlbumModel {
   ChatRoom? chatRoom;
   String? ownerId;
   List<Playlist>? playlist;
+  String? image;
 
-  AlbumModel(
-      {this.subscribes,
-      this.unsubscribes,
-      this.musicPreference,
-      this.invitedUsers,
-      this.trackUrl,
-      this.visibility,
-      this.sId,
-      this.name,
-      this.desc,
-      this.chatRoom,
-      this.ownerId,
-      this.playlist});
+  AlbumModel({
+    this.subscribes,
+    this.unsubscribes,
+    this.musicPreference,
+    this.invitedUsers,
+    this.trackUrl,
+    this.visibility,
+    this.sId,
+    this.name,
+    this.desc,
+    this.chatRoom,
+    this.ownerId,
+    this.playlist,
+    this.image,
+  });
 
   AlbumModel.fromJson(Map<String, dynamic> json) {
     subscribes = json['subscribes'].cast<String>();
@@ -46,6 +49,7 @@ class AlbumModel {
         playlist!.add(new Playlist.fromJson(v));
       });
     }
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +70,7 @@ class AlbumModel {
     if (this.playlist != null) {
       data['playlist'] = this.playlist!.map((v) => v.toJson()).toList();
     }
+    data['image'] = this.image;
     return data;
   }
 }

@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:myapp/events/networking/event_api.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_event.dart';
 import 'package:myapp/search/bloc/search_state.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({
-    Key? key,
-  }) : super(key: key);
+/// class SearchScreen extends StatelessWidget {
+///   const SearchScreen({
+///     Key? key,
+///   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () => showSearch(
-                  context: context,
-                  delegate: SearchTracksScreen(
-                      searchBloc: BlocProvider.of<SearchBloc>(context))),
-              icon: Icon(Icons.search))
-        ],
-      ),
-    );
-  }
-}
+///   @override
+///   Widget build(BuildContext context) {
+///     return Scaffold(
+///       appBar: AppBar(
+///         actions: [
+///           IconButton(
+///               onPressed: () => showSearch(
+///                   context: context,
+///                   delegate: SearchTracksScreen(
+///                       searchBloc: BlocProvider.of<SearchBloc>(context),
+///                       eventId: )),
+///               icon: Icon(Icons.search))
+///         ],
+///       ),
+///     );
+///   }
+/// }
 
 class SearchTracksScreen extends SearchDelegate<List> {
   SearchBloc searchBloc;
+  String eventId;
   SearchTracksScreen({
+    required this.eventId,
     required this.searchBloc,
   });
 
@@ -82,9 +85,12 @@ class SearchTracksScreen extends SearchDelegate<List> {
                       padding: const EdgeInsets.only(right: 30),
                       child: GestureDetector(
                         onTap: () {
-                          print('-----');
-                          print('${state.tracks.data[index].trakId}');
-                          print('-----');
+                          /// print('-----');
+                          /// print('${state.tracks.data[index].trakId}');
+                          /// print('-----');
+                          String trackId = state.tracks.data[index].trakId;
+                          print('this is the event id ${eventId.toString()}');
+                          addTrack(trackId, eventId);
                           // goToAlbum(events[0][index], context);
                         },
                         child: Column(
@@ -175,5 +181,9 @@ class SearchTracksScreen extends SearchDelegate<List> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container();
+  }
+
+  addTrack(String trackId, String eventId) {
+    AddTrackToEvent().addTrackToEvent(eventId, trackId);
   }
 }
