@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/screens/all_events_view.dart';
-import 'package:myapp/events/screens/album_page.dart';
-import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/screens/create_event_view.dart';
+import 'package:myapp/events/widgets/album_widget.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 
 import '../logic/event_cubit.dart';
@@ -191,25 +190,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
           ),
         )
       ],
-    );
-  }
-
-  Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
-    print(data);
-    print('++++++++++');
-
-    //SongModel item = SongModel.fromJson(data);
-
-    AlbumModel item = AlbumModel.fromJson(data);
-
-    print("item  $item");
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AlbumPage(
-          data: item,
-        ),
-      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/logic/event_state.dart';
+import 'package:myapp/events/widgets/album_widget.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/pages/explore_view.dart';
 
@@ -88,7 +89,7 @@ class _AllEventsViewState extends State<AllEventsView> {
                   padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
                     onTap: () {
-                      // goToAlbum(events[0][index], context);
+                      goToAlbum(events[0][index], context);
                     },
                     child: Column(
                       children: [
