@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/events/logic/my_events_state.dart';
+import 'package:myapp/events/bloc/my_event/my_events_state.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 
 class MyEventCubit extends Cubit<MyEventState> {

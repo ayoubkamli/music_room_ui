@@ -7,9 +7,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/logic/event_cubit.dart';
+import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/models/upload_photo_model.dart';
-import 'package:myapp/events/screens/all_events_view.dart';
+import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime_type/mime_type.dart';
 

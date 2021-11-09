@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/logic/my_event_cubit.dart';
-import 'package:myapp/events/logic/my_events_state.dart';
+import 'package:myapp/events/bloc/my_event/my_event_cubit.dart';
+import 'package:myapp/events/bloc/my_event/my_events_state.dart';
 import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/widgets/album_widget.dart';
@@ -95,7 +95,7 @@ class _MyEventsState extends State<MyEvents> {
                   padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
                     onTap: () {
-                      goToAlbum(events[0][index], context);
+                      eventTracks(events[0][index], context);
                     },
                     child: Column(
                       children: [

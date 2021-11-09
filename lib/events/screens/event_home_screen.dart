@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/screens/all_events_view.dart';
-import 'package:myapp/events/screens/create_event_view.dart';
+import 'package:myapp/events/bloc/all_event/event_cubit.dart';
+import 'package:myapp/events/bloc/all_event/event_state.dart';
+import 'package:myapp/events/screens/all_events_screen.dart';
+import 'package:myapp/events/screens/create_event_screen.dart';
 import 'package:myapp/events/widgets/album_widget.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 
-import '../logic/event_cubit.dart';
 import '../models/event_model.dart';
-import '../logic/event_state.dart';
 
-class EventHomeScreen extends StatefulWidget {
-  const EventHomeScreen({Key? key}) : super(key: key);
+class EventHomeView extends StatefulWidget {
+  const EventHomeView({Key? key}) : super(key: key);
 
   @override
-  _EventHomeScreenState createState() => _EventHomeScreenState();
+  _EventHomeViewState createState() => _EventHomeViewState();
 }
 
-class _EventHomeScreenState extends State<EventHomeScreen> {
+class _EventHomeViewState extends State<EventHomeView> {
   // int activeMenu1 = 0;
   int activeMenu2 = 0;
 
@@ -132,7 +132,7 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                       print('-----');
                       print(events[0][index]);
                       print('-----');
-                      goToAlbum(events[0][index], context);
+                      eventTracks(events[0][index], context);
                     },
                     child: Column(
                       children: [

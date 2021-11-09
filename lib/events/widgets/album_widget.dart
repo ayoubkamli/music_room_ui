@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/events/models/song_model.dart';
-import 'package:myapp/events/screens/album_page.dart';
+import 'package:myapp/events/screens/track_screen.dart';
 
-Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
+Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
   print(data);
   print('++++++++++');
 
@@ -14,7 +14,7 @@ Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
   return Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => AlbumPage(
+      builder: (context) => TrackEventView(
         data: item,
       ),
     ),

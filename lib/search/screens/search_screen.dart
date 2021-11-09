@@ -91,7 +91,7 @@ class SearchTracksScreen extends SearchDelegate<List> {
                           String trackId = state.tracks.data[index].trakId;
                           print('this is the event id ${eventId.toString()}');
                           addTrack(trackId, eventId);
-                          // goToAlbum(events[0][index], context);
+                          // eventTracks(events[0][index], context);
                         },
                         child: Column(
                           children: [

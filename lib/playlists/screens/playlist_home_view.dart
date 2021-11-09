@@ -96,7 +96,7 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
                     print('-----');
                     print(events[0][index]);
                     print('-----');
-                    goToAlbum(events[0][index], context);
+                    eventTracks(events[0][index], context);
                   },
                   child: Column(
                     children: [
@@ -146,7 +146,7 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
   );
 }
 
-Future<dynamic> goToAlbum(Map<String, dynamic> data, context) {
+Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
   print(data);
   print('++++++++++');
 

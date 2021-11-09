@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:myapp/auth/repositories/auth_repository.dart';
-import 'package:myapp/events/logic/event_cubit.dart';
-import 'package:myapp/events/logic/my_event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/navigation/app_navigator.dart';
 import 'package:myapp/playlists/logic/playlist_cubit.dart';
@@ -12,6 +10,9 @@ import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/auth/logic/session_cubit.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_repository.dart';
+
+import 'events/bloc/all_event/event_cubit.dart';
+import 'events/bloc/my_event/my_event_cubit.dart';
 
 void main() {
   runApp(MyApp());

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/events/bloc/all_event/event_cubit.dart';
+import 'package:myapp/events/bloc/edit_event/edit_event_bloc.dart';
+import 'package:myapp/events/bloc/edit_event/edit_event_event.dart';
+import 'package:myapp/events/bloc/edit_event/edite_event_state.dart';
 
-import 'package:myapp/events/events/edit_event_event.dart';
-
-import 'package:myapp/events/logic/edit_event_bloc.dart';
-import 'package:myapp/events/logic/edite_event_state.dart';
-import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
-import 'package:myapp/events/screens/all_events_view.dart';
+import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/events/events/create_event_event.dart';
+import 'package:myapp/events/bloc/all_event/event_cubit.dart';
+import 'package:myapp/events/bloc/create_event/create_event_event.dart';
+import 'package:myapp/events/bloc/create_event/create_event_state.dart';
 import 'package:myapp/events/models/upload_photo_model.dart';
-import 'package:myapp/events/logic/create_event_state.dart';
-import 'package:myapp/events/logic/event_cubit.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 
