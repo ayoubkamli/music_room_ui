@@ -41,26 +41,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         print('this is the user data from login $data');
         if (data['success'] == true) {
           user = User.fromJson(data['data']);
-
-          /// print('This is user from Usermodel ****** ' + user!.token.toString());
         }
         if (data['success'] == true && user!.isVerified == true) {
-          /// SharedPreferences prefs = await _prefs;
           yield state.copyWith(formStatus: SubmissionSuccess());
-
-          /// print('maaaaaaaaaaaaaaaaaaaaaann ' + user!.token.toString());
-
-          /// await prefs.setString("Token", data["data"]["token"]);
-          /// var p = prefs.getString("Token");
-          /// print('this is the shared token ooooOOOOOoooo $p');
           MyToken().setToken(user!.token!);
-
-          /// String tt = await MyToken().getToken();
-
-          /// print('tttttttttttttttttttttttttt' + tt.toString());
-
           authCubit.launchSession(AuthCredentials(
-            email: state.email,
+            user: user,
           ));
         } else if (data['success'] == true &&
             data['data']['isVerified'] == false) {

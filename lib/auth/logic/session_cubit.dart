@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/auth/logic/session_state.dart';
@@ -23,13 +24,15 @@ class SessionCubit extends Cubit<SessionState> {
       if (response == 'loggedIn') {
         final String? token = MyToken().getToken().toString();
         String bearerToken = 'Bearer $token';
-        final user = await http.get(userDataUrl, headers: <String, String>{
+        final userData = await http.get(userDataUrl, headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': '$bearerToken',
         });
-        print('user data from user profile ' + user.body.toString());
-        print('user response from user profile ' + user.statusCode.toString());
-        emit(Authenticated(jsonDecode(user.body).toString()));
+        print('user data from user profile ' + userData.body.toString());
+        print('user response from user profile ' +
+            userData.statusCode.toString());
+        final User user = User.fromJson(jsonDecode(userData.body));
+        emit(Authenticated(user));
       } else {
         emit(Unauthenticated());
       }
@@ -41,7 +44,7 @@ class SessionCubit extends Cubit<SessionState> {
   void showAuth() => emit(Unauthenticated());
   void showSession(AuthCredentials credentials) {
     // final user = dataRepo.getUser(credentials.userId);
-    final user = credentials.username;
+    final User user = credentials.user!;
     emit(Authenticated(user));
   }
 

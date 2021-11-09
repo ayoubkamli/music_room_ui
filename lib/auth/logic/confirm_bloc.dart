@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:myapp/auth/logic/auth_cubit.dart';
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/events/confirm_event.dart';
@@ -30,6 +31,10 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
           //username: authCubit.credentials!.username,
           confirmationCode: state.code,
         );
+
+        print('\n ************************************* \n');
+
+        print(response.body.toString());
         yield state.copyWith(formStatus: SubmissionSuccess());
 
         final credentials = authCubit.credentials;
@@ -38,10 +43,13 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
           final SharedPreferences prefs = await _prefs;
           var data = jsonDecode(response.body);
 
+          final user = User.fromJson(data);
+          credentials!.user = user;
+
           String token = data['data']['token'];
           prefs.setString('Token', token);
           print('credentilas are => $data');
-          if (data["success"] == true) authCubit.launchSession(credentials!);
+          if (data["success"] == true) authCubit.launchSession(credentials);
         }
       } catch (e) {
         yield state.copyWith(formStatus: SubmissionFailed(e.toString()));

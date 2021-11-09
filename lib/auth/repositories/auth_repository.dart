@@ -61,7 +61,6 @@ class AuthRepository {
     print('this is confirmation code: $confirmationCode');
     final response = ConfirmSignUp(confirmationCode!).confirmCode();
 
-    ////todo bloc confirmation logic
     return response;
   }
 

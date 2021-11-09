@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/logic/session_cubit.dart';
 
@@ -17,11 +18,13 @@ class AuthCubit extends Cubit<AuthState> {
     String? username,
     required String email,
     String? password,
+    User? user,
   }) {
     credentials = AuthCredentials(
       username: username,
       email: email,
       password: password,
+      user: user,
     );
     emit(AuthState.confirmationSignUp);
   }

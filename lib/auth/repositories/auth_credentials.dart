@@ -1,9 +1,10 @@
+import 'package:myapp/auth/models/user.dart';
+
 class AuthCredentials {
   final String? username;
-  final String email;
+  final String? email;
   final String? password;
-  String? userId;
+  User? user;
 
-  AuthCredentials(
-      {this.username, required this.email, this.password, this.userId});
+  AuthCredentials({this.username, this.email, this.password, this.user});
 }
