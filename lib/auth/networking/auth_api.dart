@@ -61,6 +61,41 @@ class ConfirmSignUp {
   }
 }
 
+class ForgotPasswordReset {
+  final String confirmationCode;
+  final String newPassword;
+
+  /// Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  // final SharedPreferences prefs = await _prefs;
+
+  ForgotPasswordReset(this.confirmationCode, this.newPassword);
+
+  Future<http.Response> resetForgotPAssword() async {
+    String? token = await MyToken().getToken();
+    String bearerToken = 'Bearer $token';
+
+    final response = await http.post(
+      consirmationUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '$bearerToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'code': int.parse(confirmationCode),
+          'password': '$newPassword'
+        },
+      ),
+    );
+    print(
+        'Confirmation code in confirmSignUp $confirmationCode , $newPassword');
+    print(
+        '\n 8888888888888888 auth api Forgot password response body 8888888888888 \n ');
+    print(response.body.toString());
+    return response;
+  }
+}
+
 class LoginUser {
   final String password;
   final String email;
@@ -77,6 +112,27 @@ class LoginUser {
       body: jsonEncode(<String, String>{
         'email': email,
         'password': password,
+      }),
+    );
+
+    return response;
+  }
+}
+
+class ForgotPassword {
+  final String email;
+
+  ForgotPassword(this.email);
+
+  Future<http.Response> sendCode() async {
+    print('trying to forgot password user $email');
+    final response = await http.post(
+      forgotPasswordUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
       }),
     );
 

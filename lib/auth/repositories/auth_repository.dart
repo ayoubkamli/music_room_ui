@@ -64,6 +64,20 @@ class AuthRepository {
     return response;
   }
 
+  Future<http.Response> resetForgotPassword(
+      {String? confirmationCode, String? newPassword}) async {
+    print('this is confirmation code: $confirmationCode');
+    final response = ForgotPasswordReset(confirmationCode!, newPassword!)
+        .resetForgotPAssword();
+
+    return response;
+  }
+
+  Future<http.Response> forgotPassword(String email) async {
+    final response = ForgotPassword(email).sendCode();
+    return response;
+  }
+
   Future<void> signOut() async {
     await LogOut().logoutUser();
     MaterialPageRoute(builder: (_) => LoginView());

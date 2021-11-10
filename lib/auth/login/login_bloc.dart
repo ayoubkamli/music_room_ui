@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
-import 'package:myapp/auth/logic/auth_cubit.dart';
+import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
-import 'package:myapp/auth/events/login_event.dart';
-import 'package:myapp/auth/logic/login_state.dart';
+import 'package:myapp/auth/login/login_event.dart';
+import 'package:myapp/auth/login/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     // Username updated
     if (event is LoginEmailChanged) {
-      yield state.copyWith(username: event.email);
+      yield state.copyWith(email: event.email);
 
       //Password changed
     } else if (event is LoginPasswordChanged) {

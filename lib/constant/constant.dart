@@ -7,6 +7,7 @@ final Uri eventUrl = Uri.parse('http://$ip/api/events');
 final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
 final Uri playlistUrl = Uri.parse('http://$ip/api/playlists');
 final Uri userDataUrl = Uri.parse('http://$ip/api/me');
+final Uri forgotPasswordUrl = Uri.parse('http://$ip/api/password/forgot');
 // final Uri searchTracksUrl = Uri.parse(
 //     'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');
 

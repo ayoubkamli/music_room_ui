@@ -1,9 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
-import 'package:myapp/auth/logic/session_cubit.dart';
+import 'package:myapp/auth/session_cubit.dart';
 
-enum AuthState { login, signUp, confirmationSignUp }
+enum AuthState {
+  login,
+  signUp,
+  confirmationSignUp,
+  forgotPassword,
+  forgotPasswordReset
+}
 
 class AuthCubit extends Cubit<AuthState> {
   final SessionCubit? sessionCubit;
@@ -14,6 +20,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   void showLogin() => emit(AuthState.login);
   void showSignUp() => emit(AuthState.signUp);
+  void showForgotPAssword() => emit(AuthState.forgotPassword);
+  void showForgotPasswordReset() => emit(AuthState.forgotPasswordReset);
+
   void showConfirmationSignUp({
     String? username,
     required String email,

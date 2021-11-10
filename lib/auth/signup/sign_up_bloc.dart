@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:myapp/auth/logic/auth_cubit.dart';
+import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
-import 'package:myapp/auth/events/sign_up_event.dart';
-import 'package:myapp/auth/logic/sign_up_state.dart';
+import 'package:myapp/auth/signup/sign_up_event.dart';
+import 'package:myapp/auth/signup/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,8 +49,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           print('this is the data=====> ${data["data"]["mailConfToken"]}');
           SharedPreferences prefs = await _prefs;
           await prefs.setString("Token", data["data"]["mailConfToken"]);
-          var p = prefs.getString("Token");
-          print('this is the shared token ooooOOOOOoooo $p');
+
+          /// var p = prefs.getString("Token");
+          /// print('this is the shared token ooooOOOOOoooo $p');
           authCubit!.showConfirmationSignUp(
             username: state.username,
             email: state.email,

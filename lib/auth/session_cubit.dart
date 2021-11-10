@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/repositories/auth_credentials.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
-import 'package:myapp/auth/logic/session_state.dart';
+import 'package:myapp/auth/session_state.dart';
 import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/constant/constant.dart';
 
@@ -42,6 +42,7 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void showAuth() => emit(Unauthenticated());
+
   void showSession(AuthCredentials credentials) {
     // final user = dataRepo.getUser(credentials.userId);
     final User user = credentials.user!;

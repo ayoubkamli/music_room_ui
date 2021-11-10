@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/auth/logic/auth_cubit.dart';
+import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
-import 'package:myapp/auth/logic/sign_up_bloc.dart';
-import 'package:myapp/auth/events/sign_up_event.dart';
-import 'package:myapp/auth/logic/sign_up_state.dart';
+import 'package:myapp/auth/signup/sign_up_bloc.dart';
+import 'package:myapp/auth/signup/sign_up_event.dart';
+import 'package:myapp/auth/signup/sign_up_state.dart';
 
 class SignUpView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -18,10 +18,7 @@ class SignUpView extends StatelessWidget {
               authCubit: context.read<AuthCubit>()),
           child: Stack(
             alignment: Alignment.bottomCenter,
-            children: [
-              _signUpForm(),
-              _showLoginButton(context),
-            ],
+            children: [_signUpForm(), _loginAndForgot(context)],
           )),
     );
   }
@@ -108,11 +105,26 @@ class SignUpView extends StatelessWidget {
     });
   }
 
+  Widget _loginAndForgot(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [_showLoginButton(context), _showForgotPassword(context)],
+    );
+  }
+
   Widget _showLoginButton(BuildContext context) {
-    return SafeArea(
+    return Container(
         child: TextButton(
-      child: Text('Don\'t have an account? Sign up.'),
+      child: Text('Already have an account? Login.'),
       onPressed: () => context.read<AuthCubit>().showLogin(),
+    ));
+  }
+
+  Widget _showForgotPassword(BuildContext context) {
+    return Container(
+        child: TextButton(
+      child: Text('Forgot password? Reset password.'),
+      onPressed: () => context.read<AuthCubit>().showForgotPAssword(),
     ));
   }
 
