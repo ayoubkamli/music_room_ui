@@ -11,8 +11,10 @@ class ResetForgotPassword extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    ///authRepo: context.read<AuthRepository>(),
-    /// authCubit: context.read<AuthCubit>()
+    // authRepo:
+    // context.read<AuthRepository>();
+    // authCubit:
+    // context.read<AuthCubit>();
     return Scaffold(
         body: BlocProvider(
             create: (context) => ForgotPasswordResetBloc(
@@ -84,12 +86,13 @@ class ResetForgotPassword extends StatelessWidget {
           ? CircularProgressIndicator()
           : ElevatedButton(
               onPressed: () {
-                // if (_formKey.currentState!.validate()) {
-                context
-                    .read<ForgotPasswordResetBloc>()
-                    .add(ForgotPAsswordSubmitted());
-                print('${_formKey.currentState!.validate()}');
-                // }
+                if (_formKey.currentState!.validate()) {
+                  context
+                      .read<ForgotPasswordResetBloc>()
+                      .add(ForgotPasswordResetSubmitted());
+                  print(
+                      '${_formKey.currentState!.validate()} + ${state.code} + ${state.newPassword}');
+                }
               },
               child: Text('Confirm'));
     });

@@ -11,4 +11,4 @@ class ForgotPasswordNewPasswordChanged extends ForgotPasswordResetEvent {
   ForgotPasswordNewPasswordChanged({this.newPassword});
 }
 
-class ForgotPAsswordSubmitted extends ForgotPasswordResetEvent {}
+class ForgotPasswordResetSubmitted extends ForgotPasswordResetEvent {}

@@ -1,4 +1,4 @@
-const ip = '192.168.99.100';
+const ip = '192.168.99.118';
 final Uri registerUrl = Uri.parse('http://$ip/api/auth/register');
 final Uri consirmationUrl = Uri.parse('http://$ip/api/email/confirm');
 final Uri loginUrl = Uri.parse('http://$ip/api/auth/login');
@@ -8,6 +8,7 @@ final Uri myEventUrl = Uri.parse('http://$ip/api/my-events');
 final Uri playlistUrl = Uri.parse('http://$ip/api/playlists');
 final Uri userDataUrl = Uri.parse('http://$ip/api/me');
 final Uri forgotPasswordUrl = Uri.parse('http://$ip/api/password/forgot');
+final Uri forgotPasswordResetUrl = Uri.parse('http://$ip/api/password/change');
 // final Uri searchTracksUrl = Uri.parse(
 //     'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');
 

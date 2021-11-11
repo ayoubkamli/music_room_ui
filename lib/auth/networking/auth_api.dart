@@ -70,15 +70,16 @@ class ForgotPasswordReset {
 
   ForgotPasswordReset(this.confirmationCode, this.newPassword);
 
-  Future<http.Response> resetForgotPAssword() async {
-    String? token = await MyToken().getToken();
-    String bearerToken = 'Bearer $token';
+  Future<http.Response> resetForgotPassword() async {
+    print('\n 8888888888888888 resetForgotPassword 8888888888888 \n ');
+    // String? token = await MyToken().getToken();
+    // String bearerToken = 'Bearer $token';
 
-    final response = await http.post(
-      consirmationUrl,
+    final response = await http.put(
+      forgotPasswordResetUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': '$bearerToken',
+        // 'Authorization': '$bearerToken',
       },
       body: jsonEncode(
         <String, dynamic>{

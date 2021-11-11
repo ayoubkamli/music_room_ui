@@ -66,9 +66,9 @@ class AuthRepository {
 
   Future<http.Response> resetForgotPassword(
       {String? confirmationCode, String? newPassword}) async {
-    print('this is confirmation code: $confirmationCode');
+    print('this is confirmation code: $confirmationCode +  $newPassword');
     final response = ForgotPasswordReset(confirmationCode!, newPassword!)
-        .resetForgotPAssword();
+        .resetForgotPassword();
 
     return response;
   }
