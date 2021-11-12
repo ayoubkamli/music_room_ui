@@ -4,6 +4,7 @@ import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/profile/screen/profile.dart';
 
 class ExploreView extends StatefulWidget {
   @override
@@ -84,21 +85,22 @@ class _ExploreViewState extends State<ExploreView> {
         ),
 
         /// SearchTracksScreen(),
-        Center(
-          child: TextButton(
-            onPressed: () {
-              context.read<SessionCubit>().signOut();
-            },
-            child: Text(
-              "Settings",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        )
+        /// Center(
+        ///   child: TextButton(
+        ///     onPressed: () {
+        ///       context.read<SessionCubit>().signOut();
+        ///     },
+        ///     child: Text(
+        ///       "Settings",
+        ///       style: TextStyle(
+        ///         fontSize: 20,
+        ///         color: Colors.white,
+        ///         fontWeight: FontWeight.bold,
+        ///       ),
+        ///     ),
+        ///   ),
+        /// )
+        ProfileView()
       ],
     );
   }
