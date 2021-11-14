@@ -98,7 +98,7 @@ class _ExploreViewState extends State<ExploreView> {
         ///     ),
         ///   ),
         /// )
-        ProfileView()
+        EditProfileView()
       ],
     );
   }
