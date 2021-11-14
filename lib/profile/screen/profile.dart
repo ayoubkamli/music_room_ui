@@ -10,6 +10,9 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  // final _formKey = GlobalKey<FormState>();
+  // List<String> selectedPrefList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,21 +74,23 @@ getBody(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               )),
         ),
-        _loginForm(),
+        _profileForm(),
       ],
     ),
   );
 }
 
-Widget _loginForm() {
+Widget _profileForm() {
   return Form(
-    /// key: _formKey,
+    // key: _formKey,
     child: Padding(
       padding: EdgeInsets.all(40.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _emailField(),
+          _usernameField(),
+          _shipSelect()
 
           /// _passwordField(),
           /// _loginButton(),
@@ -111,3 +116,76 @@ Widget _emailField() {
 
   /// });
 }
+
+Widget _usernameField() {
+  return TextField(
+    decoration:
+        InputDecoration(icon: Icon(Icons.verified_user), hintText: 'username'),
+  );
+}
+
+Widget _shipSelect() {
+  // return BlocBuilder<CreateEventBloc, CreateEventState>(
+  //   builder: (context, state) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 20.0),
+    child: Center(
+      child: Column(
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: Colors.green),
+                ),
+              ),
+            ),
+            child: Text(
+              'Add preferences',
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onPressed: () => {
+              // _showPrefDialog(),
+              // context
+              //     .read<CreateEventBloc>()
+              //     .add(CreateEventPrefChanged(prefs: selectedPrefList))
+            },
+          ),
+          // Text(selectedPrefList.join(" , ")),
+        ],
+      ),
+    ),
+  );
+  //   },
+  // );
+}
+
+// _showPrefDialog() {
+//   showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text('Preferences'),
+//           content: MultiSelectChip(
+//             prefList,
+//             selectedPrefList,
+//             onSelectionChanged: (selectedList) {
+//               setState(() {
+//                 selectedPrefList = selectedList;
+//               });
+//             },
+//           ),
+//           actions: <Widget>[
+//             TextButton(
+//               onPressed: () => Navigator.of(context).pop(),
+//               child: Text('Add'),
+//             ),
+//           ],
+//         );
+//       });
+// }

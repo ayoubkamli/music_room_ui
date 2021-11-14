@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/auth/session_cubit.dart';
 import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/profile/screen/profile.dart';
 
 class ExploreView extends StatefulWidget {
