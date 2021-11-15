@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/profile/bloc/edit_profile_bloc.dart';
 import 'package:myapp/profile/bloc/edit_profile_event.dart';
@@ -74,7 +75,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           padding: EdgeInsets.all(40.0),
           child: Column(
             children: [
-              //
+              _imageProfile(),
               _emailField(),
               _usernameField(),
               _shipSelect(),
@@ -83,6 +84,26 @@ class _EditProfileViewState extends State<EditProfileView> {
         ),
       ),
     );
+  }
+
+  Widget _imageProfile() {
+    // return BlocBuilder(builder: (context, state) {
+    return FutureBuilder<String>(
+        future: getImageUrl(imageUrl),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              height: 250,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(snapshot.data!), fit: BoxFit.cover),
+                  color: Colors.green),
+            );
+          }
+          return CircularProgressIndicator();
+        });
+    // }
+    // );
   }
 
   Widget _emailField() {
