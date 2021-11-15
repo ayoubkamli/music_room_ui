@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/constant/constant.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/profile/bloc/edit_profile_bloc.dart';
 import 'package:myapp/profile/bloc/edit_profile_event.dart';
 import 'package:myapp/profile/bloc/edit_profile_state.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
+import 'package:myapp/widgets/multi_select_chip.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class EditProfileView extends StatefulWidget {
 
 class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
+  List<String> selectedPrefList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +76,8 @@ class _EditProfileViewState extends State<EditProfileView> {
             children: [
               //
               _emailField(),
+              _usernameField(),
+              _shipSelect(),
             ],
           ),
         ),
@@ -95,6 +100,74 @@ class _EditProfileViewState extends State<EditProfileView> {
             ),
       );
     });
+  }
+
+  Widget _usernameField() {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+      return TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          icon: Icon(Icons.verified_user),
+        ),
+
+        /// validator: (value) => state.isValideEmail ? null,
+        onChanged: (value) => context.read<EditProfileBloc>().add(
+              EditProfileUsernameChanged(username: value),
+            ),
+      );
+    });
+  }
+
+  Widget _shipSelect() {
+    setState(() {
+      //
+    });
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+      builder: (context, state) {
+        return Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Center(
+              child: Column(
+                children: [
+                  ElevatedButton(
+                      onPressed: () => {
+                            _showPrefDialog(),
+                            context.read<EditProfileBloc>().add(
+                                EditProfilePrefsChanged(
+                                    prefs: selectedPrefList))
+                          },
+                      child: Text('add preferences')),
+                  Text(selectedPrefList.join(" , "))
+                ],
+              ),
+            ));
+      },
+    );
+  }
+
+  _showPrefDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Preferences'),
+            content: MultiSelectChip(
+              prefList,
+              selectedPrefList,
+              onSelectionChanged: (selectedList) {
+                setState(() {
+                  selectedPrefList = selectedList;
+                });
+              },
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Add'))
+            ],
+          );
+        });
   }
 
   void _showSnackBar(BuildContext context, String message) {

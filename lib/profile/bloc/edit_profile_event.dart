@@ -3,7 +3,7 @@ abstract class EditProfileEvent {}
 class EditProfileUsernameChanged extends EditProfileEvent {
   final String? username;
 
-  EditProfileUsernameChanged(this.username);
+  EditProfileUsernameChanged({this.username});
 }
 
 class EditProfileEmailChanged extends EditProfileEvent {
@@ -15,7 +15,7 @@ class EditProfileEmailChanged extends EditProfileEvent {
 class EditProfilePrefsChanged extends EditProfileEvent {
   final List<String>? prefs;
 
-  EditProfilePrefsChanged(this.prefs);
+  EditProfilePrefsChanged({this.prefs});
 }
 
 class EditProfileSubmitted extends EditProfileEvent {}
