@@ -5,9 +5,10 @@ import 'package:myapp/profile/bloc/edit_profile_state.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  ProfileRepository repository;
+  ProfileRepository profileRepository;
 
-  EditProfileBloc(this.repository) : super(EditProfileState());
+  EditProfileBloc({required this.profileRepository})
+      : super(EditProfileState());
 
   @override
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {
@@ -22,7 +23,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     }
     if (event is EditProfileSubmitted) {
       try {
-        final response = await repository.editeProfile(
+        final response = await profileRepository.editeProfile(
             state.username, state.email, state.prefs);
         print(response.body.toString());
         yield state.copyWith(formStatus: SubmissionSuccess());

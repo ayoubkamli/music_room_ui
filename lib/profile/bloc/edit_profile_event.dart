@@ -9,7 +9,7 @@ class EditProfileUsernameChanged extends EditProfileEvent {
 class EditProfileEmailChanged extends EditProfileEvent {
   final String? email;
 
-  EditProfileEmailChanged(this.email);
+  EditProfileEmailChanged({this.email});
 }
 
 class EditProfilePrefsChanged extends EditProfileEvent {

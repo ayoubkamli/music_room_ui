@@ -8,6 +8,8 @@ import 'package:myapp/playlists/logic/playlist_cubit.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 
 import 'package:myapp/auth/session_cubit.dart';
+import 'package:myapp/profile/bloc/edit_profile_bloc.dart';
+import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_repository.dart';
 
@@ -41,7 +43,8 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(
           create: (context) => PlaylistRepository(),
         ),
-        RepositoryProvider(create: (context) => SearchRepositoryTracks())
+        RepositoryProvider(create: (context) => SearchRepositoryTracks()),
+        RepositoryProvider(create: (context) => ProfileRepository())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -67,6 +70,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (BuildContext newContext) {
             return SearchBloc(
               searchRepository: newContext.read<SearchRepositoryTracks>(),
+            );
+          }),
+          BlocProvider(create: (BuildContext newContext) {
+            return EditProfileBloc(
+              profileRepository: newContext.read<ProfileRepository>(),
             );
           })
         ],
