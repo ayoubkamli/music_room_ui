@@ -5,13 +5,14 @@ import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/constant/constant.dart';
 
 class EditProfile {
-  final String email;
-  final String username;
-  final List<String> prefs;
+  // final String email;
+  // final String username;
+  // final List<String> prefs;
 
-  EditProfile(this.email, this.username, this.prefs);
+  EditProfile();
 
-  Future<http.Response> editProfile() async {
+  Future<http.Response> editProfileForm(
+      String email, String username, List<String> prefs) async {
     String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
 

@@ -18,4 +18,8 @@ class EditProfilePrefsChanged extends EditProfileEvent {
   EditProfilePrefsChanged({this.prefs});
 }
 
-class EditProfileSubmitted extends EditProfileEvent {}
+class EditProfileFormSubmitted extends EditProfileEvent {}
+
+class EditProfileImageSubmitted extends EditProfileEvent {}
+
+class EditProfilePasswordSubmitted extends EditProfileEvent {}

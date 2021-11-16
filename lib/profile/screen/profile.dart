@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
@@ -18,7 +20,18 @@ class EditProfileView extends StatefulWidget {
 
 class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
+  final UserData profile = UserData();
   List<String> selectedPrefList = [];
+  late Future<Response> res;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   setState(() {
+  //     selectedPrefList = profile.data!.musicPreference!;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +68,11 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   getBody() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [Text('data'), _editProfileForm()],
+    return SingleChildScrollView(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [Text('data'), _editProfileForm()],
+      ),
     );
   }
 
@@ -156,7 +171,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                             _showPrefDialog(),
                             context.read<EditProfileBloc>().add(
                                 EditProfilePrefsChanged(
-                                    prefs: selectedPrefList))
+                                    prefs: selectedPrefList)),
+                            print(ProfileRepository()
+                                .getUserProfile()
+                                .toString()),
                           },
                       child: Text('add preferences')),
                   Text(selectedPrefList.join(" , "))

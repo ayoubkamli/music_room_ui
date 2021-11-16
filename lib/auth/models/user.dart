@@ -18,7 +18,7 @@ class User {
 } 
 */
 
-  List<String?>? musicPreference;
+  List<String>? musicPreference;
   String? status;
   String? visibility;
   bool? isVerified;

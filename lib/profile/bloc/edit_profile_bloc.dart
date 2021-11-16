@@ -21,9 +21,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (event is EditProfilePrefsChanged) {
       yield state.copyWith(prefs: event.prefs);
     }
-    if (event is EditProfileSubmitted) {
+    if (event is EditProfileFormSubmitted) {
       try {
-        final response = await profileRepository.editeProfile(
+        final response = await profileRepository.editeProfileForm(
             state.username, state.email, state.prefs);
         print(response.body.toString());
         yield state.copyWith(formStatus: SubmissionSuccess());

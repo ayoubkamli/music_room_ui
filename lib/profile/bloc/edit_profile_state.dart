@@ -1,4 +1,6 @@
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
+import 'package:myapp/profile/repository/profile_repository.dart';
 
 class EditProfileState {
   String email;
@@ -6,6 +8,8 @@ class EditProfileState {
   List<String> prefs;
 
   final FormSubmissionStatus formStatus;
+
+  Future<UserData> get data => ProfileRepository().getUserProfile();
 
   EditProfileState(
       {this.email = '',
