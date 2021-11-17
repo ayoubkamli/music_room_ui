@@ -6,10 +6,15 @@ class EditProfileState {
   String email;
   String username;
   List<String> prefs;
+  late UserData profile;
 
   final FormSubmissionStatus formStatus;
 
-  Future<UserData> get data => ProfileRepository().getUserProfile();
+  Future<UserData> data() async {
+    UserData res = await ProfileRepository().getUserProfile();
+    profile = res;
+    return res;
+  }
 
   EditProfileState(
       {this.email = '',

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/widgets/future_image.dart';
@@ -22,15 +21,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
   final UserData profile = UserData();
   List<String> selectedPrefList = [];
-  late Future<Response> res;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   setState(() {
-  //     selectedPrefList = profile.data!.musicPreference!;
-  //   });
-  // }
+  late Future<UserData> userProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +59,19 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   getBody() {
-    return SingleChildScrollView(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [Text('data'), _editProfileForm()],
-      ),
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+      builder: (context, state) {
+        // context.read<EditProfileBloc>().add(
+        //     //
+        //     );
+
+        return SingleChildScrollView(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [Text('data'), _editProfileForm()],
+          ),
+        );
+      },
     );
   }
 
@@ -124,63 +123,80 @@ class _EditProfileViewState extends State<EditProfileView> {
   Widget _emailField() {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
-      return TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon(Icons.email),
-        ),
+      return FutureBuilder<UserData>(
+          future: ProfileRepository().getUserProfile(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.email),
+                  hintText: snapshot.data!.data!.email!,
+                ),
 
-        /// validator: (value) => state.isValideEmail ? null,
-        onChanged: (value) => context.read<EditProfileBloc>().add(
-              EditProfileEmailChanged(email: value),
-            ),
-      );
+                /// validator: (value) => state.isValideEmail ? null,
+                onChanged: (value) => context.read<EditProfileBloc>().add(
+                      EditProfileEmailChanged(email: value),
+                    ),
+              );
+            }
+            return const CircularProgressIndicator();
+          });
     });
   }
 
   Widget _usernameField() {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
-      return TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon(Icons.verified_user),
-        ),
+      return FutureBuilder<UserData>(
+          future: ProfileRepository().getUserProfile(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.verified_user),
+                  hintText: snapshot.data!.data!.id!,
+                ),
 
-        /// validator: (value) => state.isValideEmail ? null,
-        onChanged: (value) => context.read<EditProfileBloc>().add(
-              EditProfileUsernameChanged(username: value),
-            ),
-      );
+                /// validator: (value) => state.isValideEmail ? null,
+                onChanged: (value) => context.read<EditProfileBloc>().add(
+                      EditProfileUsernameChanged(username: value),
+                    ),
+              );
+            }
+            return const CircularProgressIndicator();
+          });
     });
   }
 
   Widget _shipSelect() {
-    setState(() {
-      //
-    });
     return BlocBuilder<EditProfileBloc, EditProfileState>(
       builder: (context, state) {
-        return Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () => {
-                            _showPrefDialog(),
-                            context.read<EditProfileBloc>().add(
-                                EditProfilePrefsChanged(
-                                    prefs: selectedPrefList)),
-                            print(ProfileRepository()
-                                .getUserProfile()
-                                .toString()),
-                          },
-                      child: Text('add preferences')),
-                  Text(selectedPrefList.join(" , "))
-                ],
-              ),
-            ));
+        return FutureBuilder<UserData>(
+            future: ProfileRepository().getUserProfile(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () => {
+                                    _showPrefDialog(),
+                                    context.read<EditProfileBloc>().add(
+                                        EditProfilePrefsChanged(
+                                            prefs: selectedPrefList)),
+                                  },
+                              child: Text('add preferences')),
+                          Text(selectedPrefList.join(" , "))
+                        ],
+                      ),
+                    ));
+              }
+              return const CircularProgressIndicator();
+            });
       },
     );
   }

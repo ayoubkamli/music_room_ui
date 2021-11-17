@@ -7,7 +7,7 @@ import 'package:myapp/constant/constant.dart';
 import 'package:myapp/profile/networking/profile_api.dart';
 
 class ProfileRepository {
-  late UserData userData;
+  late UserData userData = UserData();
 
   Future<http.Response> editeProfileForm(
     String username,
@@ -38,6 +38,9 @@ class ProfileRepository {
     print('res ========>>>>>>> ${data.toString()}');
 
     UserData res = UserData.fromJson(data);
+    userData = res;
+
+    print('9999999 ===== ${userData.data!.email.toString()}');
 
     return res;
   }
