@@ -1,5 +1,7 @@
 abstract class EditProfileEvent {}
 
+class EditProfileInitialEvent extends EditProfileEvent {}
+
 class EditProfileUsernameChanged extends EditProfileEvent {
   final String? username;
 

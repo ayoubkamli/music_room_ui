@@ -40,8 +40,6 @@ class ProfileRepository {
     UserData res = UserData.fromJson(data);
     userData = res;
 
-    print('9999999 ===== ${userData.data!.email.toString()}');
-
     return res;
   }
 }

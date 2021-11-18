@@ -64,11 +64,12 @@ class _EditProfileViewState extends State<EditProfileView> {
         // context.read<EditProfileBloc>().add(
         //     //
         //     );
+        context.read<EditProfileBloc>().add(EditProfileInitialEvent());
 
         return SingleChildScrollView(
           child: Stack(
             alignment: Alignment.bottomCenter,
-            children: [Text('data'), _editProfileForm()],
+            children: [_editProfileForm()],
           ),
         );
       },
@@ -93,6 +94,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               _emailField(),
               _usernameField(),
               _shipSelect(),
+              _editEventButton(),
             ],
           ),
         ),
@@ -131,8 +133,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
-                  hintText: snapshot.data!.data!.email!,
+                  // hintText: snapshot.data!.data!.email!,
                 ),
+                initialValue: snapshot.data!.data!.email!,
 
                 /// validator: (value) => state.isValideEmail ? null,
                 onChanged: (value) => context.read<EditProfileBloc>().add(
@@ -156,8 +159,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   icon: Icon(Icons.verified_user),
-                  hintText: snapshot.data!.data!.id!,
+                  // hintText: snapshot.data!.data!.id!,
                 ),
+                initialValue: snapshot.data!.data!.id,
 
                 /// validator: (value) => state.isValideEmail ? null,
                 onChanged: (value) => context.read<EditProfileBloc>().add(
@@ -223,6 +227,38 @@ class _EditProfileViewState extends State<EditProfileView> {
             ],
           );
         });
+  }
+
+  Widget _editEventButton() {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+      return state.formStatus is FormSubmitting
+          ? CircularProgressIndicator()
+          : Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: BorderSide(color: Colors.green),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<EditProfileBloc>().add(
+                          EditProfilePrefsChanged(prefs: selectedPrefList));
+                      context
+                          .read<EditProfileBloc>()
+                          .add(EditProfileFormSubmitted());
+                    }
+                  },
+                  child: Text('Edit Event')),
+            );
+    });
   }
 
   void _showSnackBar(BuildContext context, String message) {

@@ -12,7 +12,7 @@ class EditProfile {
   EditProfile();
 
   Future<http.Response> editProfileForm(
-      String email, String username, List<String> prefs) async {
+      String username, String email, List<String> prefs) async {
     String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
 

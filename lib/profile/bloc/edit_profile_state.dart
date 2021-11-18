@@ -18,7 +18,7 @@ class EditProfileState {
 
   EditProfileState(
       {this.email = '',
-      this.username = '',
+      this.username = 'test from state',
       this.prefs = const [],
       this.formStatus = const InitialFormStatus()});
 
