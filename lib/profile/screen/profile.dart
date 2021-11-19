@@ -9,9 +9,11 @@ import 'package:myapp/profile/bloc/edit_profile_event.dart';
 import 'package:myapp/profile/bloc/edit_profile_state.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
+import 'package:myapp/widgets/uplaod_profile_photo.dart';
 
 class EditProfileView extends StatefulWidget {
-  const EditProfileView({Key? key}) : super(key: key);
+  final UserData? data;
+  const EditProfileView({Key? key, required this.data}) : super(key: key);
 
   @override
   _EditProfileViewState createState() => _EditProfileViewState();
@@ -22,6 +24,14 @@ class _EditProfileViewState extends State<EditProfileView> {
   final UserData profile = UserData();
   List<String> selectedPrefList = [];
   late Future<UserData> userProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.data!.data!.musicPreference != null) {
+      selectedPrefList = widget.data!.data!.musicPreference!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +90,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
+        // final profile = state.profile;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
         }
@@ -90,11 +101,12 @@ class _EditProfileViewState extends State<EditProfileView> {
           padding: EdgeInsets.all(40.0),
           child: Column(
             children: [
-              _imageProfile(),
+              _showImageProfile(),
+              _editImageButton(),
               _emailField(),
               _usernameField(),
               _shipSelect(),
-              _editEventButton(),
+              _saveSettingButton(),
             ],
           ),
         ),
@@ -102,10 +114,21 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Widget _imageProfile() {
+  Widget _showImageProfile() {
+    return FutureBuilder<UserData>(
+        future: ProfileRepository().getUserProfile(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return _imageProfile(snapshot.data!.data!.picture);
+          }
+          return CircularProgressIndicator();
+        });
+  }
+
+  Widget _imageProfile(String? url) {
     // return BlocBuilder(builder: (context, state) {
     return FutureBuilder<String>(
-        future: getImageUrl(imageUrl),
+        future: getImageUrl(url),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(
@@ -118,8 +141,22 @@ class _EditProfileViewState extends State<EditProfileView> {
           }
           return CircularProgressIndicator();
         });
-    // }
-    // );
+    // });
+  }
+
+  Widget _editImageButton() {
+    return TextButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => UploadProfilePhoto(
+                        title: 'upload photo',
+                        apiUrl: '$photoProfileUrl',
+                        id: '',
+                      )));
+        },
+        child: Text('edit image'));
   }
 
   Widget _emailField() {
@@ -163,7 +200,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 ),
                 initialValue: snapshot.data!.data!.id,
 
-                /// validator: (value) => state.isValideEmail ? null,
+                // validator: (value) => state.isValideEmail ? null,
                 onChanged: (value) => context.read<EditProfileBloc>().add(
                       EditProfileUsernameChanged(username: value),
                     ),
@@ -229,7 +266,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         });
   }
 
-  Widget _editEventButton() {
+  Widget _saveSettingButton() {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
       return state.formStatus is FormSubmitting
@@ -256,7 +293,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                           .add(EditProfileFormSubmitted());
                     }
                   },
-                  child: Text('Edit Event')),
+                  child: Text('Save Settings')),
             );
     });
   }

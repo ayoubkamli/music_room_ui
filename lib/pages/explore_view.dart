@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
+import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/profile/screen/profile.dart';
 
 class ExploreView extends StatefulWidget {
@@ -98,7 +100,15 @@ class _ExploreViewState extends State<ExploreView> {
         ///     ),
         ///   ),
         /// )
-        EditProfileView()
+        FutureBuilder<UserData>(
+          future: ProfileRepository().getUserProfile(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return EditProfileView(data: snapshot.data);
+            }
+            return CircularProgressIndicator();
+          },
+        ),
       ],
     );
   }

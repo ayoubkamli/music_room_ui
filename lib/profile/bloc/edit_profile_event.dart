@@ -22,6 +22,6 @@ class EditProfilePrefsChanged extends EditProfileEvent {
 
 class EditProfileFormSubmitted extends EditProfileEvent {}
 
-class EditProfileImageSubmitted extends EditProfileEvent {}
+// class EditProfileImageSubmitted extends EditProfileEvent {}
 
 class EditProfilePasswordSubmitted extends EditProfileEvent {}

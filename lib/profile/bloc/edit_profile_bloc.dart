@@ -12,16 +12,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   @override
   Stream<EditProfileState> mapEventToState(EditProfileEvent event) async* {
-    // if (event is EditProfileInitialEvent) {
-    //   print('\n*************state email ${state.email}');
-    //   final UserData data = await ProfileRepository().getUserProfile();
-    //   yield (state.copyWith(
-    //     email: data.data!.email,
-    //     prefs: data.data!.musicPreference,
-    //     // username: data.data!.username,
-    //   ));
-    //   print('\n***************state email ${state.email}');
-    // }
     if (event is EditProfileEmailChanged) {
       yield state.copyWith(email: event.email);
     }

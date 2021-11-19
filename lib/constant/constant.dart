@@ -10,6 +10,7 @@ final Uri userDataUrl = Uri.parse('http://$ip/api/me');
 final Uri forgotPasswordUrl = Uri.parse('http://$ip/api/password/forgot');
 final Uri forgotPasswordResetUrl = Uri.parse('http://$ip/api/password/change');
 final Uri editProfileUrl = Uri.parse('http://$ip/api/profile/edit');
+
 // final Uri searchTracksUrl = Uri.parse(
 //     'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');
 
@@ -17,6 +18,7 @@ final String searchTrackUrl = 'http://$ip/api/tracks/search?name=';
 
 final String imageUrl =
     'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
+final String photoProfileUrl = 'http://$ip/api/profile/upload';
 
 final List<String> prefList = ["POP", "R&B", "HIP HOP", "JAZZ", "K-POP"];
 
