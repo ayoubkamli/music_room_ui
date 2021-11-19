@@ -47,7 +47,7 @@ class GetAllEvents {
     String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
 
-    print('fetch all event was called');
+    // print('fetch all event was called');
     try {
       response = await http.get(
         eventUrl,
@@ -61,7 +61,7 @@ class GetAllEvents {
       throw Error();
     }
 
-    print('response to string : ${response.body.toString()}');
+    // print('response to string : ${response.body.toString()}');
     /*  print(
         'response of fetch event body: ${response.body} code: ${response.statusCode}'); */
     return response;
@@ -77,7 +77,7 @@ class GetMyEvents {
     String? token = await MyToken().getToken();
     String? bearerToken = 'Bearer: $token';
     late http.Response response;
-    print('fetch My  events was called' + bearerToken);
+    // print('fetch My  events was called' + bearerToken);
 
     try {
       response = await http.get(
@@ -88,10 +88,11 @@ class GetMyEvents {
         },
       );
     } catch (e) {
-      print('yooooo' + e.toString());
+      // print('yooooo' + e.toString());
+      throw (e);
     }
-    print(
-        'fffffffffffffffff f f f f f f fresponse of fetch event body: ${response.body} code: ${response.statusCode}');
+    // print(
+    // 'fffffffffffffffff f f f f f f fresponse of fetch event body: ${response.body} code: ${response.statusCode}');
     return response;
   }
 }
@@ -103,7 +104,7 @@ class GetEvent {
 
     String eventId = '';
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId');
-    print('fetch single event was called');
+    // print('fetch single event was called');
 
     final response = await http.get(
       eventIdUrl,
@@ -138,8 +139,8 @@ class EditEvent {
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$id');
 
-    print('editEvent was called ${eventIdUrl.toString()}');
-    print('editEvent was data $name $desc $musicPreference $visibility');
+    // print('editEvent was called ${eventIdUrl.toString()}');
+    // print('editEvent was data $name $desc $musicPreference $visibility');
 
     final response = await http.put(
       eventIdUrl,
@@ -188,7 +189,7 @@ class AddTrackToEvent {
     String? bearerToken = 'Bearer: $token';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
-    print('add track to event was called');
+    // print('add track to event was called');
 
     final response = await http.post(eventIdUrl,
         headers: <String, String>{
@@ -199,8 +200,8 @@ class AddTrackToEvent {
           "trackId": '$trackId',
         }));
 
-    print('this is the response body from add track to event api below');
-    print(response.body.toString());
+    // print('this is the response body from add track to event api below');
+    // print(response.body.toString());
     print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
 
     return response;
@@ -213,7 +214,7 @@ class RemoveTrackFromEvent {
     String? bearerToken = 'Bearer: $token';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
-    print('add track to event was called');
+    // print('add track to event was called');
 
     final response = await http.delete(eventIdUrl,
         headers: <String, String>{
@@ -224,9 +225,9 @@ class RemoveTrackFromEvent {
           "trackId": '$trackId',
         }));
 
-    print('this is the response body from remove track to event api below');
-    print(response.body.toString());
-    print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
+    // print('this is the response body from remove track to event api below');
+    // print(response.body.toString());
+    // print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
 
     return response;
   }

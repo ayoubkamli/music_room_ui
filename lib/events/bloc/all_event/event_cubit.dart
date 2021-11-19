@@ -11,9 +11,9 @@ class EventCubit extends Cubit<EventState> {
   }
 
   Future<void> getAllEvents() async {
-    print('get all event called');
+    // print('get all event called');
     try {
-      print('trying to laoding state');
+      // print('trying to laoding state');
       emit(LoadingState());
       final events = await eventRepository.getEvents();
       //print(events.statusCode);

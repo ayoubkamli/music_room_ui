@@ -11,13 +11,13 @@ class EventRepository {
     final response =
         await CreateEvent(name, description, selectedPrefList, eventStatus)
             .createEvent();
-    print('response status code from -event repo-' +
-        response.statusCode.toString());
+    // print('response status code from -event repo-' +
+    //     response.statusCode.toString());
     return response;
   }
 
   Future<http.Response> getEvents() async {
-    print('get event from repos was called');
+    // print('get event from repos was called');
     final response = await GetAllEvents().fetchAllEvents();
     // print('response from get event in repo ${jsonDecode(response.body)}');
     return response;

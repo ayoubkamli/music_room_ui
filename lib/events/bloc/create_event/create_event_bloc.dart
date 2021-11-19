@@ -25,9 +25,9 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
     } else if (event is CreateEventPrefChanged) {
       yield state.copyWith(selectedPrefList: event.prefs);
     } else if (event is CreateEventSubmitted) {
-      print('Create event submmited from create event bloc.');
+      // print('Create event submmited from create event bloc.');
       yield state.copyWith(formStatus: FormSubmitting());
-      print('Create event formStatus: FormSubmitting()from create event bloc.');
+      // print('Create event formStatus: FormSubmitting()from create event bloc.');
       try {
         final response = await repository.createEvent(
           state.name,
@@ -35,7 +35,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
           state.selectedPrefList,
           state.eventStatus,
         );
-        print('look at this ************ +${response.statusCode}');
+        // print('look at this ************ +${response.statusCode}');
         if (response.statusCode == 200) {
           // emit(CreateEventUploadphoto(eventId));
           state.copyWith(
@@ -47,14 +47,14 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
           CreateEventUploadphoto(jsonDecode(response.body).toString());
           yield state.copyWith(
               data: UploadPhotoModel.fromJson(jsonDecode(response.body)));
-          print('response from state ${state.data}');
+          // print('response from state ${state.data}');
           yield state.copyWith(formStatus: SubmissionSuccess());
           yield state.copyWith(formStatus: InitialFormStatus());
         } else {
           throw Exception();
         }
 
-        print('respnose 00000000 ==== ${response.statusCode}');
+        // print('respnose 00000000 ==== ${response.statusCode}');
       } catch (e) {
         yield state.copyWith(
             formStatus: SubmissionFailed('Some things went wrong'));

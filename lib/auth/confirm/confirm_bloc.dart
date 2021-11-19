@@ -32,7 +32,7 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
           confirmationCode: state.code,
         );
 
-        print('\n ************************************* \n');
+        // print('\n ************************************* \n');
 
         print(response.body.toString());
         yield state.copyWith(formStatus: SubmissionSuccess());
@@ -48,7 +48,7 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
           String token = data['data']['token'];
           prefs.setString('Token', token);
-          print('credentilas are => $data');
+          // print('credentilas are => $data');
           if (data["success"] == true) authCubit.launchSession(credentials);
         }
       } catch (e) {

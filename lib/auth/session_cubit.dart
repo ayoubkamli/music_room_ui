@@ -20,7 +20,7 @@ class SessionCubit extends Cubit<SessionState> {
     try {
       final response = await authRepo.attemptAutoLogin();
       //final user = dataRepo.getUser(userId);
-      print('attemp auth from session_cubit' + response);
+      // print('attemp auth from session_cubit' + response);
       if (response == 'loggedIn') {
         final String? token = MyToken().getToken().toString();
         String bearerToken = 'Bearer $token';
@@ -29,8 +29,8 @@ class SessionCubit extends Cubit<SessionState> {
           'Authorization': '$bearerToken',
         });
         print('user data from user profile ' + userData.body.toString());
-        print('user response from user profile ' +
-            userData.statusCode.toString());
+        // print('user response from user profile ' +
+            // userData.statusCode.toString());
         final User user = User.fromJson(jsonDecode(userData.body));
         emit(Authenticated(user));
       } else {
@@ -53,6 +53,6 @@ class SessionCubit extends Cubit<SessionState> {
     authRepo.signOut();
     emit(Unauthenticated());
     showAuth();
-    print('signout from session cubit was called');
+    // print('signout from session cubit was called');
   }
 }

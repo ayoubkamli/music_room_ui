@@ -35,12 +35,12 @@ class TrackEventCubit extends Cubit<TrackEventState> {
         await RemoveTrackFromEvent().removeTrackToEvent(eventId, trackId);
 
     if (response.statusCode == 200) {
-      print('ok ${response.statusCode}');
-      print('\n ${response.body.toString()}');
+      // print('ok ${response.statusCode}');
+      // print('\n ${response.body.toString()}');
       return true;
     }
 
-    print('status code from the event api ${response.statusCode}');
+    // print('status code from the event api ${response.statusCode}');
     return false;
   }
 }

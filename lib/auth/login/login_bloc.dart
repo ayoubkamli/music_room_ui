@@ -38,7 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           state.password,
         );
         final data = jsonDecode(userData.body);
-        print('this is the user data from login $data');
+        // print('this is the user data from login $data');
         if (data['success'] == true) {
           user = User.fromJson(data['data']);
         }

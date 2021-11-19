@@ -25,9 +25,9 @@ class ForgotPasswordBloc
         ///
         final response = await authRepo.forgotPassword(state.email!);
         var data = jsonDecode(response.body);
-        print('response from forgotPasssword bloc ${response.body}');
+        // print('response from forgotPasssword bloc ${response.body}');
         if (data['success']) {
-          print('this is ok ');
+          // print('this is ok ');
           authCubit.emit(AuthState.forgotPasswordReset);
         }
       } catch (e) {

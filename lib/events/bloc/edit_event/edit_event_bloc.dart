@@ -29,9 +29,9 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
     } else if (event is EditEventPrefChanged) {
       yield state.copyWith(selectedPrefList: event.prefs);
     } else if (event is EditEventSubmitted) {
-      print('Edit event submmited from Edit event bloc.');
+      // print('Edit event submmited from Edit event bloc.');
       yield state.copyWith(formStatus: FormSubmitting());
-      print('Edit event formStatus: FormSubmitting()from Edit event bloc.');
+      // print('Edit event formStatus: FormSubmitting()from Edit event bloc.');
       try {
         final response = await repository.editEvent(
           state.name,
@@ -40,8 +40,8 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
           state.eventStatus,
           state.id,
         );
-        print('look at this edit event ************ +${response.statusCode}');
-        print('look at this edit event ************ +${response.body}');
+        // print('look at this edit event ************ +${response.statusCode}');
+        // print('look at this edit event ************ +${response.body}');
         if (response.statusCode == 200) {
           // emit(EditEventUploadphoto(eventId));
           // state.copyWith(
@@ -53,14 +53,14 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
           EditEventUploadphoto(jsonDecode(response.body).toString());
           yield state.copyWith(
               data: UploadPhotoModel.fromJson(jsonDecode(response.body)));
-          print('response from state ${state.data}');
+          // print('response from state ${state.data}');
           yield state.copyWith(formStatus: SubmissionSuccess());
           yield state.copyWith(formStatus: InitialFormStatus());
         } else {
           throw Exception();
         }
 
-        print('respnose 00000000 ==== ${response.statusCode}');
+        // print('respnose 00000000 ==== ${response.statusCode}');
       } catch (e) {
         yield state.copyWith(
             formStatus: SubmissionFailed('Some things went wrong'));

@@ -14,7 +14,7 @@ class CreateUser {
   CreateUser(this.password, this.email);
 
   Future<http.Response> createUser() async {
-    print('trying to create user');
+    // print('trying to create user');
     final response = await http.post(
       registerUrl,
       headers: <String, String>{
@@ -71,7 +71,7 @@ class ForgotPasswordReset {
   ForgotPasswordReset(this.confirmationCode, this.newPassword);
 
   Future<http.Response> resetForgotPassword() async {
-    print('\n 8888888888888888 resetForgotPassword 8888888888888 \n ');
+    // print('\n 8888888888888888 resetForgotPassword 8888888888888 \n ');
     // String? token = await MyToken().getToken();
     // String bearerToken = 'Bearer $token';
 
@@ -88,11 +88,11 @@ class ForgotPasswordReset {
         },
       ),
     );
-    print(
-        'Confirmation code in confirmSignUp $confirmationCode , $newPassword');
-    print(
-        '\n 8888888888888888 auth api Forgot password response body 8888888888888 \n ');
-    print(response.body.toString());
+    // print(
+    //     'Confirmation code in confirmSignUp $confirmationCode , $newPassword');
+    // print(
+    //     '\n 8888888888888888 auth api Forgot password response body 8888888888888 \n ');
+    // print(response.body.toString());
     return response;
   }
 }
@@ -104,7 +104,7 @@ class LoginUser {
   LoginUser(this.password, this.email);
 
   Future<http.Response> loginUser() async {
-    print('trying to login user $email - $password');
+    // print('trying to login user $email - $password');
     final response = await http.post(
       loginUrl,
       headers: <String, String>{
@@ -126,7 +126,7 @@ class ForgotPassword {
   ForgotPassword(this.email);
 
   Future<http.Response> sendCode() async {
-    print('trying to forgot password user $email');
+    // print('trying to forgot password user $email');
     final response = await http.post(
       forgotPasswordUrl,
       headers: <String, String>{
@@ -149,7 +149,7 @@ class LogOut {
     /// String? token = prefs.getString('Token');
     String? token = await MyToken().getToken();
     String bearerToken = 'Bearer $token';
-    print('logout function in api called');
+    // print('logout function in api called');
     final response = await http.post(
       logoutUrl,
       headers: <String, String>{
@@ -157,7 +157,7 @@ class LogOut {
       },
     );
     print(response.body.toString());
-    print(response.statusCode.toString());
+    // print(response.statusCode.toString());
     MyToken().clearToken();
   }
 }

@@ -22,14 +22,14 @@ class AuthRepository {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': '$bearerToken',
       });
-      print('user data from user profile ' + response.body.toString());
-      print(
-          'user response from user profile ' + response.statusCode.toString());
+      // print('user data from user profile ' + response.body.toString());
+      // print(
+      //     'user response from user profile ' + response.statusCode.toString());
       if (response.statusCode == 200) {
-        print('200');
+        // print('200');
         return 'loggedIn';
       } else {
-        print('400');
+        // print('400');
         return 'invalide';
       }
     } catch (e) {
