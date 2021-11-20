@@ -28,4 +28,21 @@ class EditProfile {
         }));
     return response;
   }
+
+  Future<http.Response> changePassword(
+      String oldPassword, String newPassword) async {
+    String? token = await MyToken().getToken();
+    String bearerToken = 'Bearer $token';
+
+    final response = await http.put(changePasswordUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': '$bearerToken',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "oldPassword": '$oldPassword',
+          "newPassword": "$newPassword",
+        }));
+    return response;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:myapp/auth/models/user.dart';
+import 'package:myapp/auth/utils/MyValidator.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 
@@ -7,6 +8,10 @@ class EditProfileState {
   String username;
   List<String> prefs;
   late UserData profile;
+  String oldPassword;
+
+  final String newPassword;
+  bool get isValidPassword => MyInputValidator().isPasswordValid(newPassword);
 
   final FormSubmissionStatus formStatus;
 
@@ -17,10 +22,19 @@ class EditProfileState {
   }
 
   EditProfileState(
-      {this.email = '',
+      {this.newPassword = '',
+      this.oldPassword = '',
+      this.email = '',
       this.username = 'test from state',
       this.prefs = const [],
       this.formStatus = const InitialFormStatus()});
+
+  EditProfileState copyPasswordWith(
+      {String? newPassword, String? oldPassword}) {
+    return EditProfileState(
+        newPassword: newPassword ?? this.newPassword,
+        oldPassword: oldPassword ?? this.oldPassword);
+  }
 
   EditProfileState copyWith({
     String? email,

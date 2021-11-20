@@ -107,6 +107,9 @@ class _EditProfileViewState extends State<EditProfileView> {
               _usernameField(),
               _shipSelect(),
               _saveSettingButton(),
+              _oldPasswordField(),
+              _newPasswordField(),
+              _changePasswordButton(),
             ],
           ),
         ),
@@ -296,6 +299,63 @@ class _EditProfileViewState extends State<EditProfileView> {
                   child: Text('Save Settings')),
             );
     });
+  }
+
+  Widget _oldPasswordField() {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+      return TextFormField(
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
+        decoration:
+            InputDecoration(icon: Icon(Icons.security), hintText: 'Password'),
+        // validator: (value) => state.isValidPassword ? null : 'Invalid password',
+        onChanged: (value) => context
+            .read<EditProfileBloc>()
+            .add(EditProfileOldPasswordChanged(oldPassword: value)),
+      );
+    });
+  }
+
+  Widget _newPasswordField() {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+      return TextFormField(
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
+        decoration:
+            InputDecoration(icon: Icon(Icons.security), hintText: 'Password'),
+        validator: (value) => state.isValidPassword ? null : 'Invalid password',
+        onChanged: (value) => context
+            .read<EditProfileBloc>()
+            .add(EditProfileNewPasswordChanged(newPassword: value)),
+      );
+    });
+  }
+
+  Widget _changePasswordButton() {
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+      return state.formStatus is FormSubmitting
+          ? CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  context
+                      .read<EditProfileBloc>()
+                      .add(EditProfilePasswordSubmitted());
+                } else {
+                  _showErrorText(context);
+                }
+              },
+              child: Text('Sign Up'));
+    });
+  }
+
+  Widget _showErrorText(BuildContext context) {
+    return Container(
+      child: Text('error'),
+    );
   }
 
   void _showSnackBar(BuildContext context, String message) {

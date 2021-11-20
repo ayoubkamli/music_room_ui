@@ -24,4 +24,16 @@ class EditProfileFormSubmitted extends EditProfileEvent {}
 
 // class EditProfileImageSubmitted extends EditProfileEvent {}
 
+class EditProfileOldPasswordChanged extends EditProfileEvent {
+  final String? oldPassword;
+
+  EditProfileOldPasswordChanged({required this.oldPassword});
+}
+
+class EditProfileNewPasswordChanged extends EditProfileEvent {
+  final String? newPassword;
+
+  EditProfileNewPasswordChanged({required this.newPassword});
+}
+
 class EditProfilePasswordSubmitted extends EditProfileEvent {}

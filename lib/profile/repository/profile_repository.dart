@@ -19,6 +19,15 @@ class ProfileRepository {
     return response;
   }
 
+  Future<String> changePassword(String oldPassword, String newPassword) async {
+    final response =
+        await EditProfile().changePassword(oldPassword, newPassword);
+    if (response.statusCode == 200) {
+      return ('Password changed with success');
+    }
+    return 'Some thing went wrong try again';
+  }
+
   // getUser() async {
   //   userData = await getUserProfile();
   //   print('email from edit profile \n ------ --- - ${userData.data!.email}');

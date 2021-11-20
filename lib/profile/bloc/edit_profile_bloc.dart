@@ -33,5 +33,18 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         print(e.toString());
       }
     }
+    if (event is EditProfileNewPasswordChanged) {
+      yield state.copyPasswordWith(newPassword: event.newPassword);
+    }
+    if (event is EditProfileOldPasswordChanged) {
+      yield state.copyPasswordWith(oldPassword: event.oldPassword);
+    }
+    if (event is EditProfilePasswordSubmitted) {
+      try {
+        var response = await ProfileRepository()
+            .changePassword(state.oldPassword, state.newPassword);
+        print(response.toString());
+      } catch (e) {}
+    }
   }
 }
