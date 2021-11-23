@@ -27,6 +27,7 @@ class User {
   String? password;
   String? token;
   String? picture;
+  String? username;
 
   User({
     this.musicPreference,
@@ -34,6 +35,7 @@ class User {
     this.visibility,
     this.isVerified,
     this.id,
+    this.username,
     this.email,
     this.password,
     this.token,
@@ -50,6 +52,7 @@ class User {
     }
     status = json["status"]?.toString();
     visibility = json["visibility"]?.toString();
+    username = json["username"]?.toString();
     isVerified = json["isVerified"];
     id = json["_id"]?.toString();
     email = json["email"]?.toString();
@@ -69,6 +72,7 @@ class User {
     }
     data["status"] = status;
     data["visibility"] = visibility;
+    data["usernmae"] = username;
     data["isVerified"] = isVerified;
     data["_id"] = id;
     data["email"] = email;

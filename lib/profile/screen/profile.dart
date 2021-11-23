@@ -195,13 +195,26 @@ class _EditProfileViewState extends State<EditProfileView> {
           future: ProfileRepository().getUserProfile(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.data!.username == null) {
+                return TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.verified_user),
+                    hintText: 'username',
+                  ),
+                  // validator: (value) => state.isValideEmail ? null,
+                  onChanged: (value) => context.read<EditProfileBloc>().add(
+                        EditProfileUsernameChanged(username: value),
+                      ),
+                );
+              }
               return TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   icon: Icon(Icons.verified_user),
                   // hintText: snapshot.data!.data!.id!,
                 ),
-                initialValue: snapshot.data!.data!.id,
+                initialValue: snapshot.data!.data!.username,
 
                 // validator: (value) => state.isValideEmail ? null,
                 onChanged: (value) => context.read<EditProfileBloc>().add(

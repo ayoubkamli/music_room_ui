@@ -7,9 +7,9 @@ import 'package:myapp/events/bloc/edit_event/edit_event_bloc.dart';
 import 'package:myapp/events/bloc/edit_event/edit_event_event.dart';
 import 'package:myapp/events/bloc/edit_event/edite_event_state.dart';
 import 'package:myapp/events/models/event_model.dart';
+import 'package:myapp/events/models/song_model.dart';
 
 import 'package:myapp/events/repositories/event_repository.dart';
-import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
 
@@ -73,104 +73,122 @@ class _EditEventViewState extends State<EditEventView> {
 
   Widget _editEventForm() {
     return BlocListener<EditEventBloc, EditEventState>(
-      listener: (context, state) {
-        final formStatus = state.formStatus;
-        if (formStatus is SubmissionFailed) {
-          _showSnackBar(context, formStatus.exception.toString());
-        } else if (formStatus is SubmissionSuccess) {
-          _showSnackBar(context, 'Event edited with success');
-          _formKey.currentState!.reset();
-          print(
-              'form status is submissionSuccess from create_event_view ${state.data}');
-          setState(() {
-            selectedPrefList = [];
-          });
-          //   Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) =>
-          //               UploadPhoto(title: 'upload photo', data: state.data!)));
+        listener: (context, state) {
+          final formStatus = state.formStatus;
+          if (formStatus is SubmissionFailed) {
+            _showSnackBar(context, formStatus.exception.toString());
+          } else if (formStatus is SubmissionSuccess) {
+            _showSnackBar(context, 'Event edited with success');
+            _formKey.currentState!.reset();
+            print(
+                'form status is submissionSuccess from create_event_view ${state.data}');
+            setState(() {
+              selectedPrefList = [];
+            });
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) =>
+            //               UploadPhoto(title: 'upload photo', data: state.data!)));
 
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AllEventsView()));
-        }
-      },
-      child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.all(40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _nameField(),
-                _descriptionField(),
-                _switchButton(),
-                _shipSelect(),
-                _editEventButton(),
-              ],
-            ),
-          )),
-    );
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => AllEventsView()));
+          }
+        },
+        child: form());
+  }
+
+  Widget form() {
+    return Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.all(40.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _nameField(),
+              _descriptionField(),
+              _switchButton(),
+              _shipSelect(),
+              _editEventButton(),
+            ],
+          ),
+        ));
   }
 
   Widget _nameField() {
-    return BlocBuilder<EditEventBloc, EditEventState>(
-        builder: (context, state) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: TextFormField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderSide: BorderSide()),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black)),
-            // icon: Icon(
-            //   Icons.music_note,
-            //   color: Colors.green,
-            // ),
-            labelText: 'Event name',
-            labelStyle: TextStyle(color: Colors.green),
-            hintText: 'Event name',
-            // hintStyle: TextStyle(color: Colors.black),
-          ),
-          initialValue: widget.data.name,
-          autofocus: true,
-          validator: (value) =>
-              state.isEventNameValid ? null : 'Invalid event name',
-          onChanged: (value) => context.read<EditEventBloc>().add(
-                EditEventNameChanged(name: value),
-              ),
-        ),
-      );
-    });
+    return FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<EditEventBloc, EditEventState>(
+                builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                    // icon: Icon(
+                    //   Icons.music_note,
+                    //   color: Colors.green,
+                    // ),
+                    labelText: 'Event name',
+                    labelStyle: TextStyle(color: Colors.green),
+                    hintText: 'Event name',
+                    // hintStyle: TextStyle(color: Colors.black),
+                  ),
+                  initialValue: snapshot.data!.data.name,
+                  autofocus: true,
+                  validator: (value) =>
+                      state.isEventNameValid ? null : 'Invalid event name',
+                  onChanged: (value) => context.read<EditEventBloc>().add(
+                        EditEventNameChanged(name: value),
+                      ),
+                ),
+              );
+            });
+          }
+          return CircularProgressIndicator();
+        });
   }
 
   Widget _descriptionField() {
-    return BlocBuilder<EditEventBloc, EditEventState>(
-        builder: (context, state) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: TextFormField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide()),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              // icon: Icon(
-              //   Icons.music_video,
-              //   color: Colors.green,
-              // ),
-              labelText: 'Event Description',
-              labelStyle: TextStyle(color: Colors.green),
-              hintText: 'Description'),
-          // controller: TextEditingController()..text = widget.data.desc,
-          initialValue: widget.data.desc,
-          validator: (value) =>
-              state.isEventDescriptionValid ? null : 'Invalid description',
-          onChanged: (value) => context
-              .read<EditEventBloc>()
-              .add(EditEventDescriptionChanged(description: value)),
-        ),
-      );
-    });
+    return FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<EditEventBloc, EditEventState>(
+                builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(borderSide: BorderSide()),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      // icon: Icon(
+                      //   Icons.music_video,
+                      //   color: Colors.green,
+                      // ),
+                      labelText: 'Event Description',
+                      labelStyle: TextStyle(color: Colors.green),
+                      hintText: 'Description'),
+                  // controller: TextEditingController()..text = widget.data.desc,
+                  initialValue: snapshot.data!.data.desc,
+                  validator: (value) => state.isEventDescriptionValid
+                      ? null
+                      : 'Invalid description',
+                  onChanged: (value) => context
+                      .read<EditEventBloc>()
+                      .add(EditEventDescriptionChanged(description: value)),
+                ),
+              );
+            });
+          }
+          return CircularProgressIndicator();
+        });
   }
 
   Widget _editEventButton() {
@@ -211,45 +229,52 @@ class _EditEventViewState extends State<EditEventView> {
     setState(() {
       selectedPrefList = widget.data.musicPreference!;
     });
-    return BlocBuilder<EditEventBloc, EditEventState>(
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Center(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: BorderSide(color: Colors.green),
-                      ),
+    return FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<EditEventBloc, EditEventState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(color: Colors.green),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Add preferences',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () => {
+                            _showPrefDialog(),
+                            context.read<EditEventBloc>().add(
+                                EditEventPrefChanged(prefs: selectedPrefList))
+                          },
+                        ),
+                        Text(selectedPrefList.join(" , ")),
+                      ],
                     ),
                   ),
-                  child: Text(
-                    'Add preferences',
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () => {
-                    _showPrefDialog(),
-                    context
-                        .read<EditEventBloc>()
-                        .add(EditEventPrefChanged(prefs: selectedPrefList))
-                  },
-                ),
-                Text(selectedPrefList.join(" , ")),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                );
+              },
+            );
+          }
+          return CircularProgressIndicator();
+        });
   }
 
   _showPrefDialog() {
@@ -285,42 +310,47 @@ class _EditEventViewState extends State<EditEventView> {
         isSwitched = false;
       }
     });
-    return BlocBuilder<EditEventBloc, EditEventState>(
-      builder: (context, state) {
-        return Container(
-          padding: EdgeInsets.only(top: 10, bottom: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                visibilityText,
-              ),
-              Switch(
-                value: isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    isSwitched = value;
-                    if (isSwitched == true) {
-                      visibilityText = 'Public Event ';
-                      context
-                          .read<EditEventBloc>()
-                          .add(EditEventStatusChanged(status: 'public'));
-                    } else {
-                      visibilityText = 'Private Event';
-                      context
-                          .read<EditEventBloc>()
-                          .add(EditEventStatusChanged(status: 'private'));
-                    }
-                  });
-                },
-                activeTrackColor: Colors.lightGreenAccent,
-                activeColor: Colors.green,
-              ),
-            ],
-          ),
-        );
-      },
-    );
+    return FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<EditEventBloc, EditEventState>(
+              builder: (context, state) {
+                return Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        visibilityText,
+                      ),
+                      Switch(
+                        value: isSwitched,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched = value;
+                            if (isSwitched == true) {
+                              visibilityText = 'Public Event ';
+                              context.read<EditEventBloc>().add(
+                                  EditEventStatusChanged(status: 'public'));
+                            } else {
+                              visibilityText = 'Private Event';
+                              context.read<EditEventBloc>().add(
+                                  EditEventStatusChanged(status: 'private'));
+                            }
+                          });
+                        },
+                        activeTrackColor: Colors.lightGreenAccent,
+                        activeColor: Colors.green,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+          return CircularProgressIndicator();
+        });
   }
 
   void _showSnackBar(BuildContext context, String message) {
