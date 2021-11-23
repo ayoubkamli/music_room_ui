@@ -13,6 +13,12 @@ class MyToken {
     return prefs.getString("Token").toString();
   }
 
+  Future<String>? getBearerToken() async {
+    String? token = await getToken();
+    String bearerToken = 'Bearer: $token';
+    return bearerToken;
+  }
+
   clearToken() async {
     SharedPreferences prefs = await _prefs;
     prefs.clear();

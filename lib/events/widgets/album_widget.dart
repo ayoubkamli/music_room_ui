@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/events/models/song_model.dart';
+import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/screens/track_screen.dart';
 
 Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
@@ -8,7 +8,7 @@ Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
 
   //SongModel item = SongModel.fromJson(data);
 
-  AlbumModel item = AlbumModel.fromJson(data);
+  AlbumModelOld item = AlbumModelOld.fromJson(data);
 
   print("item  $item");
   return Navigator.push(

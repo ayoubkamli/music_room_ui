@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/bloc/track_event/manage_track_event_cubit.dart';
 import 'package:myapp/events/bloc/track_event/mange_track_event_state.dart';
+import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/networking/event_api.dart';
 
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
-import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 
@@ -16,7 +16,7 @@ const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
 
 class TrackEventView extends StatefulWidget {
-  final AlbumModel data;
+  final AlbumModelOld data;
   const TrackEventView({required this.data, Key? key}) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class _TrackEventViewState extends State<TrackEventView> {
     );
   }
 
-  Widget getBody(AlbumModel data) {
+  Widget getBody(AlbumModelOld data) {
     var size = MediaQuery.of(context).size;
 
     print('this is the data ' + data.toString());
@@ -51,7 +51,7 @@ class _TrackEventViewState extends State<TrackEventView> {
           builder: (context, state) {
             TrackEventCubit cubit = TrackEventCubit.get(context);
 
-            cubit.eventId = data.sId.toString();
+            cubit.eventId = data.id.toString();
 
             print(' event id from cubit 000>>>>  ${cubit.eventId}');
             return Column(
