@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/networking/event_api.dart';
 
@@ -54,10 +55,28 @@ class EventRepository {
     final response = await GetOneEvent().getOneEvant(id);
     print(response.statusCode);
     final res = jsonDecode(response.body);
-    print("this is the res body success status from event repo $res['success']");
+    print(
+        "this is the res body success status from event repo $res['success']");
     if (response.statusCode == 200) {
       print(response.body.toString());
       return AlbumModel.fromJson(jsonDecode(response.body.toString()));
+      // print('Striiiiiiiing ${event.name}');
+      // return event;
+    } else {
+      throw (Error);
+    }
+  }
+
+  Future<AlbumModelOld> getEvent(String id) async {
+    print('Striiiiiiiing $id');
+
+    final response = await GetOneEvent().getOneEvant(id);
+    print(response.statusCode);
+    final res = jsonDecode(response.body);
+    print("this is the res body success status from event repo $res");
+    if (response.statusCode == 200) {
+      print(response.body.toString());
+      return AlbumModelOld.fromJson((res['data']));
       // print('Striiiiiiiing ${event.name}');
       // return event;
     } else {

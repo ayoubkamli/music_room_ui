@@ -8,6 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/events/bloc/all_event/event_cubit.dart';
+import 'package:myapp/events/models/event_model.dart';
+import 'package:myapp/events/repositories/event_repository.dart';
+import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/profile/screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,16 +91,18 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
     }
 
     if (_imageFile != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.file(File(_imageFile!.path)),
-            SizedBox(
-              height: 20,
-            ),
-            uploadButton(uploadUrl),
-          ],
+      return SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.file(File(_imageFile!.path)),
+              SizedBox(
+                height: 20,
+              ),
+              uploadButton(uploadUrl),
+            ],
+          ),
         ),
       );
     } else {
@@ -114,13 +119,21 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
         var res = await uploadImage(_imageFile!.path, uploadUrl);
         print(res.statusCode);
         print(res.contentLength);
-        UserData data = await ProfileRepository().getUserProfile();
         if (res.statusCode == 200) {
-          BlocProvider.of<EventCubit>(context).getAllEvents();
+          if (widget.id == '') {
+            UserData data = await ProfileRepository().getUserProfile();
+            BlocProvider.of<EventCubit>(context).getAllEvents();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditProfileView(data: data)));
+          }
+          AlbumModelOld data = await EventRepository().getEvent(widget.id);
+
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => EditProfileView(data: data)));
+                  builder: (context) => EditEventView(data: data)));
         }
       },
       child: const Text('Upload'),

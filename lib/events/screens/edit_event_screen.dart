@@ -10,8 +10,10 @@ import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/models/song_model.dart';
 
 import 'package:myapp/events/repositories/event_repository.dart';
+import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
+import 'package:myapp/widgets/uplaod_profile_photo.dart';
 
 class EditEventView extends StatefulWidget {
   final AlbumModelOld data;
@@ -34,6 +36,7 @@ class _EditEventViewState extends State<EditEventView> {
   @override
   Widget build(BuildContext context) {
     print(widget.data.toString());
+    // AlbumModel data = EventRepository().getOneEvent(widget.data.id!);
 
     return Scaffold(
       appBar: getAppBar(),
@@ -58,7 +61,7 @@ class _EditEventViewState extends State<EditEventView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Edit Event ${widget.data.name}",
+            Text("Edit Event ",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
@@ -106,6 +109,8 @@ class _EditEventViewState extends State<EditEventView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              _eventPicture(),
+              _editImageButton(),
               _nameField(),
               _descriptionField(),
               _switchButton(),
@@ -114,6 +119,48 @@ class _EditEventViewState extends State<EditEventView> {
             ],
           ),
         ));
+  }
+
+  Widget _eventPicture() {
+    return FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return FutureBuilder<String>(
+                future: getImageUrl(snapshot.data!.data.image),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      height: 250,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(snapshot.data!),
+                              fit: BoxFit.cover),
+                          color: Colors.green),
+                    );
+                  }
+                  return CircularProgressIndicator();
+                });
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
+
+  Widget _editImageButton() {
+    return TextButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => UploadProfilePhoto(
+                        title: 'upload photo',
+                        apiUrl: '$eventUrl',
+                        id: widget.data.id!,
+                      )));
+        },
+        child: Text('edit image'));
   }
 
   Widget _nameField() {
@@ -150,7 +197,9 @@ class _EditEventViewState extends State<EditEventView> {
               );
             });
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 
@@ -187,7 +236,9 @@ class _EditEventViewState extends State<EditEventView> {
               );
             });
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 
@@ -216,7 +267,7 @@ class _EditEventViewState extends State<EditEventView> {
                           .add(EditEventPrefChanged(prefs: selectedPrefList));
                       context
                           .read<EditEventBloc>()
-                          .add(EditEventIdChanged(id: widget.data.id));
+                          .add(EditEventIdChanged(id: widget.data.id!));
                       context.read<EditEventBloc>().add(EditEventSubmitted());
                     }
                   },
@@ -233,6 +284,7 @@ class _EditEventViewState extends State<EditEventView> {
         future: EventRepository().getOneEvent(widget.data.id!),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            
             return BlocBuilder<EditEventBloc, EditEventState>(
               builder: (context, state) {
                 return Padding(
@@ -273,7 +325,9 @@ class _EditEventViewState extends State<EditEventView> {
               },
             );
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 
@@ -349,7 +403,9 @@ class _EditEventViewState extends State<EditEventView> {
               },
             );
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 

@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/bloc/track_event/manage_track_event_cubit.dart';
 import 'package:myapp/events/bloc/track_event/mange_track_event_state.dart';
 import 'package:myapp/events/models/event_model.dart';
+import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/networking/event_api.dart';
+import 'package:myapp/events/repositories/event_repository.dart';
 
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
@@ -34,11 +36,21 @@ class _TrackEventViewState extends State<TrackEventView> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: getAppBar(),
-      body: getBody(widget.data),
+      body: FutureBuilder<AlbumModel>(
+        future: EventRepository().getOneEvent(widget.data.id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return getBody(snapshot.data!);
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 
-  Widget getBody(AlbumModelOld data) {
+  Widget getBody(AlbumModel data) {
     var size = MediaQuery.of(context).size;
 
     print('this is the data ' + data.toString());
@@ -51,7 +63,7 @@ class _TrackEventViewState extends State<TrackEventView> {
           builder: (context, state) {
             TrackEventCubit cubit = TrackEventCubit.get(context);
 
-            cubit.eventId = data.id.toString();
+            cubit.eventId = data.data.id.toString();
 
             print(' event id from cubit 000>>>>  ${cubit.eventId}');
             return Column(
@@ -62,7 +74,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                       padding:
                           const EdgeInsets.only(left: 30, right: 30, top: 20),
                       child: FutureBuilder<String>(
-                        future: getImageUrl(data.image),
+                        future: getImageUrl(data.data.image),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             // print(' snapshot.data! ' + snapshot.data!);
@@ -114,7 +126,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                                     // );
                                   },
                                   child: Text(
-                                    data.name!,
+                                    data.data.name,
                                     style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.white,
@@ -124,7 +136,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                                 Container(
                                   width: 150,
                                   child: Text(
-                                    data.desc!,
+                                    data.data.desc,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -211,8 +223,8 @@ class _TrackEventViewState extends State<TrackEventView> {
                   height: 20,
                 ),
                 Column(
-                  children: List.generate(data.playlist!.length, (index) {
-                    return track(data.playlist![index], cubit.eventId);
+                  children: List.generate(data.data.playlist.length, (index) {
+                    return track(data.data.playlist[index], cubit.eventId);
                   }),
                 )
               ],
