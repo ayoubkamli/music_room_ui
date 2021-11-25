@@ -4,11 +4,11 @@ class AlbumModel {
     required this.data,
   });
   late final bool success;
-  late final Data data;
+  late final AlbumData data;
 
   AlbumModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = Data.fromJson(json['data']);
+    data = AlbumData.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -19,8 +19,8 @@ class AlbumModel {
   }
 }
 
-class Data {
-  Data({
+class AlbumData {
+  AlbumData({
     required this.subscribes,
     required this.unsubscribes,
     required this.musicPreference,
@@ -35,10 +35,10 @@ class Data {
     required this.playlist,
     required this.image,
   });
-  late final List<dynamic> subscribes;
-  late final List<dynamic> unsubscribes;
+  late final List<dynamic>? subscribes;
+  late final List<dynamic>? unsubscribes;
   late final List<String> musicPreference;
-  late final List<dynamic> invitedUsers;
+  late final List<dynamic>? invitedUsers;
   late final Null trackUrl;
   late final String visibility;
   late final String id;
@@ -49,7 +49,7 @@ class Data {
   late final List<dynamic> playlist;
   late final String image;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  AlbumData.fromJson(Map<String, dynamic> json) {
     subscribes = List.castFrom<dynamic, dynamic>(json['subscribes']);
     unsubscribes = List.castFrom<dynamic, dynamic>(json['unsubscribes']);
     musicPreference = List.castFrom<dynamic, String>(json['musicPreference']);

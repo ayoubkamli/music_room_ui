@@ -6,7 +6,6 @@ import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/bloc/edit_event/edit_event_bloc.dart';
 import 'package:myapp/events/bloc/edit_event/edit_event_event.dart';
 import 'package:myapp/events/bloc/edit_event/edite_event_state.dart';
-import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/models/song_model.dart';
 
 import 'package:myapp/events/repositories/event_repository.dart';
@@ -16,7 +15,7 @@ import 'package:myapp/widgets/multi_select_chip.dart';
 import 'package:myapp/widgets/uplaod_profile_photo.dart';
 
 class EditEventView extends StatefulWidget {
-  final AlbumModelOld data;
+  final AlbumData data;
   EditEventView({
     Key? key,
     required this.data,
@@ -123,7 +122,7 @@ class _EditEventViewState extends State<EditEventView> {
 
   Widget _eventPicture() {
     return FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return FutureBuilder<String>(
@@ -157,7 +156,7 @@ class _EditEventViewState extends State<EditEventView> {
                   builder: (context) => UploadProfilePhoto(
                         title: 'upload photo',
                         apiUrl: '$eventUrl',
-                        id: widget.data.id!,
+                        id: widget.data.id,
                       )));
         },
         child: Text('edit image'));
@@ -165,7 +164,7 @@ class _EditEventViewState extends State<EditEventView> {
 
   Widget _nameField() {
     return FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return BlocBuilder<EditEventBloc, EditEventState>(
@@ -205,7 +204,7 @@ class _EditEventViewState extends State<EditEventView> {
 
   Widget _descriptionField() {
     return FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return BlocBuilder<EditEventBloc, EditEventState>(
@@ -267,7 +266,7 @@ class _EditEventViewState extends State<EditEventView> {
                           .add(EditEventPrefChanged(prefs: selectedPrefList));
                       context
                           .read<EditEventBloc>()
-                          .add(EditEventIdChanged(id: widget.data.id!));
+                          .add(EditEventIdChanged(id: widget.data.id));
                       context.read<EditEventBloc>().add(EditEventSubmitted());
                     }
                   },
@@ -278,13 +277,12 @@ class _EditEventViewState extends State<EditEventView> {
 
   Widget _shipSelect() {
     setState(() {
-      selectedPrefList = widget.data.musicPreference!;
+      selectedPrefList = widget.data.musicPreference;
     });
     return FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            
             return BlocBuilder<EditEventBloc, EditEventState>(
               builder: (context, state) {
                 return Padding(
@@ -365,7 +363,7 @@ class _EditEventViewState extends State<EditEventView> {
       }
     });
     return FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return BlocBuilder<EditEventBloc, EditEventState>(

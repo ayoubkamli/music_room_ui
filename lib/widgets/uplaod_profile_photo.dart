@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/events/bloc/all_event/event_cubit.dart';
-import 'package:myapp/events/models/event_model.dart';
+import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
@@ -128,12 +128,12 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
                 MaterialPageRoute(
                     builder: (context) => EditProfileView(data: data)));
           }
-          AlbumModelOld data = await EventRepository().getEvent(widget.id);
+          AlbumModel data = await EventRepository().getEvent(widget.id);
 
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => EditEventView(data: data)));
+                  builder: (context) => EditEventView(data: data.data)));
         }
       },
       child: const Text('Upload'),

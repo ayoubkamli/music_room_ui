@@ -18,7 +18,7 @@ const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
 
 class TrackEventView extends StatefulWidget {
-  final AlbumModelOld data;
+  final AlbumData data;
   const TrackEventView({required this.data, Key? key}) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class _TrackEventViewState extends State<TrackEventView> {
       backgroundColor: Colors.black,
       appBar: getAppBar(),
       body: FutureBuilder<AlbumModel>(
-        future: EventRepository().getOneEvent(widget.data.id!),
+        future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return getBody(snapshot.data!);

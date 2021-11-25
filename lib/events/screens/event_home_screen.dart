@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/bloc/all_event/event_state.dart';
+import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:myapp/events/screens/create_event_screen.dart';
 import 'package:myapp/events/widgets/album_widget.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 
-import '../models/event_model.dart';
 
 class EventHomeView extends StatefulWidget {
   const EventHomeView({Key? key}) : super(key: key);
@@ -121,8 +121,8 @@ class _EventHomeViewState extends State<EventHomeView> {
             padding: const EdgeInsets.only(left: 30),
             child: Row(
               children: List.generate(events[0].length, (index) {
-                final data = EventModel.fromJson(events[0][index]);
-                String url = data.imgUrl.toString();
+                final data = AlbumData.fromJson(events[0][index]);
+                String url = data.image.toString();
                 List<String>? s = url.split("/");
                 String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
                 return Padding(
