@@ -338,7 +338,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         keyboardType: TextInputType.visiblePassword,
         decoration:
             InputDecoration(icon: Icon(Icons.security), hintText: 'Password'),
-        validator: (value) => state.isValidPassword ? null : 'Invalid password',
+        // validator: (value) => state.isValidPassword ? null : 'Invalid password',
         onChanged: (value) => context
             .read<EditProfileBloc>()
             .add(EditProfileNewPasswordChanged(newPassword: value)),
@@ -361,7 +361,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   _showErrorText(context);
                 }
               },
-              child: Text('Sign Up'));
+              child: Text('Change Password'));
     });
   }
 
