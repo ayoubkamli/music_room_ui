@@ -1,13 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/auth/models/user.dart';
-import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/screens/edit_event_screen.dart';
@@ -122,18 +120,19 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
         if (res.statusCode == 200) {
           if (widget.id == '') {
             UserData data = await ProfileRepository().getUserProfile();
-            BlocProvider.of<EventCubit>(context).getAllEvents();
+            // BlocProvider.of<EventCubit>(context).getAllEvents();
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditProfileView(data: data)));
-          }
-          AlbumModel data = await EventRepository().getEvent(widget.id);
+          } else if (widget.id != '') {
+            AlbumModel data = await EventRepository().getOneEvent(widget.id);
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EditEventView(data: data.data)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditEventView(data: data.data)));
+          }
         }
       },
       child: const Text('Upload'),
