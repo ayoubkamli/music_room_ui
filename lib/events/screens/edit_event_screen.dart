@@ -121,7 +121,7 @@ class _EditEventViewState extends State<EditEventView> {
   }
 
   Widget _eventPicture() {
-    return FutureBuilder<AlbumModel>(
+    return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -163,7 +163,7 @@ class _EditEventViewState extends State<EditEventView> {
   }
 
   Widget _nameField() {
-    return FutureBuilder<AlbumModel>(
+    return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -203,7 +203,7 @@ class _EditEventViewState extends State<EditEventView> {
   }
 
   Widget _descriptionField() {
-    return FutureBuilder<AlbumModel>(
+    return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -279,7 +279,7 @@ class _EditEventViewState extends State<EditEventView> {
     setState(() {
       selectedPrefList = widget.data.musicPreference;
     });
-    return FutureBuilder<AlbumModel>(
+    return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -362,7 +362,7 @@ class _EditEventViewState extends State<EditEventView> {
         isSwitched = false;
       }
     });
-    return FutureBuilder<AlbumModel>(
+    return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

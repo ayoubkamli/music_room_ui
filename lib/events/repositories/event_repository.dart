@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -48,7 +49,7 @@ class EventRepository {
     return response;
   }
 
-  Future<AlbumModel> getOneEvent(String id) async {
+  Future<AlbumModel?> getOneEvent(String id) async {
     print('Striiiiiiiing $id');
 
     final response = await GetOneEvent().getOneEvant(id);
@@ -62,7 +63,8 @@ class EventRepository {
       // print('Striiiiiiiing ${event.name}');
       // return event;
     } else {
-      throw (Error);
+      // throw (Error);
+      return null;
     }
   }
 

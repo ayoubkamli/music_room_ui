@@ -126,12 +126,12 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
                 MaterialPageRoute(
                     builder: (context) => EditProfileView(data: data)));
           } else if (widget.id != '') {
-            AlbumModel data = await EventRepository().getOneEvent(widget.id);
+            AlbumModel? data = await EventRepository().getOneEvent(widget.id);
 
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => EditEventView(data: data.data)));
+                    builder: (context) => EditEventView(data: data!.data)));
           }
         }
       },

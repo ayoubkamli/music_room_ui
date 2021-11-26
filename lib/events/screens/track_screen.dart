@@ -36,16 +36,36 @@ class _TrackEventViewState extends State<TrackEventView> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: getAppBar(),
-      body: FutureBuilder<AlbumModel>(
+      body: FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return getBody(snapshot.data!);
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'this event doesn\'t exist or deleted ',
+                style: TextStyle(color: Colors.green),
+              ),
+            );
           }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return waiting();
         },
+      ),
+    );
+  }
+
+  Widget waiting() {
+    String message = 'Loading...';
+    Future.delayed(const Duration(seconds: 4), () {
+      setState(() {
+        message = 'this event doesn\'t exist or deleted ';
+      });
+    });
+    return Center(
+      child: Text(
+        message,
+        style: TextStyle(color: Colors.green),
       ),
     );
   }
