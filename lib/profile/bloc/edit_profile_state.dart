@@ -11,9 +11,19 @@ class EditProfileState {
   String oldPassword;
 
   final String newPassword;
-  bool get isValidPassword => MyInputValidator().isPasswordValid(newPassword);
+  bool isValidPassword(nPassword) =>
+      MyInputValidator().isPasswordValid(nPassword);
+
+  bool isValidEmail(profileEmail) {
+    return MyInputValidator().validateEmail(profileEmail);
+  }
+
+  bool isValideUsername(profileUsername) {
+    return MyInputValidator().isEventNameValid(profileUsername);
+  }
 
   final FormSubmissionStatus formStatus;
+  final FormSubmissionStatus passwordFormStatus;
 
   Future<UserData> data() async {
     UserData res = await ProfileRepository().getUserProfile();
@@ -27,13 +37,19 @@ class EditProfileState {
       this.email = '',
       this.username = 'test from state',
       this.prefs = const [],
-      this.formStatus = const InitialFormStatus()});
+      this.formStatus = const InitialFormStatus(),
+      this.passwordFormStatus = const InitialFormStatus()});
 
-  EditProfileState copyPasswordWith(
-      {String? newPassword, String? oldPassword}) {
+  EditProfileState copyPasswordWith({
+    String? newPassword,
+    String? oldPassword,
+    FormSubmissionStatus? passwordFormStatus,
+  }) {
     return EditProfileState(
-        newPassword: newPassword ?? this.newPassword,
-        oldPassword: oldPassword ?? this.oldPassword);
+      newPassword: newPassword ?? this.newPassword,
+      oldPassword: oldPassword ?? this.oldPassword,
+      passwordFormStatus: passwordFormStatus ?? this.passwordFormStatus,
+    );
   }
 
   EditProfileState copyWith({

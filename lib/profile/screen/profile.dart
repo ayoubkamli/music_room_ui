@@ -21,6 +21,7 @@ class EditProfileView extends StatefulWidget {
 
 class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
   final UserData profile = UserData();
   List<String> selectedPrefList = [];
   late Future<UserData> userProfile;
@@ -77,9 +78,9 @@ class _EditProfileViewState extends State<EditProfileView> {
         context.read<EditProfileBloc>().add(EditProfileInitialEvent());
 
         return SingleChildScrollView(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [_editProfileForm()],
+          child: Column(
+            // alignment: Alignment.bottomCenter,
+            children: [_editProfileForm(), _editProfilePasswordForm()],
           ),
         );
       },
@@ -107,6 +108,28 @@ class _EditProfileViewState extends State<EditProfileView> {
               _usernameField(),
               _shipSelect(),
               _saveSettingButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _editProfilePasswordForm() {
+    return BlocListener<EditProfileBloc, EditProfileState>(
+      listener: (context, state) {
+        final passwordFormStatus = state.passwordFormStatus;
+        // final profile = state.profile;
+        if (passwordFormStatus is SubmissionFailed) {
+          _showSnackBar(context, passwordFormStatus.exception.toString());
+        }
+      },
+      child: Form(
+        key: _passwordFormKey,
+        child: Padding(
+          padding: EdgeInsets.all(40.0),
+          child: Column(
+            children: [
               _oldPasswordField(),
               _newPasswordField(),
               _changePasswordButton(),
@@ -176,8 +199,16 @@ class _EditProfileViewState extends State<EditProfileView> {
                   // hintText: snapshot.data!.data!.email!,
                 ),
                 initialValue: snapshot.data!.data!.email!,
-
-                /// validator: (value) => state.isValideEmail ? null,
+                validator: (value) {
+                  print('value =' + value.toString());
+                  if (state.isValidEmail(value)) {
+                    return null;
+                  } else {
+                    print(state.email);
+                    print(state.isValidEmail);
+                    return 'Please enter a valid email';
+                  }
+                },
                 onChanged: (value) => context.read<EditProfileBloc>().add(
                       EditProfileEmailChanged(email: value),
                     ),
@@ -217,6 +248,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                 initialValue: snapshot.data!.data!.username,
 
                 // validator: (value) => state.isValideEmail ? null,
+                validator: (value) {
+                  print('value =' + value.toString());
+                  if (state.isValideUsername(value)) {
+                    return null;
+                  } else {
+                    return 'Please enter a valid username';
+                  }
+                },
                 onChanged: (value) => context.read<EditProfileBloc>().add(
                       EditProfileUsernameChanged(username: value),
                     ),
@@ -318,7 +357,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
       return TextFormField(
-        obscureText: true,
+        obscureText: false,
         keyboardType: TextInputType.visiblePassword,
         decoration:
             InputDecoration(icon: Icon(Icons.security), hintText: 'Password'),
@@ -334,11 +373,19 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
       return TextFormField(
-        obscureText: true,
+        obscureText: false,
         keyboardType: TextInputType.visiblePassword,
         decoration:
             InputDecoration(icon: Icon(Icons.security), hintText: 'Password'),
         // validator: (value) => state.isValidPassword ? null : 'Invalid password',
+        validator: (value) {
+          print('value =' + value.toString());
+          if (state.isValidPassword(value)) {
+            return null;
+          } else {
+            return 'Please enter a valid Password';
+          }
+        },
         onChanged: (value) => context
             .read<EditProfileBloc>()
             .add(EditProfileNewPasswordChanged(newPassword: value)),
@@ -353,7 +400,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           ? CircularProgressIndicator()
           : ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+                if (_passwordFormKey.currentState!.validate()) {
                   context
                       .read<EditProfileBloc>()
                       .add(EditProfilePasswordSubmitted());

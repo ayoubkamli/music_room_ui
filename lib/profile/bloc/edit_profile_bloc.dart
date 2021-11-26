@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/profile/bloc/edit_profile_event.dart';
@@ -26,9 +28,21 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         print('username ---- ${state.username}');
         final response = await profileRepository.editeProfileForm(
             state.username, state.email, state.prefs);
-        print(
-            '\n response from bloccccccccccccccc\n' + response.body.toString());
-        yield state.copyWith(formStatus: SubmissionSuccess());
+
+        var res = jsonDecode(response.body.toString());
+        print('res=> ********** ' + res['success'].toString());
+
+        if (res['success'] == true) {
+          print('\n response success from edit bloccccccccccccccc\n' +
+              response.body.toString());
+          yield state.copyWith(formStatus: SubmissionSuccess());
+        } else {
+          print('\n response faild from edit bloccccccccccccccc\n' +
+              response.body.toString());
+          yield state.copyWith(
+              formStatus: SubmissionFailed('Invalide information'));
+          yield state.copyPasswordWith(passwordFormStatus: InitialFormStatus());
+        }
       } catch (e) {
         print(e.toString());
       }
@@ -43,7 +57,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       try {
         var response = await ProfileRepository()
             .changePassword(state.oldPassword, state.newPassword);
-        print(response.toString());
+        print('passworddddd' + response.toString());
+        if (response == 'Some thing went wrong try again') {
+          yield state.copyPasswordWith(
+              passwordFormStatus: SubmissionFailed(response));
+          yield state.copyPasswordWith(passwordFormStatus: InitialFormStatus());
+        } else {
+          yield state.copyPasswordWith(passwordFormStatus: SubmissionSuccess());
+        }
       } catch (e) {}
     }
   }
