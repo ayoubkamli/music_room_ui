@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/models/user.dart';
+import 'package:myapp/auth/session_cubit.dart';
 import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
@@ -62,7 +64,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
-            Icon(Icons.list)
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Increase volume by 10',
+              onPressed: () {
+                context.read<SessionCubit>().signOut();
+              },
+            ),
           ],
         ),
       ),
