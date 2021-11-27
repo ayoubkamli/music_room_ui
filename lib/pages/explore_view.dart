@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/events/screens/event_home_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
+import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/profile/screen/profile.dart';
@@ -72,7 +73,7 @@ class _ExploreViewState extends State<ExploreView> {
       children: [
         explore(),
 
-        myEvents(),
+        TabView(),
         Center(
           child: Text(
             "Search",

@@ -7,7 +7,6 @@ import 'package:myapp/events/models/event_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/widgets/album_widget.dart';
 import 'package:myapp/events/widgets/future_image.dart';
-import 'package:myapp/pages/explore_view.dart';
 
 class MyEvents extends StatefulWidget {
   const MyEvents({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _MyEventsState extends State<MyEvents> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: getAppBar(),
+      // appBar: getAppBar(),
       body: BlocBuilder<MyEventCubit, MyEventState>(builder: (context, state) {
         return Container(
           padding: EdgeInsets.only(top: 20),
@@ -58,22 +57,22 @@ class _MyEventsState extends State<MyEvents> {
     );
   }
 
-  PreferredSizeWidget getAppBar() {
-    return AppBar(
-        automaticallyImplyLeading: true,
-        title: Text('My Events'),
-        leading: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ExploreView(),
-              ),
-            );
-          },
-        ));
-  }
+  // PreferredSizeWidget getAppBar() {
+  //   return AppBar(
+  //       automaticallyImplyLeading: true,
+  //       title: Text('My Events'),
+  //       leading: IconButton(
+  //         icon: Icon(Icons.home),
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //               builder: (context) => ExploreView(),
+  //             ),
+  //           );
+  //         },
+  //       ));
+  // }
 
   Widget getBody(List events, BuildContext context) {
     double width = MediaQuery.of(context).size.width;

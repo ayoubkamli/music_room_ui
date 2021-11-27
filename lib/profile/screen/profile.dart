@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/session_cubit.dart';
 import 'package:myapp/constant/constant.dart';
