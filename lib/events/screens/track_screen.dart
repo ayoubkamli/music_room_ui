@@ -30,6 +30,7 @@ class _TrackEventViewState extends State<TrackEventView> {
   AudioPlayer advancedPlayer = AudioPlayer();
   String? localFilePath;
   String? localAudioCacheURI;
+  String message = 'Loading...';
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,7 @@ class _TrackEventViewState extends State<TrackEventView> {
   }
 
   Widget waiting() {
-    String message = 'Loading...';
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 10), () {
       setState(() {
         message = 'this event doesn\'t exist or deleted ';
       });
