@@ -29,8 +29,21 @@ class _EditEventViewState extends State<EditEventView> {
 
   List<String> selectedPrefList = [];
 
-  bool isSwitched = true;
+  late bool isSwitched;
   String visibilityText = 'Public Event';
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      print(widget.data.visibility);
+      if (widget.data.visibility == 'public') {
+        isSwitched = true;
+      } else {
+        isSwitched = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -355,13 +368,13 @@ class _EditEventViewState extends State<EditEventView> {
   }
 
   Widget _switchButton() {
-    setState(() {
-      if (widget.data.visibility == 'public') {
-        isSwitched = true;
-      } else {
-        isSwitched = false;
-      }
-    });
+    // setState(() {
+    //   if (widget.data.visibility == 'public') {
+    //     isSwitched = true;
+    //   } else {
+    //     isSwitched = false;
+    //   }
+    // });
     return FutureBuilder<AlbumModel?>(
         future: EventRepository().getOneEvent(widget.data.id),
         builder: (context, snapshot) {
