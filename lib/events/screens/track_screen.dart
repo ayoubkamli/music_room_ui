@@ -13,6 +13,7 @@ import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
+import 'package:myapp/events/models/tracks_model.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -244,6 +245,8 @@ class _TrackEventViewState extends State<TrackEventView> {
                 ),
                 Column(
                   children: List.generate(data.data.playlist.length, (index) {
+                    print('hhhhhhhhhhhhhhhhhhh' +
+                        data.data.playlist[index].toString());
                     return track(data.data.playlist[index], cubit.eventId);
                   }),
                 )
@@ -259,7 +262,7 @@ class _TrackEventViewState extends State<TrackEventView> {
     return PlayerWidget(url: kUrl1);
   }
 
-  Widget track(Playlist data, String eventId) {
+  Widget track(PlaylistData data, String eventId) {
     // EventModel songData = EventModel.fromJson(data);
 
     print('song data ------------------------ $data');
@@ -275,7 +278,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: data.vote.toString(),
+                      text: data.popularity.toString(),
                     ),
                   ],
                 ),
@@ -288,7 +291,7 @@ class _TrackEventViewState extends State<TrackEventView> {
             ),
           ),
           Column(
-            children: [vote(), removeTrack(eventId, data.trackId)],
+            children: [vote(), removeTrack(eventId, data.id)],
           )
         ],
       ),

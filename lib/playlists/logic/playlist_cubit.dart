@@ -16,12 +16,12 @@ class PlaylistCubit extends Cubit<PlaylistState> {
     try {
       emit(PlaylistLoadingState());
       final playlists = await playlistRepository.getAllPlaylists();
-      if (playlists.statusCode == 200) {
+      if (playlists != null) if (playlists.statusCode == 200) {
         final data = jsonDecode(playlists.body);
         final datalist = data['data'];
         emit(PlaylistLoadedState(datalist));
       } else {
-        throw Error();
+        emit(PlaylistErrorState());
       }
     } catch (e) {
       emit(PlaylistErrorState());

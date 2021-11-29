@@ -4,11 +4,11 @@ class TracksModel {
     required this.data,
   });
   late final bool success;
-  late final List<Data> data;
+  late final List<TrackData> data;
 
   TracksModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
+    data = List.from(json['data']).map((e) => TrackData.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -19,8 +19,8 @@ class TracksModel {
   }
 }
 
-class Data {
-  Data({
+class TrackData {
+  TrackData({
     required this.artists,
     required this.previewUrl,
     required this.name,
@@ -35,7 +35,7 @@ class Data {
   late final String trakId;
   late final int popularity;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  TrackData.fromJson(Map<String, dynamic> json) {
     artists =
         List.from(json['artists']).map((e) => Artists.fromJson(e)).toList();
     previewUrl = json['preview_url'];

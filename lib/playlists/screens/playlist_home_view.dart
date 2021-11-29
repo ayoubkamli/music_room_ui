@@ -152,7 +152,7 @@ Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
 
   PlaylistModel item = PlaylistModel.fromJson(data);
 
-  print("item  $item");
+  print("item  ${item.desc}");
   return Navigator.push(
     context,
     MaterialPageRoute(

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:myapp/search/tracks_model.dart';
+import 'package:myapp/events/models/tracks_model.dart';
 
 abstract class SearchState extends Equatable {}
 

@@ -57,3 +57,30 @@ class PlaylistGet {
     return response;
   }
 }
+
+class PlaylistDelete {
+  final Uri url;
+
+  PlaylistDelete(this.url);
+
+  Future<http.Response> deleteRequest() async {
+    Map<String, String> headers = await MyHeader().getHeaders();
+
+    final response = await http.delete(url, headers: headers);
+    return response;
+  }
+}
+
+class PlaylistPut {
+  final Uri url;
+  final Map<String, dynamic> source;
+
+  PlaylistPut(this.url, this.source);
+
+  Future<http.Response> putRequest() async {
+    Map<String, String> header = MyHeader().getHeaders();
+
+    final response = await http.put(url, headers: header, body: source);
+    return response;
+  }
+}

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/search/bloc/search_event.dart';
 import 'package:myapp/search/bloc/search_repository.dart';
 import 'package:myapp/search/bloc/search_state.dart';
-import 'package:myapp/search/tracks_model.dart';
+import 'package:myapp/events/models/tracks_model.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchRepository searchRepository;
