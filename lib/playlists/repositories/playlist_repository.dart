@@ -28,9 +28,13 @@ class PlaylistRepository {
 
   Future<http.Response> createPlaylist(String name, String description,
       List<String> playlistSelectedPrefList, String playlistStatus) async {
-    final response = await CreatePlaylist(
-            name, description, playlistSelectedPrefList, playlistStatus)
-        .createPlaylist();
+    Map<String, dynamic> data = {
+      'name': name,
+      'desc': description,
+      'musicPreference': playlistSelectedPrefList,
+      'visibility': playlistStatus
+    };
+    final response = await PlaylistPost(playlistUrl, data).createPlaylist();
     return response;
   }
 }
