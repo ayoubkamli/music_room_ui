@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
 import 'package:myapp/playlists/screens/all_playlist_view.dart';
+import 'package:myapp/playlists/screens/my_playlist_view.dart';
 
 class TabView extends StatelessWidget {
   const TabView({Key? key}) : super(key: key);
@@ -13,7 +14,6 @@ class TabView extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,
-
             bottom: TabBar(
               isScrollable: true,
               labelColor: Colors.green,
@@ -34,14 +34,17 @@ class TabView extends StatelessWidget {
                 ),
               ],
             ),
-            // title: Text('Flutter AppBar Example'),
+            title: Text(
+              'Music Room',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           body: TabBarView(
             children: [
               AllEventsView(),
               MyEvents(),
               AllPlaylistsView(),
-              Center(child: Text("Bike"))
+              MyPlaylistsView(),
             ],
           ),
         ));

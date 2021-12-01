@@ -49,12 +49,12 @@ class PlaylistRepository {
     }
   }
 
-  Future<http.Response?> myPlaylist() async {
+  Future<http.Response?> getMyPlaylist() async {
     try {
       final http.Response response =
           await PlaylistGet(myPlaylistUrl).getRequest();
       if (response.statusCode == 200) {
-        return (response);
+        return response;
       } else {
         print('response from myplaylist not !200' + response.body.toString());
         return null;

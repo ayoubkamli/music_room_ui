@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/widgets/future_image.dart';
-import 'package:myapp/playlists/all_playlist/all_playlist_cubit.dart';
 import 'package:myapp/playlists/models/playlist_model.dart';
+import 'package:myapp/playlists/my_playlist/my_playlist_cubit.dart';
 import 'package:myapp/playlists/widgets/get_event_track.dart';
 
-class AllPlaylistsView extends StatelessWidget {
-  const AllPlaylistsView({Key? key}) : super(key: key);
+class MyPlaylistsView extends StatelessWidget {
+  const MyPlaylistsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +19,22 @@ class AllPlaylistsView extends StatelessWidget {
   blocLogic() {
     return Container(
         padding: EdgeInsets.only(top: 20),
-        child: BlocBuilder<AllPlaylistCubit, AllPlaylistState>(
+        child: BlocBuilder<MyPlaylistCubit, MyPlaylistState>(
             builder: (context, state) {
-          if (state is AllPlaylistsLoadingState) {
+          if (state is MyPlaylistsLoadingState) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is AllPlaylistErrorState) {
+          } else if (state is MyPlaylistErrorState) {
             return Center(
               child: Text(
                 'Somethins went wrong',
                 style: TextStyle(color: Colors.green),
               ),
             );
-          } else if (state is AllPlaylistLoadedState) {
+          } else if (state is MyPlaylistsLoadedState) {
             final List<PlaylistData> playlists = state.props;
-            return allPlaylistBody(playlists, context);
+            return myPlaylistBody(playlists, context);
           } else {
             return Center(
               child: Text(
@@ -46,15 +46,40 @@ class AllPlaylistsView extends StatelessWidget {
         }));
   }
 
-  allPlaylistBody(List<PlaylistData> playlists, BuildContext context) {
+  myPlaylistBody(List<PlaylistData> playlists, BuildContext context) {
+    if (playlists.length == 0) {
+      return RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<MyPlaylistCubit>(context).getMyPlaylist();
+          },
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                ),
+                Center(
+                  child: Text(
+                    'you don\'t have a playlist to show ',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                ),
+              ],
+            ),
+          ));
+    }
     return RefreshIndicator(
         onRefresh: () async {
-          BlocProvider.of<AllPlaylistCubit>(context).getAllPlaylist();
+          BlocProvider.of<MyPlaylistCubit>(context).getMyPlaylist();
         },
-        child: allPlaylist(playlists, context));
+        child: myPlaylist(playlists, context));
   }
 
-  allPlaylist(List<PlaylistData> playlists, BuildContext context) {
+  myPlaylist(List<PlaylistData> playlists, BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,

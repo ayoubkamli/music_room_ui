@@ -5,6 +5,7 @@ import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/navigation/app_navigator.dart';
 import 'package:myapp/playlists/all_playlist/all_playlist_cubit.dart';
+import 'package:myapp/playlists/my_playlist/my_playlist_cubit.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 
 import 'package:myapp/auth/session_cubit.dart';
@@ -57,13 +58,13 @@ class _MyAppState extends State<MyApp> {
               eventRepository: context.read<EventRepository>(),
             );
           }),
-          // BlocProvider(create: (BuildContext newcontext) {
-          //   return AllPlaylistCubit(
-          //     playlistRepository: newcontext.read<PlaylistRepository>(),
-          //   );
-          // }),
           BlocProvider(create: (BuildContext context) {
             return AllPlaylistCubit(
+              playlistRepository: context.read<PlaylistRepository>(),
+            );
+          }),
+          BlocProvider(create: (BuildContext context) {
+            return MyPlaylistCubit(
               playlistRepository: context.read<PlaylistRepository>(),
             );
           }),

@@ -4,7 +4,7 @@ import 'package:myapp/constant/constant.dart';
 import 'package:myapp/playlists/all_playlist/all_playlist_cubit.dart';
 import 'package:myapp/playlists/models/playlist_model.dart';
 import 'package:myapp/playlists/screens/create_playlist_view.dart';
-import 'package:myapp/playlists/widgets/playlist_player.dart';
+import 'package:myapp/playlists/widgets/get_event_track.dart';
 
 class PlaylistHomeView extends StatefulWidget {
   const PlaylistHomeView({Key? key}) : super(key: key);
@@ -37,7 +37,10 @@ class _PlaylistHomeViewState extends State<PlaylistHomeView> {
                 );
               } else {
                 return Container(
-                  child: (Text('data', style: TextStyle(color: Colors.red),)),
+                  child: (Text(
+                    'data',
+                    style: TextStyle(color: Colors.red),
+                  )),
                 );
               }
             },
@@ -98,7 +101,7 @@ Widget getBody(
                     print('-----');
                     print(playlists[index]);
                     print('-----');
-                    eventTracks(playlists[index], context);
+                    getEventTracks(playlists[index], context);
                   },
                   child: Column(
                     children: [
@@ -145,22 +148,5 @@ Widget getBody(
         ),
       )
     ],
-  );
-}
-
-Future<dynamic> eventTracks(PlaylistData data, context) {
-  print(data);
-  print('++++++++++');
-
-  // PlaylistData item = PlaylistData.fromJson(data);
-
-  print("item  ${data.desc}");
-  return Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => PlaylistPlayer(
-        data: data,
-      ),
-    ),
   );
 }
