@@ -11,9 +11,7 @@ final Uri forgotPasswordUrl = Uri.parse('http://$ip/api/password/forgot');
 final Uri forgotPasswordResetUrl = Uri.parse('http://$ip/api/password/change');
 final Uri editProfileUrl = Uri.parse('http://$ip/api/profile/edit');
 final Uri changePasswordUrl = Uri.parse('http://$ip/api/profile/password');
-
-
-
+final Uri myPlaylistUrl = Uri.parse('http://$ip/api/my-playlists');
 
 // final Uri searchTracksUrl = Uri.parse(
 //     'http://minikube-ip/api/users/search?username="simo"&page=1&limit=2');

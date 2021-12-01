@@ -33,7 +33,7 @@ class PlaylistPost {
 
   PlaylistPost(this.url, this.source);
 
-  Future<http.Response> createPlaylist() async {
+  Future<http.Response> postRequest() async {
     Map<String, String> headers = await MyHeader().getHeaders();
 
     final response =

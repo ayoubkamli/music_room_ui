@@ -33,7 +33,7 @@ class CreatePlaylistBloc
           state.playlistSelectedPrefList,
           state.playlistStatus,
         );
-        if (response.statusCode == 200) {
+        if (response != null && response.statusCode == 200) {
           print(response);
           state.copyWith(
             name: '',
@@ -43,11 +43,15 @@ class CreatePlaylistBloc
           );
           yield state.copyWith(playlistFormStatus: SubmissionSuccess());
           yield state.copyWith(playlistFormStatus: InitialFormStatus());
+          print('playlist response code ${response.statusCode}');
         } else {
-          throw Exception();
+          yield state.copyWith(
+              playlistFormStatus:
+                  SubmissionFailed('Invalide information try again'));
+          print('some thing went wrong in create playlist bloc');
         }
-        print('playlist response code ${response.statusCode}');
       } catch (e) {
+        print('some thing went wrong in create playlist bloc catch(e)');
         yield state.copyWith(
             playlistFormStatus: SubmissionFailed('Some things went wrong'));
         yield state.copyWith(playlistFormStatus: InitialFormStatus());
