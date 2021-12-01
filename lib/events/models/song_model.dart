@@ -117,6 +117,7 @@ class PlaylistData {
   String? trackId;
   int? popularity;
   String? file;
+  String? image;
 
   PlaylistData(
       {this.vote,
@@ -127,7 +128,8 @@ class PlaylistData {
       this.name,
       this.trackId,
       this.popularity,
-      this.file});
+      this.file,
+      this.image});
 
   PlaylistData.fromJson(Map<String, dynamic> json) {
     vote = json['vote'];
@@ -145,6 +147,7 @@ class PlaylistData {
     }
     id = json['_id'];
     previewUrl = json['preview_url'];
+    image = json['image'];
     name = json['name'];
     trackId = json['trackId'];
     popularity = json['popularity'];
@@ -161,6 +164,7 @@ class PlaylistData {
     }
     data['_id'] = this.id;
     data['preview_url'] = this.previewUrl;
+    data['image'] = this.image;
     data['name'] = this.name;
     data['trackId'] = this.trackId;
     data['popularity'] = this.popularity;

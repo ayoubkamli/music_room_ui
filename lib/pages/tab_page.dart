@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/events/screens/all_events_screen.dart';
 import 'package:myapp/events/screens/my_events_screen.dart';
-import 'package:myapp/playlists/screens/playlist_home_view.dart';
+import 'package:myapp/playlists/screens/all_playlist_view.dart';
 
 class TabView extends StatelessWidget {
   const TabView({Key? key}) : super(key: key);
@@ -40,7 +40,7 @@ class TabView extends StatelessWidget {
             children: [
               AllEventsView(),
               MyEvents(),
-              PlaylistHomeView(),
+              AllPlaylistsView(),
               Center(child: Text("Bike"))
             ],
           ),

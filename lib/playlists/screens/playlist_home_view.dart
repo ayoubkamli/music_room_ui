@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/playlists/logic/playlist_cubit.dart';
+import 'package:myapp/playlists/all_playlist/all_playlist_cubit.dart';
 import 'package:myapp/playlists/models/playlist_model.dart';
 import 'package:myapp/playlists/screens/create_playlist_view.dart';
 import 'package:myapp/playlists/widgets/playlist_player.dart';
-import 'package:myapp/playlists/repositories/playlist_state.dart';
 
 class PlaylistHomeView extends StatefulWidget {
   const PlaylistHomeView({Key? key}) : super(key: key);
@@ -17,27 +16,29 @@ class PlaylistHomeView extends StatefulWidget {
 class _PlaylistHomeViewState extends State<PlaylistHomeView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PlaylistCubit, PlaylistState>(
+    return BlocBuilder<AllPlaylistCubit, AllPlaylistState>(
       builder: (context, state) {
         return Container(
-          child: BlocBuilder<PlaylistCubit, PlaylistState>(
+          child: BlocBuilder<AllPlaylistCubit, AllPlaylistState>(
             builder: (context, state) {
-              if (state is PlaylistLoadingState) {
+              if (state is AllPlaylistsLoadingState) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is PlaylistLoadedState) {
-                final allPlaylist = state.props;
+              } else if (state is AllPlaylistLoadedState) {
+                final List<PlaylistData> allPlaylist = state.props;
                 return getBody(allPlaylist, 'Playlists', context);
               }
-              if (state is PlaylistErrorState) {
+              if (state is AllPlaylistErrorState) {
                 return Center(
                   child: Icon(
                     Icons.close,
                   ),
                 );
               } else {
-                return Container();
+                return Container(
+                  child: (Text('data', style: TextStyle(color: Colors.red),)),
+                );
               }
             },
           ),
@@ -47,7 +48,8 @@ class _PlaylistHomeViewState extends State<PlaylistHomeView> {
   }
 }
 
-Widget getBody(List events, String exploreEvents, BuildContext context) {
+Widget getBody(
+    List<PlaylistData> playlists, String exploreEvents, BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -87,16 +89,16 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
         child: Padding(
           padding: const EdgeInsets.only(left: 30),
           child: Row(
-            children: List.generate(events[0].length, (index) {
-              final data = PlaylistModel.fromJson(events[0][index]);
+            children: List.generate(playlists.length, (index) {
+              // final data = PlaylistData.fromJson(playlists);
               return Padding(
                 padding: const EdgeInsets.only(right: 30),
                 child: GestureDetector(
                   onTap: () {
                     print('-----');
-                    print(events[0][index]);
+                    print(playlists[index]);
                     print('-----');
-                    eventTracks(events[0][index], context);
+                    eventTracks(playlists[index], context);
                   },
                   child: Column(
                     children: [
@@ -114,7 +116,7 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
                         height: 20,
                       ),
                       Text(
-                        data.name.toString(),
+                        playlists[index].name.toString(),
                         style: TextStyle(
                             fontSize: 15,
                             color: Colors.white,
@@ -126,7 +128,7 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
                       Container(
                           width: 180,
                           child: Text(
-                            data.desc.toString(),
+                            playlists[index].desc.toString(),
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -146,18 +148,18 @@ Widget getBody(List events, String exploreEvents, BuildContext context) {
   );
 }
 
-Future<dynamic> eventTracks(Map<String, dynamic> data, context) {
+Future<dynamic> eventTracks(PlaylistData data, context) {
   print(data);
   print('++++++++++');
 
-  PlaylistModel item = PlaylistModel.fromJson(data);
+  // PlaylistData item = PlaylistData.fromJson(data);
 
-  print("item  ${item.desc}");
+  print("item  ${data.desc}");
   return Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => PlaylistPlayer(
-        data: item,
+        data: data,
       ),
     ),
   );

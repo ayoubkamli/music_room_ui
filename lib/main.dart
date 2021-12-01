@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/navigation/app_navigator.dart';
-import 'package:myapp/playlists/logic/playlist_cubit.dart';
+import 'package:myapp/playlists/all_playlist/all_playlist_cubit.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 
 import 'package:myapp/auth/session_cubit.dart';
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => PlaylistRepository(),
         ),
         RepositoryProvider(create: (context) => SearchRepositoryTracks()),
-        RepositoryProvider(create: (context) => ProfileRepository())
+        RepositoryProvider(create: (context) => ProfileRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -57,9 +57,14 @@ class _MyAppState extends State<MyApp> {
               eventRepository: context.read<EventRepository>(),
             );
           }),
-          BlocProvider(create: (BuildContext newcontext) {
-            return PlaylistCubit(
-              playlistRepository: newcontext.read<PlaylistRepository>(),
+          // BlocProvider(create: (BuildContext newcontext) {
+          //   return AllPlaylistCubit(
+          //     playlistRepository: newcontext.read<PlaylistRepository>(),
+          //   );
+          // }),
+          BlocProvider(create: (BuildContext context) {
+            return AllPlaylistCubit(
+              playlistRepository: context.read<PlaylistRepository>(),
             );
           }),
           BlocProvider(create: (BuildContext newcontext) {

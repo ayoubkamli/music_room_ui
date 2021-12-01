@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/playlists/logic/create_playlist_State.dart';
-import 'package:myapp/playlists/logic/playlist_cubit.dart';
 import 'package:myapp/playlists/events/create_playlist_event.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 
 class CreatePlaylistBloc
     extends Bloc<CreatePlaylistEvent, CreatePlaylistState> {
   final PlaylistRepository repository;
-  final PlaylistCubit playlistCubit;
+  // final PlaylistCubit playlistCubit;
 
-  CreatePlaylistBloc(this.repository, this.playlistCubit)
-      : super(CreatePlaylistState());
+  // CreatePlaylistBloc(this.repository, this.playlistCubit)
+  //     : super(CreatePlaylistState());
+  CreatePlaylistBloc(this.repository) : super(CreatePlaylistState());
 
   @override
   Stream<CreatePlaylistState> mapEventToState(

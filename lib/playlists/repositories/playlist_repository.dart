@@ -3,30 +3,14 @@ import 'package:myapp/constant/constant.dart';
 import 'package:myapp/playlists/networking/playlist_api.dart';
 
 class PlaylistRepository {
-  // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   Future<http.Response?> getAllPlaylists() async {
-    // final SharedPreferences prefs = await _prefs;
-    // String? token = prefs.getString('Token');
-    // String? bearerToken = 'Bearer: $token';
-
-    // print('fetch all event was called');
-
-    // final response = await http.get(
-    //   playlistUrl,
-    //   headers: <String, String>{
-    //     'ContentType': 'application/json; charset=UTF-8',
-    //     'Authorization': '$bearerToken',
-    //   },
-    // );
-    // print('response to string : ${response.body.toString()}');
-    // /*  print(
-    //     'response of fetch event body: ${response.body} code: ${response.statusCode}'); */
-    // return response;
     try {
       final http.Response response =
           await PlaylistGet(playlistUrl).getRequest();
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      }
+      return null;
     } catch (e) {
       print(e);
       return null;
@@ -174,20 +158,23 @@ class PlaylistRepository {
       return null;
     }
   }
-}
 
-Future<http.Response?> getPlaylistPicture(String pictureName) async {
-  final Uri url = Uri.parse('$playlistUrl/photos/$pictureName');
-  try {
-    final http.Response response = await PlaylistGet(url).getRequest();
-    if (response.statusCode == 200) {
-      return response;
-    } else {
-      print('Some thing went wrong in getPlaylistPicture');
-      return null;
+  Future<String> getPlaylistPicture(String? pictureName) async {
+    if (pictureName == null) {
+      return '';
     }
-  } catch (e) {
-    print('some thing catched in get playlist picture');
-    return null;
+    final Uri url = Uri.parse('$playlistUrl/photos/$pictureName');
+    try {
+      final http.Response response = await PlaylistGet(url).getRequest();
+      if (response.statusCode == 200) {
+        return response.body.toString();
+      } else {
+        print('Some thing went wrong in getPlaylistPicture');
+        return '';
+      }
+    } catch (e) {
+      print('some thing catched in get playlist picture');
+      return '';
+    }
   }
 }

@@ -5,7 +5,6 @@ import 'package:myapp/constant/style.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/playlists/logic/create_playlist_State.dart';
 import 'package:myapp/playlists/logic/create_playlist_bloc.dart';
-import 'package:myapp/playlists/logic/playlist_cubit.dart';
 import 'package:myapp/playlists/events/create_playlist_event.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
@@ -38,7 +37,8 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
       body: BlocProvider(
           create: (context) => CreatePlaylistBloc(
               context.read<PlaylistRepository>(),
-              context.read<PlaylistCubit>()),
+              // context.read<PlaylistCubit>(),
+              ),
           child: SingleChildScrollView(
             child: Stack(
               alignment: Alignment.bottomCenter,
