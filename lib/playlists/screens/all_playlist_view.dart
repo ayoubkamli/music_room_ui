@@ -47,6 +47,31 @@ class AllPlaylistsView extends StatelessWidget {
   }
 
   allPlaylistBody(List<PlaylistData> playlists, BuildContext context) {
+    if (playlists.length == 0) {
+      return RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<AllPlaylistCubit>(context).getAllPlaylist();
+          },
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                ),
+                Center(
+                  child: Text(
+                    'you don\'t have a playlist to show ',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                ),
+              ],
+            ),
+          ));
+    }
     return RefreshIndicator(
         onRefresh: () async {
           BlocProvider.of<AllPlaylistCubit>(context).getAllPlaylist();

@@ -19,32 +19,9 @@ class _ExploreViewState extends State<ExploreView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        // appBar: getAppBar('Explore'),
         bottomNavigationBar: getFooter(),
         body: getBody(context));
   }
-
-  // PreferredSizeWidget getAppBar(String title) {
-  //   return AppBar(
-  //     backgroundColor: Colors.black,
-  //     elevation: 0,
-  //     title: Padding(
-  //       padding: const EdgeInsets.only(left: 10, right: 10),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text(title,
-  //               style: TextStyle(
-  //                 fontSize: 20,
-  //                 color: Colors.white,
-  //                 fontWeight: FontWeight.bold,
-  //               )),
-  //           Icon(Icons.list)
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget explore() {
     return SafeArea(
@@ -72,7 +49,6 @@ class _ExploreViewState extends State<ExploreView> {
       index: activeTab,
       children: [
         explore(),
-
         TabView(),
         Center(
           child: Text(
@@ -84,23 +60,6 @@ class _ExploreViewState extends State<ExploreView> {
             ),
           ),
         ),
-
-        /// SearchTracksScreen(),
-        /// Center(
-        ///   child: TextButton(
-        ///     onPressed: () {
-        ///       context.read<SessionCubit>().signOut();
-        ///     },
-        ///     child: Text(
-        ///       "Settings",
-        ///       style: TextStyle(
-        ///         fontSize: 20,
-        ///         color: Colors.white,
-        ///         fontWeight: FontWeight.bold,
-        ///       ),
-        ///     ),
-        ///   ),
-        /// )
         FutureBuilder<UserData>(
           future: ProfileRepository().getUserProfile(),
           builder: (context, snapshot) {
@@ -141,33 +100,3 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 }
-
-/** return Scaffold(
-      body: BlocBuilder<EventCubit, EventState>(builder: (context, state) {
-        if (state is LoadingState) {
-          print('Loading state was very fast');
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is LoadedState) {
-          final events = state.props;
-          print(events);
-          print('this is evets from viewwwwwwwwwww ${state.events}');
-          return ListView.builder(
-              itemCount: events.length,
-              itemBuilder: (context, index) => Card(
-                    child: ListTile(
-                      title: Text('${events[index][0]["name"]}'),
-                    ),
-                  ));
-        } else if (state is ErrorState) {
-          print('${state.props}');
-          return Center(
-              child: Icon(
-            Icons.close,
-          ));
-        } else {
-          return Container();
-        }
-      }),
-    ); */

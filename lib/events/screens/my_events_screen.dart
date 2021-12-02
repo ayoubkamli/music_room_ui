@@ -37,7 +37,10 @@ class _MyEventsState extends State<MyEvents> {
                 );
               } else if (state is MyEventLoadedState) {
                 final events = state.props;
-                return getBody(events, context);
+                if (events.length > 0) {
+                  return getBody(events, context);
+                }
+                return emptyList();
               } else if (state is MyEventErrorState) {
                 return Center(
                   child: Icon(Icons.close),
@@ -57,22 +60,31 @@ class _MyEventsState extends State<MyEvents> {
     );
   }
 
-  // PreferredSizeWidget getAppBar() {
-  //   return AppBar(
-  //       automaticallyImplyLeading: true,
-  //       title: Text('My Events'),
-  //       leading: IconButton(
-  //         icon: Icon(Icons.home),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => ExploreView(),
-  //             ),
-  //           );
-  //         },
-  //       ));
-  // }
+  Widget emptyList() {
+    return RefreshIndicator(
+        onRefresh: () async {
+          BlocProvider.of<MyEventCubit>(context).getMyEvents();
+        },
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 150,
+              ),
+              Center(
+                child: Text(
+                  'you don\'t have a playlist to show ',
+                  style: TextStyle(color: Colors.green),
+                ),
+              ),
+              SizedBox(
+                height: 300,
+              ),
+            ],
+          ),
+        ));
+  }
 
   Widget getBody(List events, BuildContext context) {
     double width = MediaQuery.of(context).size.width;

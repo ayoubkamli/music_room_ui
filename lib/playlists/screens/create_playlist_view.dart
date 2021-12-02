@@ -36,8 +36,7 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
       appBar: getAppBar(),
       body: BlocProvider(
           create: (context) => CreatePlaylistBloc(
-              context.read<PlaylistRepository>(),
-              // context.read<PlaylistCubit>(),
+                context.read<PlaylistRepository>(),
               ),
           child: SingleChildScrollView(
             child: Stack(
@@ -166,14 +165,13 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
                   context
                       .read<CreatePlaylistBloc>()
                       .add(CreatePlaylistSubmitted());
-                  //
 
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
                   //         builder: (context) =>
                   //             UploadPhoto(title: 'upload photo')));
-                  // //
+
                 }
               },
               child: Text('Create Playlist'));
