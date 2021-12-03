@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/bloc/edit_event/edit_event_event.dart';
 import 'package:myapp/events/bloc/edit_event/edite_event_state.dart';
-import 'package:myapp/events/models/upload_photo_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 
@@ -12,8 +11,7 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
   final EventRepository repository;
   final EventCubit eventCubit;
 
-  EditEventBloc(this.repository, this.eventCubit)
-      : super(EditEventState(id: '61758b98cd0ddc001fd5ae37'));
+  EditEventBloc(this.repository, this.eventCubit) : super(EditEventState());
 
   @override
   Stream<EditEventState> mapEventToState(EditEventEvent event) async* {
@@ -38,7 +36,7 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
           state.description,
           state.selectedPrefList,
           state.eventStatus,
-          state.id,
+          state.id!,
         );
         // print('look at this edit event ************ +${response.statusCode}');
         // print('look at this edit event ************ +${response.body}');
@@ -51,8 +49,7 @@ class EditEventBloc extends Bloc<EditEventEvent, EditEventState> {
           //   eventStatus: '',
           // );
           EditEventUploadphoto(jsonDecode(response.body).toString());
-          yield state.copyWith(
-              data: UploadPhotoModel.fromJson(jsonDecode(response.body)));
+          yield state.copyWith(data: state.id);
           // print('response from state ${state.data}');
           yield state.copyWith(formStatus: SubmissionSuccess());
           yield state.copyWith(formStatus: InitialFormStatus());

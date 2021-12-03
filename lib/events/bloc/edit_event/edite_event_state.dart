@@ -1,13 +1,12 @@
-import 'package:myapp/events/models/upload_photo_model.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/utils/MyValidator.dart';
 
 class EditEventState {
   final String name;
 
-  String id;
+  String? id;
 
-  UploadPhotoModel? data;
+  String? data;
 
   bool get isEventNameValid => MyInputValidator().isEventNameValid(name);
 
@@ -30,7 +29,7 @@ class EditEventState {
       this.eventStatus = 'public',
       this.formStatus = const InitialFormStatus(),
       this.data,
-      required this.id});
+      this.id});
 
   EditEventState copyWith({
     String? name,
@@ -38,7 +37,7 @@ class EditEventState {
     String? eventStatus,
     List<String>? selectedPrefList,
     FormSubmissionStatus? formStatus,
-    UploadPhotoModel? data,
+    String? data,
     String? id,
   }) {
     return EditEventState(
