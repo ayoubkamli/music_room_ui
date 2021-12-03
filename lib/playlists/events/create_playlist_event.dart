@@ -24,4 +24,10 @@ class CreatePlaylistStatusChanged extends CreatePlaylistEvent {
   CreatePlaylistStatusChanged({this.status});
 }
 
+class CreatePlaylistUploadPhoto extends CreatePlaylistEvent {
+  final String? data;
+
+  CreatePlaylistUploadPhoto(this.data);
+}
+
 class CreatePlaylistSubmitted extends CreatePlaylistEvent {}

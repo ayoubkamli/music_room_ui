@@ -27,6 +27,7 @@ class PlaylistRepository {
     };
     try {
       final response = await PlaylistPost(playlistUrl, data).postRequest();
+      print('this is the response ${response.statusCode}');
       return response;
     } catch (e) {
       return null;

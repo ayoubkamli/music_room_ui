@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/bloc/all_event/event_cubit.dart';
 import 'package:myapp/events/bloc/all_event/event_state.dart';
 import 'package:myapp/events/models/event_model.dart';
@@ -92,20 +91,22 @@ class _AllEventsViewState extends State<AllEventsView> {
             padding: const EdgeInsets.only(left: 30),
             child: Column(
               children: List.generate(events[0].length, (index) {
-                final data = EventModel.fromJson(events[0][index]);
-                String url = data.imgUrl.toString();
-                List<String>? s = url.split("/");
-                String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
+                final data = EventModel.fromJson(
+                    events[0][events[0].length - index - 1]);
+                // String url = data.imgUrl.toString();
+                // List<String>? s = url.split("/");
+                // String? imageUrl = "http://$ip/api/media/${s[s.length - 1]}";
                 return Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
                     onTap: () {
-                      eventTracks(events[0][index], context);
+                      eventTracks(
+                          events[0][events[0].length - index - 1], context);
                     },
                     child: Column(
                       children: [
                         FutureBuilder<String>(
-                          future: getImageUrl(imageUrl),
+                          future: getImageUrl(data.imgUrl),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Container(

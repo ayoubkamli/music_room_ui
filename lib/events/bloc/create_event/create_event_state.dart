@@ -1,11 +1,10 @@
-import 'package:myapp/events/models/upload_photo_model.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/utils/MyValidator.dart';
 
 class CreateEventState {
   final String name;
 
-  UploadPhotoModel? data;
+  String? data;
   bool get isEventNameValid => MyInputValidator().isEventNameValid(name);
 
   final String description;
@@ -34,7 +33,7 @@ class CreateEventState {
     String? eventStatus,
     List<String>? selectedPrefList,
     FormSubmissionStatus? formStatus,
-    UploadPhotoModel? data,
+    String? data,
   }) {
     return CreateEventState(
       name: name ?? this.name,

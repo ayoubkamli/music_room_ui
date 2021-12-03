@@ -90,11 +90,13 @@ class AllPlaylistsView extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(right: 30),
               child: GestureDetector(
-                onTap: () => getEventTracks(playlists[index], context),
+                onTap: () => getEventTracks(
+                    playlists[playlists.length - index - 1], context),
                 child: Column(
                   children: [
                     FutureBuilder<String>(
-                        future: getImageUrl(playlists[index].image),
+                        future: getImageUrl(
+                            playlists[playlists.length - index - 1].image),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Container(
@@ -125,7 +127,8 @@ class AllPlaylistsView extends StatelessWidget {
                                   child: SizedBox(
                                     width: width - 135,
                                     child: Text(
-                                      playlists[index].name!,
+                                      playlists[playlists.length - index - 1]
+                                          .name!,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       softWrap: true,
@@ -142,7 +145,8 @@ class AllPlaylistsView extends StatelessWidget {
                                 SizedBox(
                                   width: width - 135,
                                   child: Text(
-                                    playlists[index].desc!,
+                                    playlists[playlists.length - index - 1]
+                                        .desc!,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     softWrap: true,

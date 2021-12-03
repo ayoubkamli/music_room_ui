@@ -74,11 +74,16 @@ Widget getBody(
                 );
               },
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green)),
+                //backgroundColor: MaterialStateProperty.all(Colors.green[400]),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  side: BorderSide(color: Colors.green),
+                )),
+              ),
               child: Text(
-                'ADD playlist ',
+                'Add playlist ',
                 style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.green, fontWeight: FontWeight.w400),
               ),
             ),
           ],

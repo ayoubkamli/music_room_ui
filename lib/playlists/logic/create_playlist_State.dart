@@ -17,12 +17,15 @@ class CreatePlaylistState {
 
   final FormSubmissionStatus playlistFormStatus;
 
+  String? data;
+
   CreatePlaylistState({
     this.name = '',
     this.description = '',
     this.playlistSelectedPrefList = const [],
     this.playlistStatus = 'public',
     this.playlistFormStatus = const InitialFormStatus(),
+    this.data,
   });
 
   CreatePlaylistState copyWith({
@@ -31,6 +34,7 @@ class CreatePlaylistState {
     String? playlistStatus,
     List<String>? playlistSelectedPrefList,
     FormSubmissionStatus? playlistFormStatus,
+    String? data,
   }) {
     return CreatePlaylistState(
       name: name ?? this.name,
@@ -39,6 +43,7 @@ class CreatePlaylistState {
       playlistSelectedPrefList:
           playlistSelectedPrefList ?? this.playlistSelectedPrefList,
       playlistFormStatus: playlistFormStatus ?? this.playlistFormStatus,
+      data: data ?? this.data,
     );
   }
 }

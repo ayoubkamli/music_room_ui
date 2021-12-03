@@ -1,23 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/constant/constant.dart';
-import 'package:myapp/events/bloc/all_event/event_cubit.dart';
-import 'package:myapp/events/models/upload_photo_model.dart';
-import 'package:myapp/events/screens/all_events_screen.dart';
+import 'package:myapp/pages/tab_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime_type/mime_type.dart';
 
 class UploadPhoto extends StatefulWidget {
   final String title;
-  final UploadPhotoModel data;
+  final String id;
+  final String url;
 
-  const UploadPhoto({Key? key, required this.title, required this.data})
+  const UploadPhoto(
+      {Key? key, required this.title, required this.id, required this.url})
       : super(key: key);
 
   @override
@@ -34,10 +32,10 @@ class _UploadPhotoState extends State<UploadPhoto> {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString('Token');
     String bearerToken = 'Bearer $token';
-    UploadPhotoModel data = widget.data;
+    // UploadPhotoModel data = widget.data;
 
     /********** */
-    print('this is the owner id' + data.data!.ownerId.toString());
+    // print('this is the owner id' + data.data!.ownerId.toString());
 
     /********** */
     print('url  : filepath--> $filepath');
@@ -75,9 +73,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
   }
 
   Widget _previewImage() {
-    UploadPhotoModel data = widget.data;
-    String eventId = data.data!.sId.toString();
-    String uploadUrl = '$eventUrl/$eventId/upload';
+    // UploadPhotoModel data = widget.data;
+    // String eventId = data.data!.sId.toString();
+    String uploadUrl = '${widget.url}/${widget.id}/upload';
     if (_imageFile != null) {
       return Center(
         child: Column(
@@ -105,9 +103,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
         var res = await uploadImage(_imageFile!.path, uploadUrl);
         print(res.statusCode);
         if (res.statusCode == 200) {
-          BlocProvider.of<EventCubit>(context).getAllEvents();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AllEventsView()));
+          // BlocProvider.of<EventCubit>(context).getAllEvents();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TabView()));
         }
       },
       child: const Text('Upload'),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/constant/constant.dart';
-import 'package:myapp/constant/style.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/playlists/logic/create_playlist_State.dart';
 import 'package:myapp/playlists/logic/create_playlist_bloc.dart';
 import 'package:myapp/playlists/events/create_playlist_event.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
+import 'package:myapp/widgets/uplaod_photo.dart';
 
 class CreateplaylistView extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      //backgroundColor: Colors.black,
       appBar: getAppBar(),
       body: BlocProvider(
           create: (context) => CreatePlaylistBloc(
@@ -58,7 +58,7 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Create Evet",
+            Text("Create new Playlist",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
@@ -83,6 +83,11 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
           setState(() {
             selectedPrefList = [];
           });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      UploadPhoto(title: 'upload photo', id: state.data!, url: playlistUrl.toString(),)));
         }
       },
       child: Container(
@@ -94,6 +99,9 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _nameField(),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
                   _descriptionField(),
                   _shipSelect(),
                   _switchButton(),
@@ -110,13 +118,14 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
         builder: (context, state) {
       return TextFormField(
         decoration: InputDecoration(
-            enabledBorder: outlineInputStyle,
-            icon: Icon(
-              Icons.music_note,
-              color: Colors.white,
-            ),
-            hintText: 'Event name',
-            hintStyle: TextStyle(color: Colors.white)),
+          // enabledBorder: outlineInputStyle,
+          icon: Icon(
+            Icons.music_note,
+            color: Colors.black87,
+          ),
+          hintText: 'Event name',
+          // hintStyle: TextStyle(color: Colors.white),
+        ),
         validator: (value) =>
             state.isPlaylistNameValid ? null : 'Invalid event name',
         onChanged: (value) => context.read<CreatePlaylistBloc>().add(
@@ -133,13 +142,13 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
         padding: const EdgeInsets.only(top: 10),
         child: TextFormField(
           decoration: InputDecoration(
-            enabledBorder: outlineInputStyle,
+            // enabledBorder: outlineInputStyle,
             icon: Icon(
               Icons.music_video,
-              color: Colors.white,
+              color: Colors.black87,
             ),
             hintText: 'Description',
-            hintStyle: TextStyle(color: Colors.white),
+            // hintStyle: TextStyle(color: Colors.white),
           ),
           validator: (value) =>
               state.isPlaylistDescriptionValid ? null : 'Invalid description',
@@ -165,13 +174,6 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
                   context
                       .read<CreatePlaylistBloc>()
                       .add(CreatePlaylistSubmitted());
-
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             UploadPhoto(title: 'upload photo')));
-
                 }
               },
               child: Text('Create Playlist'));
@@ -187,7 +189,7 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
               TextButton(
                 child: Text(
                   'Add preferences',
-                  style: (TextStyle(color: Colors.white)),
+                  style: (TextStyle(color: Colors.black87)),
                 ),
                 onPressed: () => {
                   _showPrefDialog(),
@@ -239,7 +241,7 @@ class _CreateplaylistViewState extends State<CreateplaylistView> {
             children: [
               Text(
                 visibilityText,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black87),
               ),
               Switch(
                 value: isSwitched,

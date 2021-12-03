@@ -83,8 +83,11 @@ class _CreateEventViewState extends State<CreateEventView> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      UploadPhoto(title: 'upload photo', data: state.data!)));
+                  builder: (context) => UploadPhoto(
+                        title: 'upload photo',
+                        id: state.data!,
+                        url: eventUrl.toString(),
+                      )));
         }
       },
       child: Form(
