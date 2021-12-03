@@ -80,7 +80,7 @@ class _CreateEventViewState extends State<CreateEventView> {
           setState(() {
             selectedPrefList = [];
           });
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => UploadPhoto(

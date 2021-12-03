@@ -77,7 +77,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
     // String eventId = data.data!.sId.toString();
     String uploadUrl = '${widget.url}/${widget.id}/upload';
     if (_imageFile != null) {
-      return Center(
+      return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -104,7 +104,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
         print(res.statusCode);
         if (res.statusCode == 200) {
           // BlocProvider.of<EventCubit>(context).getAllEvents();
-          Navigator.push(
+          Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => TabView()));
         }
       },
