@@ -13,9 +13,9 @@ class TrackEventCubit extends Cubit<TrackEventState> {
 
   String eventId = '';
 
-  void putEventId() {
-    eventId = 'lol';
-  }
+  // void putEventId() {
+  //   eventId = 'lol';
+  // }
 
   Future<bool> addTrackToEvent(String eventId, String trackId) async {
     http.Response response =
@@ -23,7 +23,7 @@ class TrackEventCubit extends Cubit<TrackEventState> {
     if (response.statusCode == 200) {
       return Future<bool>.value(true);
     }
-    return Future<bool>.value(true);
+    return Future<bool>.value(false);
   }
 
   void remove(String eventId, String trackId) {

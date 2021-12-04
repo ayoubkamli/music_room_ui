@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/bloc/track_event/manage_track_event_cubit.dart';
@@ -9,6 +8,7 @@ import 'package:myapp/events/repositories/event_repository.dart';
 
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
+import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
@@ -25,10 +25,10 @@ class TrackEventView extends StatefulWidget {
 }
 
 class _TrackEventViewState extends State<TrackEventView> {
-  AudioCache audioCache = AudioCache();
-  AudioPlayer advancedPlayer = AudioPlayer();
-  String? localFilePath;
-  String? localAudioCacheURI;
+  // AudioCache audioCache = AudioCache();
+  // AudioPlayer advancedPlayer = AudioPlayer();
+  // String? localFilePath;
+  // String? localAudioCacheURI;
   String message = 'Loading...';
 
   @override
@@ -83,6 +83,7 @@ class _TrackEventViewState extends State<TrackEventView> {
             TrackEventCubit cubit = TrackEventCubit.get(context);
 
             cubit.eventId = data.data.id.toString();
+            print('this is the cubit.event id ${cubit.eventId}');
 
             print(' event id from cubit 000>>>>  ${cubit.eventId}');
             return Column(
@@ -166,64 +167,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                                 ),
                               ],
                             ),
-                            PopupMenuButton(
-                                icon: Icon(
-                                  Icons.more_vert,
-                                  color: Colors.green,
-                                ),
-                                color: Colors.black,
-                                onSelected: (selectedValue) {
-                                  print(selectedValue);
-                                  if (selectedValue == '1') {
-                                    print('1');
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditEventView(data: widget.data)),
-                                    );
-                                  }
-                                  if (selectedValue == '2') {
-                                    print('2');
-                                    RemoveEvent().deleteEvent(cubit.eventId);
-                                  }
-                                  if (selectedValue == '3') {
-                                    print('3');
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => SearchScreen()),
-                                    // );
-                                    showSearch(
-                                        context: context,
-                                        delegate: SearchTracksScreen(
-                                          searchBloc:
-                                              BlocProvider.of<SearchBloc>(
-                                                  context),
-                                          eventId: cubit.eventId,
-                                        ));
-                                  }
-                                },
-                                itemBuilder: (BuildContext ctx) => [
-                                      PopupMenuItem(
-                                          child: Text('Edit event',
-                                              style: (TextStyle(
-                                                  color: Colors.white))),
-                                          value: '1'),
-                                      PopupMenuItem(
-                                        child: Text('Delete event',
-                                            style: (TextStyle(
-                                                color: Colors.white))),
-                                        value: '2',
-                                      ),
-                                      PopupMenuItem(
-                                        child: Text('add track',
-                                            style: (TextStyle(
-                                                color: Colors.white))),
-                                        value: '3',
-                                      ),
-                                    ]),
+                            popUpMenu(cubit.eventId),
                           ],
                         ),
                         SizedBox(
@@ -254,6 +198,63 @@ class _TrackEventViewState extends State<TrackEventView> {
         ),
       ),
     );
+  }
+
+  Widget popUpMenu(String eventId) {
+    return PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.green,
+        ),
+        color: Colors.black,
+        onSelected: (selectedValue) {
+          print(selectedValue);
+          if (selectedValue == '1') {
+            print('1');
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditEventView(data: widget.data)),
+            );
+          }
+          if (selectedValue == '2') {
+            print('2');
+            RemoveEvent().deleteEvent(eventId);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => TabView()));
+          }
+          if (selectedValue == '3') {
+            print('3');
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) => SearchScreen()),
+            // );
+            showSearch(
+                context: context,
+                delegate: SearchTracksScreen(
+                  searchBloc: BlocProvider.of<SearchBloc>(context),
+                  eventId: eventId,
+                ));
+          }
+        },
+        itemBuilder: (BuildContext ctx) => [
+              PopupMenuItem(
+                  child: Text('Edit event',
+                      style: (TextStyle(color: Colors.white))),
+                  value: '1'),
+              PopupMenuItem(
+                child: Text('Delete event',
+                    style: (TextStyle(color: Colors.white))),
+                value: '2',
+              ),
+              PopupMenuItem(
+                child:
+                    Text('add track', style: (TextStyle(color: Colors.white))),
+                value: '3',
+              ),
+            ]);
   }
 
   Widget remoteUrl() {

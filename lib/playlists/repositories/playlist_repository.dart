@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:myapp/constant/constant.dart';
+import 'package:myapp/playlists/models/playlist_model.dart';
 import 'package:myapp/playlists/networking/playlist_api.dart';
 
 class PlaylistRepository {
@@ -70,7 +73,9 @@ class PlaylistRepository {
     final url = Uri.parse('$playlistUrl/$id');
     try {
       final http.Response response = await PlaylistGet(url).getRequest();
+      print('response from getOnePlaylist ${response.statusCode} ');
       if (response.statusCode == 200) {
+        print(response.body.toString());
         return response;
       } else {
         print('something went wrong from get one playlist');
@@ -106,10 +111,12 @@ class PlaylistRepository {
     }
   }
 
-  Future<http.Response?> removeTrackPlaylist(String id) async {
-    final Uri url = Uri.parse('$playlistUrl/$id/track');
+  Future<http.Response?> removeTrackPlaylist(
+      String playlistId, String trackId) async {
+    final Uri url = Uri.parse('$playlistUrl/$playlistId/track');
     try {
-      final http.Response response = await PlaylistDelete(url).deleteRequest();
+      final http.Response response =
+          await PlaylistDeleteWithBody(url, trackId).deleteRequest();
       if (response.statusCode == 200) {
         return response;
       } else {

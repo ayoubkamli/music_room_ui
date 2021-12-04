@@ -49,6 +49,7 @@ class PlaylistGet {
 
   Future<http.Response> getRequest() async {
     Map<String, String> headers = await MyHeader().getHeaders();
+    print('$url\n $headers ');
 
     final response = await http.get(
       url,
@@ -67,6 +68,21 @@ class PlaylistDelete {
     Map<String, String> headers = await MyHeader().getHeaders();
 
     final response = await http.delete(url, headers: headers);
+    return response;
+  }
+}
+
+class PlaylistDeleteWithBody {
+  final Uri url;
+  final String trackId;
+
+  PlaylistDeleteWithBody(this.url, this.trackId);
+
+  Future<http.Response> deleteRequest() async {
+    Map<String, dynamic> body = {'trackId': '$trackId'};
+    Map<String, String> headers = await MyHeader().getHeaders();
+
+    final response = await http.delete(url, headers: headers, body: body);
     return response;
   }
 }
