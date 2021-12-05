@@ -1,14 +1,14 @@
-class AutoGenerate {
-  AutoGenerate({
+class Pmodel {
+  Pmodel({
     required this.success,
     required this.data,
   });
   late final bool success;
-  late final Data data;
+  late final PData data;
 
-  AutoGenerate.fromJson(Map<String, dynamic> json) {
+  Pmodel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = Data.fromJson(json['data']);
+    data = PData.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -19,40 +19,40 @@ class AutoGenerate {
   }
 }
 
-class Data {
-  Data({
+class PData {
+  PData({
     required this.invitedUsers,
     required this.musicPreference,
     required this.visibility,
-    required this._id,
+    required this.id,
     required this.name,
     required this.desc,
     required this.ownerId,
     required this.tracks,
-    required this._V,
+    required this.V,
     required this.image,
   });
   late final List<String> invitedUsers;
   late final List<String> musicPreference;
   late final String visibility;
-  late final String _id;
+  late final String id;
   late final String name;
   late final String desc;
   late final String ownerId;
   late final List<Tracks> tracks;
-  late final int _V;
-  late final String image;
+  late final int V;
+  late final String? image;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  PData.fromJson(Map<String, dynamic> json) {
     invitedUsers = List.castFrom<dynamic, String>(json['invitedUsers']);
     musicPreference = List.castFrom<dynamic, String>(json['musicPreference']);
     visibility = json['visibility'];
-    _id = json['_id'];
+    id = json['_id'];
     name = json['name'];
     desc = json['desc'];
     ownerId = json['ownerId'];
     tracks = List.from(json['tracks']).map((e) => Tracks.fromJson(e)).toList();
-    _V = json['__v'];
+    V = json['__v'];
     image = json['image'];
   }
 
@@ -61,12 +61,12 @@ class Data {
     _data['invitedUsers'] = invitedUsers;
     _data['musicPreference'] = musicPreference;
     _data['visibility'] = visibility;
-    _data['_id'] = _id;
+    _data['_id'] = id;
     _data['name'] = name;
     _data['desc'] = desc;
     _data['ownerId'] = ownerId;
     _data['tracks'] = tracks.map((e) => e.toJson()).toList();
-    _data['__v'] = _V;
+    _data['__v'] = V;
     _data['image'] = image;
     return _data;
   }
@@ -76,7 +76,7 @@ class Tracks {
   Tracks({
     required this.artists,
     required this.images,
-    required this._id,
+    required this.id,
     required this.trackId,
     required this.name,
     required this.previewUrl,
@@ -84,7 +84,7 @@ class Tracks {
   });
   late final List<Artists> artists;
   late final List<Images> images;
-  late final String _id;
+  late final String id;
   late final String trackId;
   late final String name;
   late final String previewUrl;
@@ -94,7 +94,7 @@ class Tracks {
     artists =
         List.from(json['artists']).map((e) => Artists.fromJson(e)).toList();
     images = List.from(json['images']).map((e) => Images.fromJson(e)).toList();
-    _id = json['_id'];
+    id = json['_id'];
     trackId = json['trackId'];
     name = json['name'];
     previewUrl = json['preview_url'];
@@ -105,7 +105,7 @@ class Tracks {
     final _data = <String, dynamic>{};
     _data['artists'] = artists.map((e) => e.toJson()).toList();
     _data['images'] = images.map((e) => e.toJson()).toList();
-    _data['_id'] = _id;
+    _data['_id'] = id;
     _data['trackId'] = trackId;
     _data['name'] = name;
     _data['preview_url'] = previewUrl;

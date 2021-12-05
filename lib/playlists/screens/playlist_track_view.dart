@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
-import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_cubit.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_state.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
+import 'package:myapp/playlists/screens/p_model.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
@@ -78,8 +78,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
       future: PlaylistRepository().getOnePlaylist(widget.playlistId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          AlbumModel playlist =
-              AlbumModel.fromJson(jsonDecode(snapshot.data!.body));
+          Pmodel playlist = Pmodel.fromJson(jsonDecode(snapshot.data!.body));
           print('${playlist.toJson()}');
           return dataBody(playlist);
           // return Container();
@@ -96,7 +95,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
     );
   }
 
-  dataBody(AlbumModel data) {
+  dataBody(Pmodel data) {
     var size = MediaQuery.of(context).size;
 
     return BlocProvider(
@@ -116,7 +115,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 30, right: 30, top: 20),
-                        child: FutureBuilder<String>(
+                        child: FutureBuilder<String?>(
                           future: getImageUrl(data.data.id),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
@@ -209,13 +208,13 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                   SizedBox(
                     height: 20,
                   ),
-                  // Column(
-                  //   children: List.generate(data.data.playlist.length, (index) {
-                  //     print('hhhhhhhhhhhhhhhhhhh' +
-                  //         data.data.playlist[index].toString());
-                  //     return track(data.data.playlist[index], cubit.playlistId);
-                  //   }),
-                  // )
+                  Column(
+                    children: List.generate(data.data.tracks.length, (index) {
+                      print('hhhhhhhhhhhhhhhhhhh' +
+                          data.data.tracks[index].toString());
+                      return track(data.data.tracks[index], cubit.playlistId);
+                    }),
+                  )
                 ],
               );
             }),
@@ -286,41 +285,39 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
     return PlayerWidget(url: kUrl1);
   }
 
-  // Widget track(PlaylistModel data, String eventId) {
-  //   // EventModel songData = EventModel.fromJson(data);
-
-  //   print('song data ------------------------ $data');
-  //   print(data.previewUrl);
-  //   return Padding(
-  //     padding: const EdgeInsets.only(left: 30, right: 30),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         TextButton(
-  //             onPressed: () {},
-  //             child: RichText(
-  //               text: TextSpan(
-  //                 children: [
-  //                   TextSpan(
-  //                     text: data.popularity.toString(),
-  //                   ),
-  //                 ],
-  //               ),
-  //             )),
-  //         TextButton(
-  //           onPressed: () => null,
-  //           child: Text(
-  //             data.name.toString(),
-  //             style: TextStyle(color: Colors.white.withOpacity(0.5)),
-  //           ),
-  //         ),
-  //         Column(
-  //           children: [vote(), removeTrack(eventId, data.id)],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget track(Tracks data, String eventId) {
+    print('song data ------------------------ $data');
+    print(data.previewUrl);
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+              onPressed: () {},
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: data.popularity.toString(),
+                    ),
+                  ],
+                ),
+              )),
+          TextButton(
+            onPressed: () => null,
+            child: Text(
+              data.name.toString(),
+              style: TextStyle(color: Colors.white.withOpacity(0.5)),
+            ),
+          ),
+          Column(
+            children: [vote(), removeTrack(eventId, data.id)],
+          )
+        ],
+      ),
+    );
+  }
 
   vote() {
     return TextButton(
