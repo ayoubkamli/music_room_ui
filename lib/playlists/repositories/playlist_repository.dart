@@ -73,6 +73,7 @@ class PlaylistRepository {
       print('response from getOnePlaylist ${response.statusCode} ');
       if (response.statusCode == 200) {
         print(response.body.toString());
+
         return response;
       } else {
         print('something went wrong from get one playlist');
@@ -85,17 +86,21 @@ class PlaylistRepository {
   }
 
   Future<http.Response?> editPlaylist(String id, String name, String desc,
-      String musicPreference, String visibility) async {
+      List<String> musicPreference, String visibility) async {
     // is visbility or visibility
     Map<String, dynamic> data = {
-      'name': name,
-      'desc': desc,
+      'name': '$name',
+      'desc': '$desc',
       'musicPreference': musicPreference,
-      'visbility': visibility
+      'visbility': '$visibility'
     };
-    final url = Uri.parse('$playlistUrl/$id');
+    print('this is the palylist id $id');
+    final Uri url = Uri.parse('$playlistUrl/$id');
+    print('url...  $url');
     try {
       final http.Response response = await PlaylistPut(url, data).putRequest();
+      print(
+          'this the response from the plalylist repository ${response.statusCode}');
       if (response.statusCode == 200) {
         return response;
       } else {

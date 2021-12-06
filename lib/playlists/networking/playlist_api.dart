@@ -94,9 +94,15 @@ class PlaylistPut {
   PlaylistPut(this.url, this.source);
 
   Future<http.Response> putRequest() async {
-    Map<String, String> header = MyHeader().getHeaders();
+    print('this is the source :  ${source.toString()}');
+    print('this is the url :  ${url.toString()}');
+    Map<String, String> header = await MyHeader().getHeaders();
+    print(header.toString());
 
-    final response = await http.put(url, headers: header, body: source);
+    final response =
+        await http.put(url, headers: header, body: jsonEncode(source));
+
+    print('response => ${response.statusCode}');
     return response;
   }
 }

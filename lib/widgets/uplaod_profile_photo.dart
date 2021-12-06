@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,9 +7,13 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/auth/models/user.dart';
+import 'package:myapp/constant/constant.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/screens/edit_event_screen.dart';
+import 'package:myapp/playlists/repositories/playlist_repository.dart';
+import 'package:myapp/playlists/screens/p_model.dart';
+import 'package:myapp/playlists/screens/playlist_track_view.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/profile/screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,10 +85,10 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
 
   Widget _previewImage() {
     // UploadPhotoModel data = widget.data;
-    String eventId = widget.id.toString();
+    String endpointId = widget.id.toString();
     String uploadUrl;
     if (widget.id != '') {
-      uploadUrl = '${widget.apiUrl}/$eventId/upload';
+      uploadUrl = '${widget.apiUrl}/$endpointId/upload';
     } else {
       uploadUrl = '${widget.apiUrl}';
     }
@@ -125,13 +130,27 @@ class _UploadProfilePhotoState extends State<UploadProfilePhoto> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditProfileView(data: data)));
-          } else if (widget.id != '') {
+          } else if (widget.id != '' &&
+              widget.apiUrl.toString() == eventUrl.toString()) {
             AlbumModel? data = await EventRepository().getOneEvent(widget.id);
 
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditEventView(data: data!.data)));
+          } else if (widget.id != '' &&
+              widget.apiUrl.toString() == playlistUrl.toString()) {
+            // AlbumModel? data = await EventRepository().getOneEvent(widget.id);
+            Response? data =
+                await PlaylistRepository().getOnePlaylist(widget.id);
+            Pmodel playlist =
+                Pmodel.fromJson(jsonDecode(data!.body.toString()));
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        PlaylistTrackView(playlistId: playlist.data.id)));
           }
         }
       },

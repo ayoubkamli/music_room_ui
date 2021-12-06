@@ -8,6 +8,7 @@ import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_cubit.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_state.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
+import 'package:myapp/playlists/screens/edit_palylist_view.dart';
 import 'package:myapp/playlists/screens/p_model.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
@@ -27,6 +28,7 @@ class PlaylistTrackView extends StatefulWidget {
 
 class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   String message = 'Loading...';
+  // late PData playlistData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +99,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
 
   dataBody(Pmodel data) {
     var size = MediaQuery.of(context).size;
+    PData paylistData = PData.fromJson(data.data.toJson());
 
     return BlocProvider(
       create: (context) => PlaylistTrackCubit(),
@@ -190,7 +193,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                                   ),
                                 ],
                               ),
-                              popUpMenu(cubit.playlistId),
+                              popUpMenu(paylistData),
                             ],
                           ),
                           SizedBox(
@@ -222,7 +225,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
     );
   }
 
-  Widget popUpMenu(String eventId) {
+  Widget popUpMenu(PData playlistData) {
     return PopupMenuButton(
         icon: Icon(
           Icons.more_vert,
@@ -234,15 +237,14 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
           if (selectedValue == '1') {
             print('1');
 
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => EditEventView(data: widget.data)),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditPlaylistView(data: playlistData)),
+            );
           }
           if (selectedValue == '2') {
             print('2');
-            // RemoveEvent().deleteEvent(eventId);
             PlaylistRepository()
                 .deletePlaylist(PlaylistTrackCubit().playlistId);
             Navigator.pushReplacement(
@@ -250,26 +252,21 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
           }
           if (selectedValue == '3') {
             print('3');
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => SearchScreen()),
-            // );
             showSearch(
                 context: context,
                 delegate: SearchTracksScreen(
                   searchBloc: BlocProvider.of<SearchBloc>(context),
-                  eventId: eventId,
+                  eventId: playlistData.id,
                 ));
           }
         },
         itemBuilder: (BuildContext ctx) => [
               PopupMenuItem(
-                  child: Text('Edit event',
+                  child: Text('Edit playslit',
                       style: (TextStyle(color: Colors.white))),
                   value: '1'),
               PopupMenuItem(
-                child: Text('Delete event',
+                child: Text('Delete playlist',
                     style: (TextStyle(color: Colors.white))),
                 value: '2',
               ),
