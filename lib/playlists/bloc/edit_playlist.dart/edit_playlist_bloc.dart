@@ -35,8 +35,6 @@ class EditPlaylistBloc extends Bloc<EditPlaylistEvent, EditPlaylistState> {
             state.selectedPrefList,
             state.visibilityStatus);
 
-        print(
-            'this is the response status code from edit playlist bloc ${response!.statusCode}');
         if (response != null && response.statusCode == 200) {
           EditPlaylistUploadPhotoChanged(jsonDecode(response.body).toString());
           yield state.copyWith(data: state.id);
@@ -44,10 +42,15 @@ class EditPlaylistBloc extends Bloc<EditPlaylistEvent, EditPlaylistState> {
           yield state.copyWith(formStatus: InitialFormStatus());
         } else {
           print('Somthing went wrong in edit playlist else bloc');
+          yield state.copyWith(
+              formStatus: SubmissionFailed('someThings went wrong try again'));
+          yield state.copyWith(formStatus: InitialFormStatus());
         }
       } catch (e) {
         print('Some thing get catched in the edit playlist bloc');
-        throw Exception();
+        yield state.copyWith(
+            formStatus: SubmissionFailed('someThings went wrong try again'));
+        yield state.copyWith(formStatus: InitialFormStatus());
       }
     }
   }
