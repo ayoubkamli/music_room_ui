@@ -64,5 +64,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield state.copyWith(formStatus: SubmissionFailed(e.toString()));
       }
     }
+
+    if (event is LoginWithGoogle) {
+      try {
+        User? user = await authRepo.loginWithGoogle();
+        if (user != null) {
+          authCubit.launchSession(AuthCredentials(user: user));
+        }
+      } catch (e) {}
+    }
   }
 }

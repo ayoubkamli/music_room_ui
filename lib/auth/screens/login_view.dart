@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/auth/auth_cubit.dart';
 import 'package:myapp/auth/repositories/auth_repository.dart';
+import 'package:myapp/auth/screens/login_with_google.dart';
 import 'package:myapp/formStatus/form_submission_status.dart';
 import 'package:myapp/auth/login/login_bloc.dart';
 import 'package:myapp/auth/login/login_event.dart';
@@ -15,12 +16,18 @@ class LoginView extends StatelessWidget {
       body: BlocProvider(
           create: (context) => LoginBloc(
               context.read<AuthRepository>(), context.read<AuthCubit>()),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _loginForm(),
-              _showSignUpButton(context),
-            ],
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(top: 200),
+              child: Column(
+                children: [
+                  _loginForm(),
+                  _loginWithGoogle(),
+                  _showSignUpButton(context),
+                  _showForgotPassword(context),
+                ],
+              ),
+            ),
           )),
     );
   }
@@ -91,11 +98,30 @@ class LoginView extends StatelessWidget {
     });
   }
 
+  Widget _loginWithGoogle() {
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      return ElevatedButton(
+          // onPressed: () => GoogleSignInApi.loginWithGoogle(),
+          onPressed: () {
+            context.read<LoginBloc>().add(LoginWithGoogle());
+          },
+          child: Text('Login with google'));
+    });
+  }
+
   Widget _showSignUpButton(BuildContext context) {
     return SafeArea(
         child: TextButton(
       child: Text('Don\'t have an account? Sign up.'),
       onPressed: () => context.read<AuthCubit>().showSignUp(),
+    ));
+  }
+
+  Widget _showForgotPassword(BuildContext context) {
+    return Container(
+        child: TextButton(
+      child: Text('Forgot password? Reset password.'),
+      onPressed: () => context.read<AuthCubit>().showForgotPAssword(),
     ));
   }
 

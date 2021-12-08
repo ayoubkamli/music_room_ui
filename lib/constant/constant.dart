@@ -12,6 +12,7 @@ final Uri forgotPasswordResetUrl = Uri.parse('http://$ip/api/password/change');
 final Uri editProfileUrl = Uri.parse('http://$ip/api/profile/edit');
 final Uri changePasswordUrl = Uri.parse('http://$ip/api/profile/password');
 final Uri myPlaylistUrl = Uri.parse('http://$ip/api/my-playlists');
+final Uri googleOAuth = Uri.parse('http://$ip/api/auth/google');
 
 final String searchTrackUrl = 'http://$ip/api/tracks/search?name=';
 

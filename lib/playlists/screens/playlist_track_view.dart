@@ -119,10 +119,10 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                         padding:
                             const EdgeInsets.only(left: 30, right: 30, top: 20),
                         child: FutureBuilder<String?>(
-                          future: getImageUrl(data.data.id),
+                          future: getImageUrl(data.data.image),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              // print(' snapshot.data! ' + snapshot.data!);
+                              print(' snapshot.data! ' + snapshot.data!);
                               return Container(
                                 width: 180,
                                 height: 180,

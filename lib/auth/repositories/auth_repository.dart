@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/networking/auth_api.dart';
 
 import 'package:http/http.dart' as http;
@@ -76,6 +77,10 @@ class AuthRepository {
   Future<http.Response> forgotPassword(String email) async {
     final response = ForgotPassword(email).sendCode();
     return response;
+  }
+
+  Future<User?> loginWithGoogle() async {
+    return await GoogleSignInApi.loginWithGoogle();
   }
 
   Future<void> signOut() async {

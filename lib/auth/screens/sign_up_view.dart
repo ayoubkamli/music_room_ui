@@ -108,9 +108,13 @@ class SignUpView extends StatelessWidget {
   Widget _loginAndForgot(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
-      children: [_showLoginButton(context), _showForgotPassword(context)],
+      children: [_showLoginButton(context),
+      //  _showForgotPassword(context),
+       ],
     );
   }
+
+
 
   Widget _showLoginButton(BuildContext context) {
     return Container(
@@ -120,13 +124,7 @@ class SignUpView extends StatelessWidget {
     ));
   }
 
-  Widget _showForgotPassword(BuildContext context) {
-    return Container(
-        child: TextButton(
-      child: Text('Forgot password? Reset password.'),
-      onPressed: () => context.read<AuthCubit>().showForgotPAssword(),
-    ));
-  }
+
 
   Widget _showErrorText(BuildContext context) {
     return Container(

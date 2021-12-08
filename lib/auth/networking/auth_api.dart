@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/constant/constant.dart';
 
@@ -159,6 +161,43 @@ class LogOut {
     print(response.body.toString());
     // print(response.statusCode.toString());
     MyToken().clearToken();
+  }
+}
+
+class GoogleSignInApi {
+  static final _googleSignIn = GoogleSignIn();
+
+  static Future<User?> loginWithGoogle() async {
+    final GoogleSignInAccount? response = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication auth = await response!.authentication;
+    final String? googleAccessToken = auth.accessToken;
+    print(googleAccessToken);
+    print(googleOAuth);
+    try {
+      http.Response? res = await http.post(googleOAuth,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(
+            <String, String>{
+              'accessToken': googleAccessToken.toString(),
+            },
+          ));
+      print(res.statusCode.toString());
+      print(res.body.toString());
+      if (res.statusCode == 200) {
+        var data = jsonDecode(res.body);
+        User user = User.fromJson(data['data']);
+        MyToken().setToken(user.token!);
+        print('---------->>>>>>' + user.token!);
+        return user;
+      }
+      print('some thing went wrong in the login with google auth api');
+      return null;
+    } catch (e) {
+      print('some thing cached in the login with google auth api');
+      return null;
+    }
   }
 }
 /* 
