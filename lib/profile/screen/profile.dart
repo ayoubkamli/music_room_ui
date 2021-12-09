@@ -79,14 +79,10 @@ class _EditProfileViewState extends State<EditProfileView> {
   getBody() {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
       builder: (context, state) {
-        // context.read<EditProfileBloc>().add(
-        //     //
-        //     );
         context.read<EditProfileBloc>().add(EditProfileInitialEvent());
 
         return SingleChildScrollView(
           child: Column(
-            // alignment: Alignment.bottomCenter,
             children: [_editProfileForm(), _editProfilePasswordForm()],
           ),
         );
@@ -98,7 +94,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
-        // final profile = state.profile;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
         }
@@ -126,7 +121,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         final passwordFormStatus = state.passwordFormStatus;
-        // final profile = state.profile;
         if (passwordFormStatus is SubmissionFailed) {
           _showSnackBar(context, passwordFormStatus.exception.toString());
         }

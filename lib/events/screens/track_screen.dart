@@ -12,6 +12,7 @@ import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
+import 'package:myapp/utils/is_current_user.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -30,6 +31,8 @@ class _TrackEventViewState extends State<TrackEventView> {
   // String? localFilePath;
   // String? localAudioCacheURI;
   String message = 'Loading...';
+
+  bool isCurrentUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class _TrackEventViewState extends State<TrackEventView> {
   Widget getBody(AlbumModel data) {
     var size = MediaQuery.of(context).size;
 
-    print('this is the data ' + data.toString());
+    print('this is the data ' + data.data.ownerId.toString());
 
     return BlocProvider(
       create: (context) => TrackEventCubit(),
@@ -84,8 +87,6 @@ class _TrackEventViewState extends State<TrackEventView> {
 
             cubit.eventId = data.data.id.toString();
             print('this is the cubit.event id ${cubit.eventId}');
-
-            print(' event id from cubit 000>>>>  ${cubit.eventId}');
             return Column(
               children: [
                 Stack(
@@ -127,49 +128,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                     height: 100,
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.create_new_folder_outlined,
-                              color: Colors.white,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => ExampleApp()),
-                                    // );
-                                  },
-                                  child: Text(
-                                    data.data.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Container(
-                                  width: 150,
-                                  child: Text(
-                                    data.data.desc,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            popUpMenu(cubit.eventId),
-                          ],
-                        ),
+                        showEventInfo(data),
                         SizedBox(
                           height: 20,
                         ),
@@ -187,8 +146,6 @@ class _TrackEventViewState extends State<TrackEventView> {
                 ),
                 Column(
                   children: List.generate(data.data.playlist.length, (index) {
-                    print('hhhhhhhhhhhhhhhhhhh' +
-                        data.data.playlist[index].toString());
                     return track(data.data.playlist[index], cubit.eventId);
                   }),
                 )
@@ -198,6 +155,86 @@ class _TrackEventViewState extends State<TrackEventView> {
         ),
       ),
     );
+  }
+
+  Widget showEventInfo(AlbumModel data) {
+    return FutureBuilder<bool>(
+        future: IsCurrentUser().isCurrent(data.data.ownerId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == true) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.create_new_folder_outlined,
+                    color: Colors.white,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        data.data.name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Text(
+                          data.data.desc,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpMenu(data.data.id),
+                ],
+              );
+            }
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    data.data.name,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    width: 150,
+                    child: Text(
+                      data.data.desc,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
+          );
+        });
   }
 
   Widget popUpMenu(String eventId) {

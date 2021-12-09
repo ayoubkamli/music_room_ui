@@ -13,6 +13,7 @@ import 'package:myapp/playlists/screens/p_model.dart';
 import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
+import 'package:myapp/utils/is_current_user.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -152,50 +153,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                       height: 100,
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(
-                                Icons.create_new_folder_outlined,
-                                color: Colors.white,
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) => ExampleApp()),
-                                      // );
-                                    },
-                                    child: Text(
-                                      data.data.name,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 150,
-                                    child: Text(
-                                      data.data.desc,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white.withOpacity(0.5),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              popUpMenu(paylistData),
-                            ],
-                          ),
+                          showPlaylistInfo(data),
                           SizedBox(
                             height: 20,
                           ),
@@ -223,6 +181,86 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
             }),
       ),
     );
+  }
+
+  Widget showPlaylistInfo(Pmodel data) {
+    return FutureBuilder<bool>(
+        future: IsCurrentUser().isCurrent(data.data.ownerId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == true) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.create_new_folder_outlined,
+                    color: Colors.white,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        data.data.name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Text(
+                          data.data.desc,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpMenu(data.data),
+                ],
+              );
+            }
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    data.data.name,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    width: 150,
+                    child: Text(
+                      data.data.desc,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
+          );
+        });
   }
 
   Widget popUpMenu(PData playlistData) {
