@@ -73,7 +73,7 @@ class _TrackEventViewState extends State<TrackEventView> {
   }
 
   Widget getBody(AlbumModel data) {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
     print('this is the data ' + data.data.ownerId.toString());
 
@@ -93,14 +93,14 @@ class _TrackEventViewState extends State<TrackEventView> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 30, right: 30, top: 20),
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: FutureBuilder<String>(
                         future: getImageUrl(data.data.image),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             // print(' snapshot.data! ' + snapshot.data!);
                             return Container(
-                              width: 180,
+                              width: 250,
                               height: 180,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -124,7 +124,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
-                    width: size.width - 80,
+                    // width: size.width - 80,
                     height: 100,
                     child: Column(
                       children: [
@@ -166,9 +166,18 @@ class _TrackEventViewState extends State<TrackEventView> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.create_new_folder_outlined,
-                    color: Colors.white,
+                  TextButton.icon(
+                    label: Text(
+                      'Start',
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    icon: Icon(
+                      Icons.play_arrow,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      EventRepository().startEvent(data.data.id);
+                    },
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

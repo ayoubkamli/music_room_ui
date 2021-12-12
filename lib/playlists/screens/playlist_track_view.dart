@@ -100,7 +100,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
 
   dataBody(Pmodel data) {
     var size = MediaQuery.of(context).size;
-    PData paylistData = PData.fromJson(data.data.toJson());
+    // PData paylistData = PData.fromJson(data.data.toJson());
 
     return BlocProvider(
       create: (context) => PlaylistTrackCubit(),

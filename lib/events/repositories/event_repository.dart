@@ -84,4 +84,20 @@ class EventRepository {
       throw (Error);
     }
   }
+
+  Future<void> startEvent(String eventId) async {
+    try {
+      final http.Response response = await StartEvent().start(eventId);
+      print(
+          'this is start buttton response from try event repository ${response.body}');
+      if (response.statusCode == 200) {
+        print('this is the  success body from event repository start event');
+      } else {
+        print(
+            'response failure frome event repository start event ${response.statusCode}');
+      }
+    } catch (e) {
+      print('some things catched in the event repository staet event $e');
+    }
+  }
 }

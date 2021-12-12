@@ -247,3 +247,18 @@ class GetOneEvent {
     return response;
   }
 }
+
+class StartEvent {
+  Future<http.Response> start(eventId) async {
+    String? token = await MyToken().getBearerToken();
+
+    Uri url = Uri.parse('$eventUrl/$eventId/start');
+
+    final http.Response response =
+        await http.get(url, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$token',
+    });
+    return response;
+  }
+}
