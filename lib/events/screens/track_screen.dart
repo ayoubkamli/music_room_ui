@@ -279,10 +279,21 @@ class _TrackEventViewState extends State<TrackEventView> {
             // );
             showSearch(
                 context: context,
-                delegate: SearchTracksScreen(
+                delegate: SearchScreen(
                   searchBloc: BlocProvider.of<SearchBloc>(context),
                   eventId: eventId,
+                  type: 'track',
                 ));
+          }
+          if (selectedValue == '4') {
+            print('4');
+
+            showSearch(
+                context: context,
+                delegate: SearchScreen(
+                    searchBloc: BlocProvider.of<SearchBloc>(context),
+                    eventId: eventId,
+                    type: 'user'));
           }
         },
         itemBuilder: (BuildContext ctx) => [
@@ -299,6 +310,11 @@ class _TrackEventViewState extends State<TrackEventView> {
                 child:
                     Text('add track', style: (TextStyle(color: Colors.white))),
                 value: '3',
+              ),
+              PopupMenuItem(
+                child:
+                    Text('add user', style: (TextStyle(color: Colors.white))),
+                value: '4',
               ),
             ]);
   }

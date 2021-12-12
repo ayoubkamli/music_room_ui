@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => PlaylistRepository(),
         ),
         RepositoryProvider(create: (context) => SearchRepositoryTracks()),
+        RepositoryProvider(create: (context) => SearchRepositoryUser()),
         RepositoryProvider(create: (context) => ProfileRepository()),
       ],
       child: MultiBlocProvider(
@@ -76,6 +77,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (BuildContext newContext) {
             return SearchBloc(
               searchRepository: newContext.read<SearchRepositoryTracks>(),
+            );
+          }),
+          BlocProvider(create: (BuildContext newContext) {
+            return SearchBloc(
+              searchRepository: newContext.read<SearchRepositoryUser>(),
             );
           }),
           BlocProvider(create: (BuildContext newContext) {

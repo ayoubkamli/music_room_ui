@@ -16,6 +16,8 @@ final Uri googleOAuth = Uri.parse('http://$ip/api/auth/google');
 
 final String searchTrackUrl = 'http://$ip/api/tracks/search?name=';
 
+final String searchUserUrl = 'http://$ip/api/users/search?username=';
+
 final String imageUrl =
     'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
 final String photoProfileUrl = 'http://$ip/api/profile/upload';
