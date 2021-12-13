@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/networking/event_api.dart';
+import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_event.dart';
 import 'package:myapp/search/bloc/search_state.dart';
@@ -219,19 +220,41 @@ class SearchScreen extends SearchDelegate<List> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            state.users[index].picture
-                                                .toString(),
-                                          ),
-                                          fit: BoxFit.cover),
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
+                                FutureBuilder<String>(
+                                    future:
+                                        getImageUrl(state.users[index].picture),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    snapshot.data.toString(),
+                                                  ),
+                                                  fit: BoxFit.cover),
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        );
+                                      } else {
+                                        return Container(
+                                          width: 40,
+                                          height: 40,
+                                          // child: Image.asset(
+                                          //     'assets/images/user_placeholder.png'),
+                                          decoration: BoxDecoration(
+                                              // image: DecorationImage(
+                                              //   image:
+                                              //   fit: BoxFit.cover),
+
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        );
+                                      }
+                                    }),
 
                                 SizedBox(
                                   width: 20,

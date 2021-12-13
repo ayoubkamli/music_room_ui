@@ -272,11 +272,7 @@ class _TrackEventViewState extends State<TrackEventView> {
           }
           if (selectedValue == '3') {
             print('3');
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => SearchScreen()),
-            // );
+
             showSearch(
                 context: context,
                 delegate: SearchScreen(

@@ -19,7 +19,7 @@ final String searchTrackUrl = 'http://$ip/api/tracks/search?name=';
 final String searchUserUrl = 'http://$ip/api/users/search?username=';
 
 final String imageUrl =
-    'https://i.picsum.photos/id/629/536/354.jpg?hmac=NWta_CV-ruzeQyb9CvcPbGAmrmMV66H8m9A2d_8rdpI';
+    'https://thumbs.dreamstime.com/b/notes-stave-air-melody-black-background-music-recorded-notes-beautiful-notes-stave-air-melody-black-150979997.jpg';
 final String photoProfileUrl = 'http://$ip/api/profile/upload';
 
 final List<String> prefList = ["POP", "R&B", "HIP HOP", "JAZZ", "K-POP"];
