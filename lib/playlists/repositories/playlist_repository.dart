@@ -187,4 +187,23 @@ class PlaylistRepository {
       return '';
     }
   }
+
+  // Future<http.Response?> addTrackToPlaylist(playlistId, trackId) async {
+  //   final Uri eventIdUrl = Uri.parse('$playlistUrl/$playlistId/track');
+  //   final Map<String, dynamic> source = {
+  //     "trackId": '$trackId',
+  //   };
+  //   try {
+  //     final http.Response response =
+  //         await PlaylistPost(eventIdUrl, source).postRequest();
+  //     if (response.statusCode == 200) {
+  //       print('track is add with success');
+  //     } else {
+  //       print('something went wrong in else of addTracktoPlaulist');
+  //     }
+  //     return response;
+  //   } catch (e) {
+  //     print('some thing catched in add track to palsylust');
+  //   }
+  // }
 }

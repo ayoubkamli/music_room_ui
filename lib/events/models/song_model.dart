@@ -132,7 +132,7 @@ class PlaylistData {
       this.image});
 
   PlaylistData.fromJson(Map<String, dynamic> json) {
-    vote = json['vote'];
+    // vote = json['vote'];
     if (json['artists'] != null) {
       artists = [];
       json['artists'].forEach((v) {

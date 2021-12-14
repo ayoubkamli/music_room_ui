@@ -136,9 +136,11 @@ class _TrackEventViewState extends State<TrackEventView> {
                     ),
                   ),
                 ),
+                joinEvent(data),
                 SizedBox(
                   height: 20,
                 ),
+
                 remoteUrl(),
                 // ExampleApp(),
                 SizedBox(
@@ -246,6 +248,16 @@ class _TrackEventViewState extends State<TrackEventView> {
         });
   }
 
+  joinEvent(AlbumModel data) {
+    return TextButton(
+      onPressed: () {
+        print('join button pressed');
+        EventRepository().subscribeEvent(data.data.id);
+      },
+      child: Text('Subscribe'),
+    );
+  }
+
   Widget popUpMenu(String eventId) {
     return PopupMenuButton(
         icon: Icon(
@@ -278,7 +290,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                 delegate: SearchScreen(
                   searchBloc: BlocProvider.of<SearchBloc>(context),
                   eventId: eventId,
-                  type: 'track',
+                  type: 'trackEvent',
                 ));
           }
           if (selectedValue == '4') {
@@ -289,7 +301,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                 delegate: SearchScreen(
                     searchBloc: BlocProvider.of<SearchBloc>(context),
                     eventId: eventId,
-                    type: 'user'));
+                    type: 'userEvent'));
           }
         },
         itemBuilder: (BuildContext ctx) => [

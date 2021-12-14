@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:myapp/auth/models/user.dart';
 import 'package:myapp/events/models/song_model.dart';
 import 'package:myapp/events/networking/event_api.dart';
+import 'package:myapp/profile/repository/profile_repository.dart';
 
 class EventRepository {
   Future<http.Response> createEvent(
@@ -98,6 +100,23 @@ class EventRepository {
       }
     } catch (e) {
       print('some things catched in the event repository staet event $e');
+    }
+  }
+
+  Future<void> subscribeEvent(String eventId) async {
+    UserData user = await ProfileRepository().getUserProfile();
+    if (user.success == true) {
+      try {
+        final http.Response response =
+            await SubscribeEvent().subscribeEvent(eventId, user.data!.id!);
+        if (response.statusCode == 200) {
+          print('joined to event with success');
+        } else {
+          print('joined to event failed');
+        }
+      } catch (e) {
+        print('Something catch in the event repository');
+      }
     }
   }
 }

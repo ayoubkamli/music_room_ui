@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/networking/event_api.dart';
 import 'package:myapp/events/widgets/future_image.dart';
+import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_event.dart';
 import 'package:myapp/search/bloc/search_state.dart';
@@ -64,10 +65,10 @@ class SearchScreen extends SearchDelegate<List> {
   Widget buildResults(BuildContext context) {
     queryString = query;
     // if query
-    if (type == 'track') {
+    if (type == 'trackEvent' || type == 'trackPlaylist') {
       searchBloc.add(SearchTrack(query: query));
     }
-    if (type == 'user') {
+    if (type == 'userEvent') {
       searchBloc.add(SearchUser(query: query));
     }
 
@@ -100,7 +101,14 @@ class SearchScreen extends SearchDelegate<List> {
                           /// print('-----');
                           String trackId = state.tracks.data[index].trakId;
                           print('this is the event id ${eventId.toString()}');
-                          addTrack(trackId, eventId);
+                          print('this is the track id ${trackId.toString()}');
+                          if (type == 'trackEvent') {
+                            addTrackEvent(trackId, eventId);
+                          }
+                          if (type == 'trackPlaylist') {
+                            addTrackPlaylist(trackId, eventId);
+                          }
+
                           // eventTracks(events[0][index], context);
                         },
                         child: Column(
@@ -321,7 +329,13 @@ class SearchScreen extends SearchDelegate<List> {
     return Container();
   }
 
-  addTrack(String trackId, String eventId) {
+  addTrackEvent(String trackId, String eventId) {
+    print('add event $eventId to track $trackId');
     AddTrackToEvent().addTrackToEvent(eventId, trackId);
+  }
+
+  addTrackPlaylist(String trackId, String playlistId) {
+    print('add track $trackId to playlist $eventId');
+    PlaylistRepository().addTrackPlaylist(playlistId, trackId);
   }
 }

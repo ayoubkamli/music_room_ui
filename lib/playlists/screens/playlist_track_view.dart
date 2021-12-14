@@ -295,7 +295,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                 delegate: SearchScreen(
                     searchBloc: BlocProvider.of<SearchBloc>(context),
                     eventId: playlistData.id,
-                    type: 'track'));
+                    type: 'trackPlaylist'));
           }
         },
         itemBuilder: (BuildContext ctx) => [

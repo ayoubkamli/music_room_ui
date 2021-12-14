@@ -189,20 +189,18 @@ class AddTrackToEvent {
     String? bearerToken = 'Bearer: $token';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
-    // print('add track to event was called');
-
-    final response = await http.post(eventIdUrl,
-        headers: <String, String>{
-          'ContentType': 'application/json; charset=UTF-8',
-          'Authorization': '$bearerToken',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "trackId": '$trackId',
-        }));
+  
+    final response = await http.post(eventIdUrl, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$bearerToken',
+    }, body: {
+      "trackId": trackId.toString()
+    });
 
     // print('this is the response body from add track to event api below');
     // print(response.body.toString());
     print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
+    print(response.body.toString());
 
     return response;
   }
@@ -259,6 +257,23 @@ class StartEvent {
       'ContentType': 'application/json; charset=UTF-8',
       'Authorization': '$token',
     });
+    return response;
+  }
+}
+
+class SubscribeEvent {
+  Future<http.Response> subscribeEvent(String eventId, String userId) async {
+    print('user 0000 $userId');
+    String? token = await MyToken().getBearerToken();
+    Uri url = Uri.parse('$eventUrl/$eventId/join');
+    final http.Response response =
+        await http.post(url, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$token',
+    }, body: {
+      "userId": "$userId"
+    });
+    print(response.body.toString());
     return response;
   }
 }
