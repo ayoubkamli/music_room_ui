@@ -1,31 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:myapp/auth/utils/manage_token.dart';
 import 'package:myapp/utils/http_headers.dart';
-
-// class CreatePlaylist {
-//   final String name;
-//   final String description;
-//   final List<String> pref;
-//   final String visibility;
-
-//   CreatePlaylist(this.name, this.description, this.pref, this.visibility);
-
-//   Future<http.Response> createPlaylist() async {
-//     Map<String, String> headers = await MyHeader().getHeaders();
-
-//     final response = await http.post(playlistUrl,
-//         headers: headers,
-//         body: jsonEncode(<String, dynamic>{
-//           "name": name,
-//           "desc": description,
-//           "musicPreference": pref,
-//           "visibility": visibility,
-//         }));
-//     print('response from create Event ${response.body}');
-//     return response;
-//   }
-// }
 
 class PlaylistPost {
   final Uri url;
@@ -103,6 +80,43 @@ class PlaylistPut {
         await http.put(url, headers: header, body: jsonEncode(source));
 
     print('response => ${response.statusCode}');
+    return response;
+  }
+}
+
+class PlaylistPostTrack {
+  final Uri url;
+  final String source;
+
+  PlaylistPostTrack(this.url, this.source);
+
+  Future<http.Response> postRequest() async {
+    Map<String, String> headers = await MyHeader().getHeaders();
+
+    final response = await http.post(url, headers: headers, body: {
+      "trackId": "16EMONl2vH3rt9f4ehTG8g",
+    });
+    return response;
+  }
+}
+
+class AddTrackToPlaylist {
+  Future<http.Response> addTrackToPlaylist(url, trackId) async {
+    String? token = await MyToken().getToken();
+    String? bearerToken = 'Bearer: $token';
+
+    final response = await http.post(url, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$bearerToken',
+    }, body: {
+      "trackId": trackId.toString()
+    });
+
+    // print('this is the response body from add track to event api below');
+    // print(response.body.toString());
+
+    print(response.body.toString());
+
     return response;
   }
 }

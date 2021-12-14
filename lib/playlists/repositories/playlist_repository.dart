@@ -133,11 +133,12 @@ class PlaylistRepository {
 
   Future<http.Response?> addTrackPlaylist(
       String playlistId, String trackId) async {
-    Map<String, dynamic> source = {'userId': trackId};
     final Uri url = Uri.parse('$playlistUrl/$playlistId/track');
+    print('url is $url \n track id is $trackId');
     try {
       final http.Response response =
-          await PlaylistPost(url, source).postRequest();
+          await AddTrackToPlaylist().addTrackToPlaylist(url, trackId);
+      // await PlaylistPostTrack(url, trackId).postRequest();
       if (response.statusCode == 200) {
         return response;
       } else {
