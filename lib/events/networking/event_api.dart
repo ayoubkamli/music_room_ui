@@ -189,7 +189,7 @@ class AddTrackToEvent {
     String? bearerToken = 'Bearer: $token';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
-  
+
     final response = await http.post(eventIdUrl, headers: <String, String>{
       'ContentType': 'application/json; charset=UTF-8',
       'Authorization': '$bearerToken',
@@ -212,19 +212,17 @@ class RemoveTrackFromEvent {
     String? bearerToken = 'Bearer: $token';
 
     final Uri eventIdUrl = Uri.parse('$eventUrl/$eventId/track');
-    // print('add track to event was called');
+    print('remove track from event \n $eventIdUrl');
 
-    final response = await http.delete(eventIdUrl,
-        headers: <String, String>{
-          'ContentType': 'application/json; charset=UTF-8',
-          'Authorization': '$bearerToken',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "trackId": '$trackId',
-        }));
+    final response = await http.delete(eventIdUrl, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$bearerToken',
+    }, body: {
+      "trackId": '$trackId',
+    });
 
     // print('this is the response body from remove track to event api below');
-    // print(response.body.toString());
+    print('---------->>>>>>>' + response.body.toString());
     // print('\n $eventId \n $trackId \n $token \n $eventIdUrl');
 
     return response;

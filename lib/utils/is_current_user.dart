@@ -7,6 +7,7 @@ class IsCurrentUser {
   }
 
   Future<bool> isCurrent(String id) async {
+    print('|$id|');
     UserData user = await getUserProfile();
     if (user.data!.id == id) {
       return true;

@@ -32,8 +32,6 @@ class _TrackEventViewState extends State<TrackEventView> {
   // String? localAudioCacheURI;
   String message = 'Loading...';
 
-  bool isCurrentUser = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +146,8 @@ class _TrackEventViewState extends State<TrackEventView> {
                 ),
                 Column(
                   children: List.generate(data.data.playlist.length, (index) {
-                    return track(data.data.playlist[index], cubit.eventId);
+                    return track(data.data.playlist[index], cubit.eventId,
+                        data.data.ownerId);
                   }),
                 )
               ],
@@ -331,11 +330,12 @@ class _TrackEventViewState extends State<TrackEventView> {
     return PlayerWidget(url: kUrl1);
   }
 
-  Widget track(PlaylistData data, String eventId) {
+  Widget track(PlaylistData data, String eventId, String ownerId) {
     // EventModel songData = EventModel.fromJson(data);
 
     print('song data ------------------------ $data');
     print(data.previewUrl);
+    print('this is the evnt is \\\\$eventId//');
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(
@@ -359,9 +359,21 @@ class _TrackEventViewState extends State<TrackEventView> {
               style: TextStyle(color: Colors.white.withOpacity(0.5)),
             ),
           ),
-          Column(
-            children: [vote(), removeTrack(eventId, data.id)],
-          )
+          FutureBuilder<bool>(
+              future: IsCurrentUser().isCurrent(ownerId),
+              builder: (context, snapshot) {
+                print('-----> : |${snapshot.data}|');
+                if (snapshot.hasData) {
+                  if (snapshot.data == true) {
+                    return removeTrack(eventId, data.trackId);
+                  } else if (snapshot.data == false) {
+                    return vote();
+                  }
+                }
+                return SizedBox(
+                  width: 10,
+                );
+              })
         ],
       ),
     );

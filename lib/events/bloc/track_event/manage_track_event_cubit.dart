@@ -33,6 +33,7 @@ class TrackEventCubit extends Cubit<TrackEventState> {
   Future<bool> removetrackFromEvent(String eventId, String trackId) async {
     http.Response response =
         await RemoveTrackFromEvent().removeTrackToEvent(eventId, trackId);
+    print('${response.body}');
 
     if (response.statusCode == 200) {
       // print('ok ${response.statusCode}');
