@@ -9,7 +9,7 @@ import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/pages/tab_page.dart';
-import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
+// import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
@@ -327,7 +327,8 @@ class _TrackEventViewState extends State<TrackEventView> {
   }
 
   Widget remoteUrl() {
-    return PlayerWidget(url: kUrl1);
+    // return PlayerWidget(url: kUrl1);
+    return Container();
   }
 
   Widget track(PlaylistData data, String eventId, String ownerId) {

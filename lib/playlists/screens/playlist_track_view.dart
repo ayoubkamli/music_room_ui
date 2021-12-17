@@ -10,10 +10,11 @@ import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_stat
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/playlists/screens/edit_palylist_view.dart';
 import 'package:myapp/playlists/screens/p_model.dart';
-import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
+// import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
+import 'package:myapp/widgets/playlist_player/playlist_player.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -317,7 +318,9 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   }
 
   Widget remoteUrl() {
-    return PlayerWidget(url: kUrl1);
+    // return PlayerWidget(url: kUrl1);
+    // return PlaylistPlayer();
+    return Container();
   }
 
   Widget track(Tracks data, String eventId) {
@@ -340,7 +343,10 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                 ),
               )),
           TextButton(
-            onPressed: () => null,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PlaylistPlayer()));
+            },
             child: Text(
               data.name.toString(),
               style: TextStyle(color: Colors.white.withOpacity(0.5)),
