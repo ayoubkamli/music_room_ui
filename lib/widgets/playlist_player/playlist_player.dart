@@ -18,6 +18,9 @@ class _PlaylistPlayerState extends State<PlaylistPlayer>
     with WidgetsBindingObserver {
   final _player = AudioPlayer();
 
+  final song =
+      "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3";
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +43,7 @@ class _PlaylistPlayerState extends State<PlaylistPlayer>
     });
     // Try to load audio from a source and catch any errors.
     try {
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3")));
+      await _player.setAudioSource(AudioSource.uri(Uri.parse(song)));
     } catch (e) {
       print("Error loading audio source: $e");
     }
