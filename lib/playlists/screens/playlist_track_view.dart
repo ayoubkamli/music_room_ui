@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
@@ -10,20 +11,13 @@ import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_stat
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/playlists/screens/edit_palylist_view.dart';
 import 'package:myapp/playlists/screens/p_model.dart';
-// import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
-import 'package:myapp/widgets/playlist_player/playlist_player.dart';
-
-import 'package:audio_session/audio_session.dart';
-import 'package:flutter/services.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:myapp/widgets/playlist_player/common.dart';
-import 'package:rxdart/rxdart.dart';
-
-const kUrl1 =
-    'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
+import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
+import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
+import 'package:myapp/widgets/playlist_player/notifier/repeat_button_notifier.dart';
+import 'package:myapp/widgets/playlist_player/page_manager.dart';
 
 class PlaylistTrackView extends StatefulWidget {
   final String playlistId;
@@ -34,40 +28,21 @@ class PlaylistTrackView extends StatefulWidget {
   State<PlaylistTrackView> createState() => _PlaylistTrackViewState();
 }
 
-class _PlaylistTrackViewState extends State<PlaylistTrackView>
-    with WidgetsBindingObserver {
-  String message = 'Loading...';
-  // late PData playlistData;
+late final PageManager _pageManager;
 
-  final _player = AudioPlayer();
+class _PlaylistTrackViewState extends State<PlaylistTrackView> {
+  String message = 'Loading...';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
-    ));
-    _init();
+    _pageManager = PageManager();
   }
 
-  Future<void> _init() async {
-    // Inform the operating system of our app's audio attributes etc.
-    // We pick a reasonable default for an app that plays speech.
-    final session = await AudioSession.instance;
-    await session.configure(AudioSessionConfiguration.speech());
-    // Listen to errors during playback.
-    _player.playbackEventStream.listen((event) {},
-        onError: (Object e, StackTrace stackTrace) {
-      print('A stream error occurred: $e');
-    });
-    // Try to load audio from a source and catch any errors.
-    try {
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3")));
-    } catch (e) {
-      print("Error loading audio source: $e");
-    }
+  @override
+  void dispose() {
+    _pageManager.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,60 +51,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
       backgroundColor: Colors.black,
       appBar: getAppBar(),
       body: getBody(),
-    );
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
-    // Release decoders and buffers back to the operating system making them
-    // available for other apps to use.
-    _player.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      _player.stop();
-    }
-  }
-
-  /// Collects the data useful for displaying in a seek bar, using a handy
-  /// feature of rx_dart to combine the 3 streams of interest into one.
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
-          (position, bufferedPosition, duration) => PositionData(
-              position, bufferedPosition, duration ?? Duration.zero));
-
-  Widget seekBar() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Display play/pause button and volume/speed sliders.
-        ControlButtons(_player),
-        // Display seek bar. Using StreamBuilder, this widget rebuilds
-        // each time the position, buffered position or duration changes.
-        StreamBuilder<PositionData>(
-          stream: _positionDataStream,
-          builder: (context, snapshot) {
-            final positionData = snapshot.data;
-            return SeekBar(
-              duration: positionData?.duration ?? Duration.zero,
-              position: positionData?.position ?? Duration.zero,
-              bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
-              onChangeEnd: _player.seek,
-            );
-          },
-        ),
-      ],
     );
   }
 
@@ -194,7 +115,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
 
   dataBody(Pmodel data) {
     var size = MediaQuery.of(context).size;
-    // PData paylistData = PData.fromJson(data.data.toJson());
 
     return BlocProvider(
       create: (context) => PlaylistTrackCubit(),
@@ -203,8 +123,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
             listener: (context, state) {},
             builder: (context, state) {
               PlaylistTrackCubit cubit = PlaylistTrackCubit.get(context);
-
-              // cubit.playlistId = data.id!;
 
               return Column(
                 children: [
@@ -258,8 +176,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
                   SizedBox(
                     height: 20,
                   ),
-                  // remoteUrl(),
-                  seekBar(),
+                  playerPlaylist(),
                   SizedBox(
                     height: 20,
                   ),
@@ -274,6 +191,18 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
               );
             }),
       ),
+    );
+  }
+
+  Widget playerPlaylist() {
+    return Column(
+      children: [
+        // CurrentSongTitle(),
+        // Playlist(),
+        // AddRemoveSongButtons(),
+        AudioProgressBar(),
+        AudioControlButtons(),
+      ],
     );
   }
 
@@ -410,12 +339,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
             ]);
   }
 
-  Widget remoteUrl() {
-    // return PlayerWidget(url: kUrl1);
-    // return PlaylistPlayer();
-    return Container();
-  }
-
   Widget track(Tracks data, String eventId) {
     print('song data ------------------------ $data');
     print(data.previewUrl);
@@ -437,8 +360,8 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
               )),
           TextButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PlaylistPlayer()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => PlayerPlaylist()));
             },
             child: Text(
               data.name.toString(),
@@ -479,107 +402,222 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView>
   }
 }
 
-class ControlButtons extends StatelessWidget {
-  final AudioPlayer player;
-
-  ControlButtons(this.player);
-
+class CurrentSongTitle extends StatelessWidget {
+  const CurrentSongTitle({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Opens volume slider dialog
-        IconButton(
-          icon: Icon(Icons.volume_up),
-          color: Colors.green,
-          onPressed: () {
-            showSliderDialog(
-              context: context,
-              title: "Adjust volume",
-              divisions: 10,
-              min: 0.0,
-              max: 1.0,
-              value: player.volume,
-              stream: player.volumeStream,
-              onChanged: player.setVolume,
-            );
-          },
-        ),
+    return ValueListenableBuilder<String>(
+      valueListenable: _pageManager.currentSongTitleNotifier,
+      builder: (_, title, __) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(title, style: TextStyle(fontSize: 40)),
+        );
+      },
+    );
+  }
+}
 
-        /// This StreamBuilder rebuilds whenever the player state changes, which
-        /// includes the playing/paused state and also the
-        /// loading/buffering/ready state. Depending on the state we show the
-        /// appropriate button or loading indicator.
-        StreamBuilder<PlayerState>(
-          stream: player.playerStateStream,
-          builder: (context, snapshot) {
-            final playerState = snapshot.data;
-            final processingState = playerState?.processingState;
-            final playing = playerState?.playing;
-            if (processingState == ProcessingState.loading ||
-                processingState == ProcessingState.buffering) {
-              return Container(
-                margin: EdgeInsets.all(8.0),
-                width: 64.0,
-                height: 64.0,
-                child: CircularProgressIndicator(),
-              );
-            } else if (playing != true) {
-              return IconButton(
-                icon: Icon(
-                  Icons.play_arrow,
-                  color: Colors.green,
-                ),
-                iconSize: 64.0,
-                onPressed: player.play,
-              );
-            } else if (processingState != ProcessingState.completed) {
-              return IconButton(
-                icon: Icon(
-                  Icons.pause,
-                  color: Colors.green,
-                ),
-                iconSize: 64.0,
-                onPressed: player.pause,
-              );
-            } else {
-              return IconButton(
-                icon: Icon(
-                  Icons.replay,
-                  color: Colors.green,
-                ),
-                iconSize: 64.0,
-                onPressed: () => player.seek(Duration.zero),
-              );
-            }
-          },
-        ),
-        // Opens speed slider dialog
-        StreamBuilder<double>(
-          stream: player.speedStream,
-          builder: (context, snapshot) => IconButton(
-            color: Colors.green,
-            icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                )),
-            onPressed: () {
-              showSliderDialog(
-                context: context,
-                title: "Adjust speed",
-                divisions: 10,
-                min: 0.5,
-                max: 1.5,
-                value: player.speed,
-                stream: player.speedStream,
-                onChanged: player.setSpeed,
+class Playlist extends StatelessWidget {
+  const Playlist({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ValueListenableBuilder<List<String>>(
+        valueListenable: _pageManager.playlistNotifier,
+        builder: (context, playlistTitles, _) {
+          return ListView.builder(
+            itemCount: playlistTitles.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text('${playlistTitles[index]}'),
               );
             },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AddRemoveSongButtons extends StatelessWidget {
+  const AddRemoveSongButtons({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            onPressed: _pageManager.addSong,
+            child: Icon(Icons.add),
           ),
-        ),
-      ],
+          FloatingActionButton(
+            onPressed: _pageManager.removeSong,
+            child: Icon(Icons.remove),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AudioProgressBar extends StatelessWidget {
+  const AudioProgressBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ProgressBarState>(
+      valueListenable: _pageManager.progressNotifier,
+      builder: (_, value, __) {
+        return ProgressBar(
+          thumbColor: Colors.green,
+          baseBarColor: Colors.grey,
+          bufferedBarColor: Colors.green[200],
+          progressBarColor: Colors.green,
+          progress: value.current,
+          buffered: value.buffered,
+          total: value.total,
+          onSeek: _pageManager.seek,
+        );
+      },
+    );
+  }
+}
+
+class AudioControlButtons extends StatelessWidget {
+  const AudioControlButtons({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          RepeatButton(),
+          PreviousSongButton(),
+          PlayButton(),
+          NextSongButton(),
+          ShuffleButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class RepeatButton extends StatelessWidget {
+  const RepeatButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<RepeatState>(
+      valueListenable: _pageManager.repeatButtonNotifier,
+      builder: (context, value, child) {
+        Icon icon;
+        switch (value) {
+          case RepeatState.off:
+            icon = Icon(Icons.repeat, color: Colors.grey);
+            break;
+          case RepeatState.repeatSong:
+            icon = Icon(Icons.repeat_one, color: Colors.green);
+            break;
+          case RepeatState.repeatPlaylist:
+            icon = Icon(Icons.repeat, color: Colors.green);
+            break;
+        }
+        return IconButton(
+          icon: icon,
+          color: Colors.green,
+          onPressed: _pageManager.onRepeatButtonPressed,
+        );
+      },
+    );
+  }
+}
+
+class PreviousSongButton extends StatelessWidget {
+  const PreviousSongButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _pageManager.isFirstSongNotifier,
+      builder: (_, isFirst, __) {
+        return IconButton(
+          icon: Icon(Icons.skip_previous, color: Colors.grey),
+          color: Colors.green,
+          onPressed:
+              (isFirst) ? null : _pageManager.onPreviousSongButtonPressed,
+        );
+      },
+    );
+  }
+}
+
+class PlayButton extends StatelessWidget {
+  const PlayButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ButtonState>(
+      valueListenable: _pageManager.playButtonNotifier,
+      builder: (_, value, __) {
+        switch (value) {
+          case ButtonState.loading:
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              width: 32.0,
+              height: 32.0,
+              child: CircularProgressIndicator(),
+            );
+          case ButtonState.paused:
+            return IconButton(
+              icon: Icon(Icons.play_arrow),
+              color: Colors.green,
+              iconSize: 32.0,
+              onPressed: _pageManager.play,
+            );
+          case ButtonState.playing:
+            return IconButton(
+              icon: Icon(Icons.pause),
+              color: Colors.green,
+              iconSize: 32.0,
+              onPressed: _pageManager.pause,
+            );
+        }
+      },
+    );
+  }
+}
+
+class NextSongButton extends StatelessWidget {
+  const NextSongButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _pageManager.isLastSongNotifier,
+      builder: (_, isLast, __) {
+        return IconButton(
+          icon: Icon(Icons.skip_next, color: Colors.grey),
+          color: Colors.green,
+          onPressed: (isLast) ? null : _pageManager.onNextSongButtonPressed,
+        );
+      },
+    );
+  }
+}
+
+class ShuffleButton extends StatelessWidget {
+  const ShuffleButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _pageManager.isShuffleModeEnabledNotifier,
+      builder: (context, isEnabled, child) {
+        return IconButton(
+          icon: (isEnabled)
+              ? Icon(Icons.shuffle, color: Colors.green)
+              : Icon(Icons.shuffle, color: Colors.grey),
+          onPressed: _pageManager.onShuffleButtonPressed,
+        );
+      },
     );
   }
 }
