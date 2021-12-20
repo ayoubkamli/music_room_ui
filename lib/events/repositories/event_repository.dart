@@ -119,4 +119,22 @@ class EventRepository {
       }
     }
   }
+
+  Future<void> addUserToEvent(String eventId, String userId) async {
+    // UserData user = await ProfileRepository().getUserProfile();
+    // if (user.success == true) {
+    try {
+      final http.Response response =
+          await SubscribeEvent().subscribeEvent(eventId, userId);
+      print('_________ \n ${response.statusCode} \n _____________');
+      if (response.statusCode == 200) {
+        print('joined to event with success');
+      } else {
+        print('joined to event failed');
+      }
+    } catch (e) {
+      print('Something catch in the event repository');
+    }
+    // }
+  }
 }

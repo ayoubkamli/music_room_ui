@@ -1,3 +1,4 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/bloc/track_event/manage_track_event_cubit.dart';
@@ -8,11 +9,14 @@ import 'package:myapp/events/repositories/event_repository.dart';
 
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
+import 'package:myapp/pages/explore_view.dart';
 import 'package:myapp/pages/tab_page.dart';
 // import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
+import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
+import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -31,6 +35,12 @@ class _TrackEventViewState extends State<TrackEventView> {
   // String? localFilePath;
   // String? localAudioCacheURI;
   String message = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    pageManager.removeSong();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +148,8 @@ class _TrackEventViewState extends State<TrackEventView> {
                 SizedBox(
                   height: 20,
                 ),
-
-                remoteUrl(),
+                playerPlaylist(),
+                // remoteUrl(),
                 // ExampleApp(),
                 SizedBox(
                   height: 20,
@@ -155,6 +165,18 @@ class _TrackEventViewState extends State<TrackEventView> {
           },
         ),
       ),
+    );
+  }
+
+  Widget playerPlaylist() {
+    return Column(
+      children: [
+        // CurrentSongTitle(),
+        // Playlist(),
+        // AddRemoveSongButtons(),
+        AudioProgressBar(),
+        AudioControlButtons(),
+      ],
     );
   }
 
@@ -337,6 +359,7 @@ class _TrackEventViewState extends State<TrackEventView> {
     print('song data ------------------------ $data');
     print(data.previewUrl);
     print('this is the evnt is \\\\$eventId//');
+    pageManager.addSong(data.previewUrl!);
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(
@@ -426,3 +449,161 @@ class _TrackEventViewState extends State<TrackEventView> {
     );
   }
 }
+
+class AudioProgressBar extends StatelessWidget {
+  const AudioProgressBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ProgressBarState>(
+      valueListenable: pageManager.progressNotifier,
+      builder: (_, value, __) {
+        return ProgressBar(
+          thumbColor: Colors.green,
+          baseBarColor: Colors.grey,
+          bufferedBarColor: Colors.green[200],
+          progressBarColor: Colors.green,
+          progress: value.current,
+          buffered: value.buffered,
+          total: value.total,
+          onSeek: pageManager.seek,
+        );
+      },
+    );
+  }
+}
+
+class AudioControlButtons extends StatelessWidget {
+  const AudioControlButtons({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // RepeatButton(),
+          // PreviousSongButton(),
+          PlayButton(),
+          // NextSongButton(),
+          // ShuffleButton(),
+        ],
+      ),
+    );
+  }
+}
+
+// class RepeatButton extends StatelessWidget {
+//   const RepeatButton({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<RepeatState>(
+//       valueListenable: pageManager.repeatButtonNotifier,
+//       builder: (context, value, child) {
+//         Icon icon;
+//         switch (value) {
+//           case RepeatState.off:
+//             icon = Icon(Icons.repeat, color: Colors.grey);
+//             break;
+//           case RepeatState.repeatSong:
+//             icon = Icon(Icons.repeat_one, color: Colors.green);
+//             break;
+//           case RepeatState.repeatPlaylist:
+//             icon = Icon(Icons.repeat, color: Colors.green);
+//             break;
+//         }
+//         return IconButton(
+//           icon: icon,
+//           color: Colors.green,
+//           onPressed: pageManager.onRepeatButtonPressed,
+//         );
+//       },
+//     );
+//   }
+// }
+
+// class PreviousSongButton extends StatelessWidget {
+//   const PreviousSongButton({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<bool>(
+//       valueListenable: pageManager.isFirstSongNotifier,
+//       builder: (_, isFirst, __) {
+//         return IconButton(
+//           icon: Icon(Icons.skip_previous, color: Colors.grey),
+//           color: Colors.green,
+//           onPressed: (isFirst) ? null : pageManager.onPreviousSongButtonPressed,
+//         );
+//       },
+//     );
+//   }
+// }
+
+class PlayButton extends StatelessWidget {
+  const PlayButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ButtonState>(
+      valueListenable: pageManager.playButtonNotifier,
+      builder: (_, value, __) {
+        switch (value) {
+          case ButtonState.loading:
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              width: 32.0,
+              height: 32.0,
+              child: CircularProgressIndicator(),
+            );
+          case ButtonState.paused:
+            return IconButton(
+              icon: Icon(Icons.play_arrow),
+              color: Colors.green,
+              iconSize: 32.0,
+              onPressed: pageManager.play,
+            );
+          case ButtonState.playing:
+            return IconButton(
+              icon: Icon(Icons.pause),
+              color: Colors.green,
+              iconSize: 32.0,
+              onPressed: pageManager.pause,
+            );
+        }
+      },
+    );
+  }
+}
+
+// class NextSongButton extends StatelessWidget {
+//   const NextSongButton({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<bool>(
+//       valueListenable: pageManager.isLastSongNotifier,
+//       builder: (_, isLast, __) {
+//         return IconButton(
+//           icon: Icon(Icons.skip_next, color: Colors.grey),
+//           color: Colors.green,
+//           onPressed: (isLast) ? null : pageManager.onNextSongButtonPressed,
+//         );
+//       },
+//     );
+//   }
+// }
+
+// class ShuffleButton extends StatelessWidget {
+//   const ShuffleButton({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<bool>(
+//       valueListenable: pageManager.isShuffleModeEnabledNotifier,
+//       builder: (context, isEnabled, child) {
+//         return IconButton(
+//           icon: (isEnabled)
+//               ? Icon(Icons.shuffle, color: Colors.green)
+//               : Icon(Icons.shuffle, color: Colors.grey),
+//           onPressed: pageManager.onShuffleButtonPressed,
+//         );
+//       },
+//     );
+//   }
+// }

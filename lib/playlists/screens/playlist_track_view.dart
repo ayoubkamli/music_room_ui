@@ -222,7 +222,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                     color: Colors.white,
                     icon: Icon(Icons.play_arrow_rounded),
                     onPressed: () {
-                      null;
+                      //
                     },
                   ),
                   Column(

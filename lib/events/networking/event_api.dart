@@ -264,13 +264,14 @@ class SubscribeEvent {
     print('user 0000 $userId');
     String? token = await MyToken().getBearerToken();
     Uri url = Uri.parse('$eventUrl/$eventId/join');
-    final http.Response response =
-        await http.post(url, headers: <String, String>{
-      'ContentType': 'application/json; charset=UTF-8',
-      'Authorization': '$token',
-    }, body: {
-      "userId": "$userId"
-    });
+    print('$url');
+    final http.Response response = await http.post(url,
+        headers: <String, String>{
+          'ContentType': 'application/json; charset=UTF-8',
+          'Authorization': '$token',
+        },
+        body: jsonEncode(<String, dynamic>{"userId": userId}));
+    print('_________ \n ${response.statusCode} \n _____________');
     print(response.body.toString());
     return response;
   }

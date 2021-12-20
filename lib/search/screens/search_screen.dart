@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/events/networking/event_api.dart';
+import 'package:myapp/events/repositories/event_repository.dart';
 import 'package:myapp/events/widgets/future_image.dart';
 import 'package:myapp/playlists/repositories/playlist_repository.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
@@ -102,11 +103,15 @@ class SearchScreen extends SearchDelegate<List> {
                           String trackId = state.tracks.data[index].trakId;
                           print('this is the event id ${eventId.toString()}');
                           print('this is the track id ${trackId.toString()}');
+                          print('this is hte type $type');
                           if (type == 'trackEvent') {
                             addTrackEvent(trackId, eventId);
                           }
                           if (type == 'trackPlaylist') {
                             addTrackPlaylist(trackId, eventId);
+                          }
+                          if (type == 'userEvent') {
+                            print('addUserToEvent(eventId, userId);');
                           }
 
                           // eventTracks(events[0][index], context);
@@ -213,7 +218,7 @@ class SearchScreen extends SearchDelegate<List> {
                           String userId = state.users[index].id.toString();
                           print('this is the event id ${eventId.toString()}');
                           print('user id $userId');
-                          // addUser(userId, eventId);
+                          addUser(userId, eventId);
                           // eventTracks(events[0][index], context);
                         },
                         child: Column(
@@ -337,5 +342,10 @@ class SearchScreen extends SearchDelegate<List> {
   addTrackPlaylist(String trackId, String playlistId) {
     print('add track $trackId to playlist $eventId');
     PlaylistRepository().addTrackPlaylist(playlistId, trackId);
+  }
+
+  addUser(String userId, String eventID) {
+    print('userId ----> $userId \n eventId -------> $eventId');
+    EventRepository().subscribeEvent(eventId);
   }
 }
