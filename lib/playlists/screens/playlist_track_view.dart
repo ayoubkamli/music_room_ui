@@ -187,7 +187,8 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                     children: List.generate(data.data.tracks.length, (index) {
                       print('hhhhhhhhhhhhhhhhhhh' +
                           data.data.tracks[index].toString());
-                      return track(data.data.tracks[index], cubit.playlistId);
+                      return track(data.data.tracks[index], cubit.playlistId,
+                          data.data.ownerId);
                     }),
                   )
                 ],
@@ -359,7 +360,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
             ]);
   }
 
-  Widget track(Tracks data, String eventId) {
+  Widget track(Tracks data, String eventId, String ownerId) {
     print('song data ------------------------ $data');
     print(data.previewUrl);
 
@@ -396,9 +397,21 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
               ),
             ),
           ),
-          Column(
-            children: [vote(), removeTrack(eventId, data.id)],
-          )
+          FutureBuilder<bool>(
+              future: IsCurrentUser().isCurrent(ownerId),
+              builder: (context, snapshot) {
+                print('-----> : |${snapshot.data}|');
+                if (snapshot.hasData) {
+                  if (snapshot.data == true) {
+                    return removeTrack(eventId, data.trackId);
+                  } else if (snapshot.data == false) {
+                    return vote();
+                  }
+                }
+                return SizedBox(
+                  width: 10,
+                );
+              })
         ],
       ),
     );
