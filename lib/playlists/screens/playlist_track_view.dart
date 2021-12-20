@@ -18,7 +18,6 @@ import 'package:myapp/utils/is_current_user.dart';
 import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/repeat_button_notifier.dart';
-import 'package:myapp/widgets/playlist_player/page_manager.dart';
 
 class PlaylistTrackView extends StatefulWidget {
   final String playlistId;
@@ -35,11 +34,11 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   String message = 'Loading...';
   // Map<String, String> playlistSongs = {};
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   pageManager = PageManager(playlistId: widget.playlistId);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    pageManager.removeSong();
+  }
 
   // @override
   // void dispose() {
@@ -219,9 +218,12 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.create_new_folder_outlined,
+                  IconButton(
                     color: Colors.white,
+                    icon: Icon(Icons.play_arrow_rounded),
+                    onPressed: () {
+                      null;
+                    },
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

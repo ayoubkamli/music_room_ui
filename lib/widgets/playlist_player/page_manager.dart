@@ -51,11 +51,9 @@ class PageManager {
   }
 
   void setInitialPlaylist() async {
-    final song1 = Uri.parse(
-        'https://p.scdn.co/mp3-preview/84ecde3a52998ceb70f48750740bdc18665b32f1?cid=3a6f2fd862ef4b5e8e53c3d90edf526d');
-    playlist = ConcatenatingAudioSource(children: [
-      AudioSource.uri(song1, tag: 'Song 1'),
-    ]);
+    // final song1 = Uri.parse(
+    //     'https://p.scdn.co/mp3-preview/84ecde3a52998ceb70f48750740bdc18665b32f1?cid=3a6f2fd862ef4b5e8e53c3d90edf526d');
+    playlist = ConcatenatingAudioSource(children: []);
 
     await _audioPlayer.setAudioSource(playlist);
   }
@@ -196,6 +194,7 @@ class PageManager {
   void removeSong() {
     final index = playlist.length - 1;
     if (index < 0) return;
-    playlist.removeAt(index);
+    // playlist.removeAt(index);
+    playlist.removeRange(0, playlist.length);
   }
 }
