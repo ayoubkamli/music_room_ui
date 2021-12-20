@@ -326,6 +326,15 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                     eventId: playlistData.id,
                     type: 'trackPlaylist'));
           }
+          if (selectedValue == '4') {
+            print('3');
+            showSearch(
+                context: context,
+                delegate: SearchScreen(
+                    searchBloc: BlocProvider.of<SearchBloc>(context),
+                    eventId: playlistData.id,
+                    type: 'userPlaylist'));
+          }
         },
         itemBuilder: (BuildContext ctx) => [
               PopupMenuItem(
@@ -341,6 +350,11 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                 child:
                     Text('add track', style: (TextStyle(color: Colors.white))),
                 value: '3',
+              ),
+              PopupMenuItem(
+                child:
+                    Text('add user', style: (TextStyle(color: Colors.white))),
+                value: '4',
               ),
             ]);
   }

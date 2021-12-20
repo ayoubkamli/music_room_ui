@@ -69,7 +69,7 @@ class SearchScreen extends SearchDelegate<List> {
     if (type == 'trackEvent' || type == 'trackPlaylist') {
       searchBloc.add(SearchTrack(query: query));
     }
-    if (type == 'userEvent') {
+    if (type == 'userEvent' || type == 'userPlaylist') {
       searchBloc.add(SearchUser(query: query));
     }
 
@@ -218,7 +218,13 @@ class SearchScreen extends SearchDelegate<List> {
                           String userId = state.users[index].id.toString();
                           print('this is the event id ${eventId.toString()}');
                           print('user id $userId');
-                          addUser(userId, eventId);
+                          if (type == 'userPlaylist') {
+                            addUserPlaylist(userId, eventId);
+                          }
+                          if (type == 'userEvent') {
+                            addUser(userId, eventId);
+                          }
+
                           // eventTracks(events[0][index], context);
                         },
                         child: Column(
@@ -347,5 +353,10 @@ class SearchScreen extends SearchDelegate<List> {
   addUser(String userId, String eventID) {
     print('userId ----> $userId \n eventId -------> $eventId');
     EventRepository().subscribeEvent(eventId);
+  }
+
+  addUserPlaylist(String userId, String eventID) {
+    print('userId ----> $userId \n eventId -------> $eventId');
+    PlaylistRepository().addUserPlaylist(eventId, userId);
   }
 }
