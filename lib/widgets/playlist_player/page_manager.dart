@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:myapp/playlists/repositories/playlist_repository.dart';
+import 'package:myapp/playlists/screens/p_model.dart';
 import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/repeat_button_notifier.dart';
@@ -15,15 +20,16 @@ class PageManager {
   final isShuffleModeEnabledNotifier = ValueNotifier<bool>(false);
 
   late AudioPlayer _audioPlayer;
-  late ConcatenatingAudioSource _playlist;
+  late ConcatenatingAudioSource playlist;
 
   PageManager() {
     _init();
   }
 
   void _init() async {
+    // getPlaylistData(playlistId);
     _audioPlayer = AudioPlayer();
-    _setInitialPlaylist();
+    setInitialPlaylist();
     _listenForChangesInPlayerState();
     _listenForChangesInPlayerPosition();
     _listenForChangesInBufferedPosition();
@@ -31,17 +37,27 @@ class PageManager {
     _listenForChangesInSequenceState();
   }
 
-  void _setInitialPlaylist() async {
-    const prefix = 'https://www.soundhelix.com/examples/mp3';
-    final song1 = Uri.parse('$prefix/SoundHelix-Song-1.mp3');
-    final song2 = Uri.parse('$prefix/SoundHelix-Song-2.mp3');
-    final song3 = Uri.parse('$prefix/SoundHelix-Song-3.mp3');
-    _playlist = ConcatenatingAudioSource(children: [
+  void getPlaylistData(playlistId) async {
+    print(
+        'page manager ======================================== get playlist $playlistId');
+    Response? data = await PlaylistRepository().getOnePlaylist(playlistId);
+    if (data != null && data.statusCode == 200) {
+      print(
+          'page manager ======================================== get playlist dataaaaaa \n ${data.body}');
+      Pmodel playlistSongs = Pmodel.fromJson(jsonDecode(data.body));
+      List<Tracks> tracks = playlistSongs.data.tracks;
+      print('trrrrrraaaaaaccccccckkkkkk' + tracks.toList().toString());
+    }
+  }
+
+  void setInitialPlaylist() async {
+    final song1 = Uri.parse(
+        'https://p.scdn.co/mp3-preview/84ecde3a52998ceb70f48750740bdc18665b32f1?cid=3a6f2fd862ef4b5e8e53c3d90edf526d');
+    playlist = ConcatenatingAudioSource(children: [
       AudioSource.uri(song1, tag: 'Song 1'),
-      AudioSource.uri(song2, tag: 'Song 2'),
-      AudioSource.uri(song3, tag: 'Song 3'),
     ]);
-    await _audioPlayer.setAudioSource(_playlist);
+
+    await _audioPlayer.setAudioSource(playlist);
   }
 
   void _listenForChangesInPlayerState() {
@@ -169,16 +185,17 @@ class PageManager {
     await _audioPlayer.setShuffleModeEnabled(enable);
   }
 
-  void addSong() {
-    final songNumber = _playlist.length + 1;
-    const prefix = 'https://www.soundhelix.com/examples/mp3';
-    final song = Uri.parse('$prefix/SoundHelix-Song-$songNumber.mp3');
-    _playlist.add(AudioSource.uri(song, tag: 'Song $songNumber'));
+  void addSong(String newSong) {
+    // final songNumber = playlist!.length + 1;
+    // const prefix = 'https://www.soundhelix.com/examples/mp3';
+    final song = Uri.parse('$newSong.mp3');
+    print('$song');
+    playlist.add(AudioSource.uri(song, tag: 'Song '));
   }
 
   void removeSong() {
-    final index = _playlist.length - 1;
+    final index = playlist.length - 1;
     if (index < 0) return;
-    _playlist.removeAt(index);
+    playlist.removeAt(index);
   }
 }

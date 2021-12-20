@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:myapp/events/widgets/future_image.dart';
+import 'package:myapp/pages/explore_view.dart';
 import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_cubit.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_state.dart';
@@ -28,22 +29,25 @@ class PlaylistTrackView extends StatefulWidget {
   State<PlaylistTrackView> createState() => _PlaylistTrackViewState();
 }
 
-late final PageManager _pageManager;
+// late final PageManager pageManager;
 
 class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   String message = 'Loading...';
+  // Map<String, String> playlistSongs = {};
 
-  @override
-  void initState() {
-    super.initState();
-    _pageManager = PageManager();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   pageManager = PageManager(playlistId: widget.playlistId);
+  // }
 
-  @override
-  void dispose() {
-    _pageManager.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+
+  //   pageManager.dispose();
+
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -342,6 +346,9 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   Widget track(Tracks data, String eventId) {
     print('song data ------------------------ $data');
     print(data.previewUrl);
+
+    pageManager.addSong(data.previewUrl);
+
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(
@@ -358,14 +365,19 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                   ],
                 ),
               )),
-          TextButton(
-            onPressed: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => PlayerPlaylist()));
-            },
-            child: Text(
-              data.name.toString(),
-              style: TextStyle(color: Colors.white.withOpacity(0.5)),
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => PlayerPlaylist()));
+              },
+              child: Text(
+                data.name.toString(),
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(color: Colors.white.withOpacity(0.5)),
+              ),
             ),
           ),
           Column(
@@ -402,73 +414,73 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   }
 }
 
-class CurrentSongTitle extends StatelessWidget {
-  const CurrentSongTitle({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-      valueListenable: _pageManager.currentSongTitleNotifier,
-      builder: (_, title, __) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(title, style: TextStyle(fontSize: 40)),
-        );
-      },
-    );
-  }
-}
+// class CurrentSongTitle extends StatelessWidget {
+//   const CurrentSongTitle({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<String>(
+//       valueListenable: pageManager.currentSongTitleNotifier,
+//       builder: (_, title, __) {
+//         return Padding(
+//           padding: const EdgeInsets.only(top: 8.0),
+//           child: Text(title, style: TextStyle(fontSize: 40)),
+//         );
+//       },
+//     );
+//   }
+// }
 
-class Playlist extends StatelessWidget {
-  const Playlist({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ValueListenableBuilder<List<String>>(
-        valueListenable: _pageManager.playlistNotifier,
-        builder: (context, playlistTitles, _) {
-          return ListView.builder(
-            itemCount: playlistTitles.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text('${playlistTitles[index]}'),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
+// class Playlist extends StatelessWidget {
+//   const Playlist({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: ValueListenableBuilder<List<String>>(
+//         valueListenable: pageManager.playlistNotifier,
+//         builder: (context, playlistTitles, _) {
+//           return ListView.builder(
+//             itemCount: playlistTitles.length,
+//             itemBuilder: (context, index) {
+//               return ListTile(
+//                 title: Text('${playlistTitles[index]}'),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
-class AddRemoveSongButtons extends StatelessWidget {
-  const AddRemoveSongButtons({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            onPressed: _pageManager.addSong,
-            child: Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: _pageManager.removeSong,
-            child: Icon(Icons.remove),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class AddRemoveSongButtons extends StatelessWidget {
+//   const AddRemoveSongButtons({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 20.0),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           FloatingActionButton(
+//             onPressed: pageManager.addSong,
+//             child: Icon(Icons.add),
+//           ),
+//           FloatingActionButton(
+//             onPressed: pageManager.removeSong,
+//             child: Icon(Icons.remove),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class AudioProgressBar extends StatelessWidget {
   const AudioProgressBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ProgressBarState>(
-      valueListenable: _pageManager.progressNotifier,
+      valueListenable: pageManager.progressNotifier,
       builder: (_, value, __) {
         return ProgressBar(
           thumbColor: Colors.green,
@@ -478,7 +490,7 @@ class AudioProgressBar extends StatelessWidget {
           progress: value.current,
           buffered: value.buffered,
           total: value.total,
-          onSeek: _pageManager.seek,
+          onSeek: pageManager.seek,
         );
       },
     );
@@ -510,7 +522,7 @@ class RepeatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<RepeatState>(
-      valueListenable: _pageManager.repeatButtonNotifier,
+      valueListenable: pageManager.repeatButtonNotifier,
       builder: (context, value, child) {
         Icon icon;
         switch (value) {
@@ -527,7 +539,7 @@ class RepeatButton extends StatelessWidget {
         return IconButton(
           icon: icon,
           color: Colors.green,
-          onPressed: _pageManager.onRepeatButtonPressed,
+          onPressed: pageManager.onRepeatButtonPressed,
         );
       },
     );
@@ -539,13 +551,12 @@ class PreviousSongButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: _pageManager.isFirstSongNotifier,
+      valueListenable: pageManager.isFirstSongNotifier,
       builder: (_, isFirst, __) {
         return IconButton(
           icon: Icon(Icons.skip_previous, color: Colors.grey),
           color: Colors.green,
-          onPressed:
-              (isFirst) ? null : _pageManager.onPreviousSongButtonPressed,
+          onPressed: (isFirst) ? null : pageManager.onPreviousSongButtonPressed,
         );
       },
     );
@@ -557,7 +568,7 @@ class PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ButtonState>(
-      valueListenable: _pageManager.playButtonNotifier,
+      valueListenable: pageManager.playButtonNotifier,
       builder: (_, value, __) {
         switch (value) {
           case ButtonState.loading:
@@ -572,14 +583,14 @@ class PlayButton extends StatelessWidget {
               icon: Icon(Icons.play_arrow),
               color: Colors.green,
               iconSize: 32.0,
-              onPressed: _pageManager.play,
+              onPressed: pageManager.play,
             );
           case ButtonState.playing:
             return IconButton(
               icon: Icon(Icons.pause),
               color: Colors.green,
               iconSize: 32.0,
-              onPressed: _pageManager.pause,
+              onPressed: pageManager.pause,
             );
         }
       },
@@ -592,12 +603,12 @@ class NextSongButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: _pageManager.isLastSongNotifier,
+      valueListenable: pageManager.isLastSongNotifier,
       builder: (_, isLast, __) {
         return IconButton(
           icon: Icon(Icons.skip_next, color: Colors.grey),
           color: Colors.green,
-          onPressed: (isLast) ? null : _pageManager.onNextSongButtonPressed,
+          onPressed: (isLast) ? null : pageManager.onNextSongButtonPressed,
         );
       },
     );
@@ -609,13 +620,13 @@ class ShuffleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: _pageManager.isShuffleModeEnabledNotifier,
+      valueListenable: pageManager.isShuffleModeEnabledNotifier,
       builder: (context, isEnabled, child) {
         return IconButton(
           icon: (isEnabled)
               ? Icon(Icons.shuffle, color: Colors.green)
               : Icon(Icons.shuffle, color: Colors.grey),
-          onPressed: _pageManager.onShuffleButtonPressed,
+          onPressed: pageManager.onShuffleButtonPressed,
         );
       },
     );
