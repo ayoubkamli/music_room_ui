@@ -44,7 +44,7 @@ class ProfileRepository {
     print('$bearerToken ++++ \n ${response.body.toString()}');
     var data = jsonDecode(response.body);
 
-    print('res ========>>>>>>> ${data.toString()}');
+    // print('res ========>>>>>>> ${data.toString()}');
 
     UserData res = UserData.fromJson(data);
     userData = res;

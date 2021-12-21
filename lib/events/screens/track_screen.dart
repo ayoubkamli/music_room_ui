@@ -14,6 +14,7 @@ import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
+import 'package:myapp/utils/is_subscribed.dart';
 import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
 
@@ -134,7 +135,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
                     // width: size.width - 80,
-                    height: 100,
+                    height: 110,
                     child: Column(
                       children: [
                         showEventInfo(data),
@@ -145,7 +146,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                     ),
                   ),
                 ),
-                joinEvent(data),
+
                 SizedBox(
                   height: 20,
                 ),
@@ -260,6 +261,15 @@ class _TrackEventViewState extends State<TrackEventView> {
                       ),
                     ),
                   ),
+                  // subscrib(data),
+                  FutureBuilder<String>(
+                      future: IsSubscribed().isSubscribed(data),
+                      builder: (constext, snapshoot) {
+                        if (snapshoot.data == 'true') {
+                          return unsubscrib(data);
+                        }
+                        return subscrib(data);
+                      })
                 ],
               ),
               SizedBox(
@@ -270,13 +280,24 @@ class _TrackEventViewState extends State<TrackEventView> {
         });
   }
 
-  joinEvent(AlbumModel data) {
+  subscrib(AlbumModel data) {
+    IsSubscribed().isSubscribed(data);
     return TextButton(
       onPressed: () {
-        print('join button pressed');
+        print('subscribe button pressed');
         EventRepository().subscribeEvent(data.data.id);
       },
       child: Text('Subscribe'),
+    );
+  }
+
+  unsubscrib(AlbumModel data) {
+    return TextButton(
+      onPressed: () {
+        print('unsubscribe pressed');
+        EventRepository().unsubscribeEvent(data.data.id);
+      },
+      child: Text('Unsubscribe'),
     );
   }
 

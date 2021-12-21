@@ -107,25 +107,45 @@ class EventRepository {
     UserData user = await ProfileRepository().getUserProfile();
     if (user.success == true) {
       try {
-        final http.Response response =
-            await SubscribeEvent().subscribeEvent(eventId, user.data!.id!);
+        final http.Response response = await SubscribeEvent()
+            .manageEventSubscription(eventId, user.data!.id!, 'subscribe');
         if (response.statusCode == 200) {
-          print('joined to event with success');
+          print('subscribe to event with success');
         } else {
-          print('joined to event failed');
+          print('subscribe to event failed');
         }
       } catch (e) {
-        print('Something catch in the event repository');
+        print('Something catch in the event subscribe repository');
       }
     }
   }
 
-  Future<void> addUserToEvent(String eventId, String userId) async {
+  Future<void> unsubscribeEvent(String eventId) async {
+    UserData user = await ProfileRepository().getUserProfile();
+    if (user.success == true) {
+      try {
+        final http.Response response = await SubscribeEvent()
+            .manageEventSubscription(eventId, user.data!.id!, 'unsubscribe');
+        if (response.statusCode == 200) {
+          print('unsubscribe with success');
+        } else {
+          print('unsucscribe event failed');
+        }
+      } catch (e) {
+        print('Something catch in the unsubscribe repository');
+      }
+    }
+  }
+
+  Future<void> addUserToEvent(
+    String eventId,
+    String userId,
+  ) async {
     // UserData user = await ProfileRepository().getUserProfile();
     // if (user.success == true) {
     try {
-      final http.Response response =
-          await SubscribeEvent().subscribeEvent(eventId, userId);
+      final http.Response response = await SubscribeEvent()
+          .manageEventSubscription(eventId, userId, 'join');
       print('_________ \n ${response.statusCode} \n _____________');
       if (response.statusCode == 200) {
         print('joined to event with success');

@@ -260,10 +260,11 @@ class StartEvent {
 }
 
 class SubscribeEvent {
-  Future<http.Response> subscribeEvent(String eventId, String userId) async {
+  Future<http.Response> manageEventSubscription(
+      String eventId, String userId, String route) async {
     print('user 0000 $userId');
     String? token = await MyToken().getBearerToken();
-    Uri url = Uri.parse('$eventUrl/$eventId/join');
+    Uri url = Uri.parse('$eventUrl/$eventId/$route');
     print('$url');
     final http.Response response = await http.post(url,
         headers: <String, String>{
