@@ -6,30 +6,20 @@ import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/screens/playlist_home_view.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/profile/screen/profile.dart';
-import 'package:myapp/widgets/playlist_player/page_manager.dart';
 
 class ExploreView extends StatefulWidget {
   @override
   _ExploreViewState createState() => _ExploreViewState();
 }
 
-late final PageManager pageManager;
 class _ExploreViewState extends State<ExploreView> {
   int activeTab = 0;
 
     @override
   void initState() {
     super.initState();
-    pageManager = PageManager();
   }
 
-  @override
-  void dispose() {
-    
-    pageManager.dispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -13,6 +13,7 @@ import 'package:myapp/profile/bloc/edit_profile_bloc.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
 import 'package:myapp/search/bloc/search_repository.dart';
+import 'package:myapp/widgets/playlist_player/page_manager.dart';
 
 import 'events/bloc/all_event/event_cubit.dart';
 import 'events/bloc/my_event/my_event_cubit.dart';
@@ -26,9 +27,20 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+late final PageManager pageManager;
+
 class _MyAppState extends State<MyApp> {
   void initState() {
+     pageManager = PageManager();
     super.initState();
+  }
+
+    @override
+  void dispose() {
+    
+    pageManager.dispose();
+
+    super.dispose();
   }
 
   @override

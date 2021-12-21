@@ -9,7 +9,6 @@ import 'package:myapp/events/repositories/event_repository.dart';
 
 import 'package:myapp/events/screens/edit_event_screen.dart';
 import 'package:myapp/events/widgets/future_image.dart';
-import 'package:myapp/pages/explore_view.dart';
 import 'package:myapp/pages/tab_page.dart';
 // import 'package:myapp/playlists/widgets/playlist_player_widget.dart';
 import 'package:myapp/search/bloc/search_bloc.dart';
@@ -17,6 +16,8 @@ import 'package:myapp/search/screens/search_screen.dart';
 import 'package:myapp/utils/is_current_user.dart';
 import 'package:myapp/widgets/playlist_player/notifier/play_button_notifier.dart';
 import 'package:myapp/widgets/playlist_player/notifier/progress_notifier.dart';
+
+import '../../main.dart';
 
 const kUrl1 =
     'https://p.scdn.co/mp3-preview/a1514ea0f0c4f729a2ed238ac255f988af195569?cid=3a6f2fd862ef4b5e8e53c3d90edf526d';
@@ -157,7 +158,7 @@ class _TrackEventViewState extends State<TrackEventView> {
                 Column(
                   children: List.generate(data.data.playlist.length, (index) {
                     return track(data.data.playlist[index], cubit.eventId,
-                        data.data.ownerId);
+                        data.data.ownerId, index);
                   }),
                 )
               ],
@@ -353,13 +354,13 @@ class _TrackEventViewState extends State<TrackEventView> {
     return Container();
   }
 
-  Widget track(PlaylistData data, String eventId, String ownerId) {
+  Widget track(PlaylistData data, String eventId, String ownerId, int index) {
     // EventModel songData = EventModel.fromJson(data);
 
     print('song data ------------------------ $data');
     print(data.previewUrl);
     print('this is the evnt is \\\\$eventId//');
-    pageManager.addSong(data.previewUrl!);
+    pageManager.addSong(data.previewUrl!, data.name!);
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(

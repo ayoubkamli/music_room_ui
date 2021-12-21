@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:myapp/events/widgets/future_image.dart';
-import 'package:myapp/pages/explore_view.dart';
+import 'package:myapp/main.dart';
 import 'package:myapp/pages/tab_page.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_cubit.dart';
 import 'package:myapp/playlists/manage_playlist_track/manage_playlist_track_state.dart';
@@ -28,25 +28,14 @@ class PlaylistTrackView extends StatefulWidget {
   State<PlaylistTrackView> createState() => _PlaylistTrackViewState();
 }
 
-// late final PageManager pageManager;
-
 class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   String message = 'Loading...';
-  // Map<String, String> playlistSongs = {};
 
   @override
   void initState() {
     super.initState();
     pageManager.removeSong();
   }
-
-  // @override
-  // void dispose() {
-
-  //   pageManager.dispose();
-
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +75,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
-            // Icon(Icons.list)
           ],
         ),
       ),
@@ -102,7 +90,6 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
           Pmodel playlist = Pmodel.fromJson(jsonDecode(snapshot.data!.body));
           print('${playlist.toJson()}');
           return dataBody(playlist);
-          // return Container();
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -165,7 +152,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Container(
                       width: size.width - 80,
-                      height: 100,
+                      height: 70,
                       child: Column(
                         children: [
                           showPlaylistInfo(data),
@@ -176,19 +163,16 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   playerPlaylist(),
                   SizedBox(
                     height: 20,
                   ),
                   Column(
                     children: List.generate(data.data.tracks.length, (index) {
-                      print('hhhhhhhhhhhhhhhhhhh' +
-                          data.data.tracks[index].toString());
+                      // print('hhhhhhhhhhhhhhhhhhh' +
+                      //     data.data.tracks[index].toString());
                       return track(data.data.tracks[index], cubit.playlistId,
-                          data.data.ownerId);
+                          data.data.ownerId, index);
                     }),
                   )
                 ],
@@ -199,14 +183,17 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   }
 
   Widget playerPlaylist() {
-    return Column(
-      children: [
-        // CurrentSongTitle(),
-        // Playlist(),
-        // AddRemoveSongButtons(),
-        AudioProgressBar(),
-        AudioControlButtons(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Column(
+        children: [
+          CurrentSongTitle(),
+          // Playlist(),
+          // AddRemoveSongButtons(),
+          AudioProgressBar(),
+          AudioControlButtons(),
+        ],
+      ),
     );
   }
 
@@ -360,11 +347,11 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
             ]);
   }
 
-  Widget track(Tracks data, String eventId, String ownerId) {
+  Widget track(Tracks data, String eventId, String ownerId, int index) {
     print('song data ------------------------ $data');
     print(data.previewUrl);
 
-    pageManager.addSong(data.previewUrl);
+    pageManager.addSong(data.previewUrl, data.name);
 
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
@@ -443,43 +430,46 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   }
 }
 
-// class CurrentSongTitle extends StatelessWidget {
-//   const CurrentSongTitle({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return ValueListenableBuilder<String>(
-//       valueListenable: pageManager.currentSongTitleNotifier,
-//       builder: (_, title, __) {
-//         return Padding(
-//           padding: const EdgeInsets.only(top: 8.0),
-//           child: Text(title, style: TextStyle(fontSize: 40)),
-//         );
-//       },
-//     );
-//   }
-// }
+class CurrentSongTitle extends StatelessWidget {
+  const CurrentSongTitle({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<String>(
+      valueListenable: pageManager.currentSongTitleNotifier,
+      builder: (_, title, __) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: Expanded(
+              child: Text(title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 20, color: Colors.white))),
+        );
+      },
+    );
+  }
+}
 
-// class Playlist extends StatelessWidget {
-//   const Playlist({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       child: ValueListenableBuilder<List<String>>(
-//         valueListenable: pageManager.playlistNotifier,
-//         builder: (context, playlistTitles, _) {
-//           return ListView.builder(
-//             itemCount: playlistTitles.length,
-//             itemBuilder: (context, index) {
-//               return ListTile(
-//                 title: Text('${playlistTitles[index]}'),
-//               );
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
+class Playlist extends StatelessWidget {
+  const Playlist({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ValueListenableBuilder<List<String>>(
+        valueListenable: pageManager.playlistNotifier,
+        builder: (context, playlistTitles, _) {
+          return ListView.builder(
+            itemCount: playlistTitles.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text('${playlistTitles[index]}'),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
 
 // class AddRemoveSongButtons extends StatelessWidget {
 //   const AddRemoveSongButtons({Key? key}) : super(key: key);
