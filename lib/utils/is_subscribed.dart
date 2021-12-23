@@ -14,7 +14,9 @@ class IsSubscribed {
     bool isSub = data.data.subscribes!.contains(user.data!.id);
     print('this is isSub' + isSub.toString());
     if (isSub == true) {
-      return 'true';
+      return 'subscribed';
+    } else if (isSub == false) {
+      return 'unsubscribed';
     }
     return 'false';
   }

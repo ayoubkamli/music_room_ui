@@ -9,6 +9,7 @@ import 'package:myapp/profile/bloc/edit_profile_bloc.dart';
 import 'package:myapp/profile/bloc/edit_profile_event.dart';
 import 'package:myapp/profile/bloc/edit_profile_state.dart';
 import 'package:myapp/profile/repository/profile_repository.dart';
+import 'package:myapp/utils/location.dart';
 import 'package:myapp/widgets/multi_select_chip.dart';
 import 'package:myapp/widgets/uplaod_profile_photo.dart';
 
@@ -104,6 +105,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           padding: EdgeInsets.all(40.0),
           child: Column(
             children: [
+              _userLocation(),
               _showImageProfile(),
               _editImageButton(),
               _emailField(),
@@ -115,6 +117,24 @@ class _EditProfileViewState extends State<EditProfileView> {
         ),
       ),
     );
+  }
+
+  Widget _userLocation() {
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.green),
+            ),
+          ),
+        ),
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => UserLocation()));
+        },
+        child: Text('get location'));
   }
 
   Widget _editProfilePasswordForm() {

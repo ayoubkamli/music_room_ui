@@ -263,15 +263,17 @@ class SubscribeEvent {
   Future<http.Response> manageEventSubscription(
       String eventId, String userId, String route) async {
     print('user 0000 $userId');
+    print('user 0000 $route');
     String? token = await MyToken().getBearerToken();
     Uri url = Uri.parse('$eventUrl/$eventId/$route');
     print('$url');
-    final http.Response response = await http.post(url,
-        headers: <String, String>{
-          'ContentType': 'application/json; charset=UTF-8',
-          'Authorization': '$token',
-        },
-        body: jsonEncode(<String, dynamic>{"userId": userId}));
+    final http.Response response =
+        await http.post(url, headers: <String, String>{
+      'ContentType': 'application/json; charset=UTF-8',
+      'Authorization': '$token',
+    }, body: {
+      "userId": userId
+    });
     print('_________ \n ${response.statusCode} \n _____________');
     print(response.body.toString());
     return response;

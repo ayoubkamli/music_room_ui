@@ -32,10 +32,6 @@ class TrackEventView extends StatefulWidget {
 }
 
 class _TrackEventViewState extends State<TrackEventView> {
-  // AudioCache audioCache = AudioCache();
-  // AudioPlayer advancedPlayer = AudioPlayer();
-  // String? localFilePath;
-  // String? localAudioCacheURI;
   String message = 'Loading...';
 
   @override
@@ -265,10 +261,13 @@ class _TrackEventViewState extends State<TrackEventView> {
                   FutureBuilder<String>(
                       future: IsSubscribed().isSubscribed(data),
                       builder: (constext, snapshoot) {
-                        if (snapshoot.data == 'true') {
+                        if (snapshoot.data == 'subscribed') {
                           return unsubscrib(data);
+                        } else if (snapshoot.data == 'unsubscribed') {
+                          return subscrib(data);
+                        } else {
+                          return Container();
                         }
-                        return subscrib(data);
                       })
                 ],
               ),
@@ -286,6 +285,8 @@ class _TrackEventViewState extends State<TrackEventView> {
       onPressed: () {
         print('subscribe button pressed');
         EventRepository().subscribeEvent(data.data.id);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) => super.widget));
       },
       child: Text('Subscribe'),
     );
@@ -296,6 +297,8 @@ class _TrackEventViewState extends State<TrackEventView> {
       onPressed: () {
         print('unsubscribe pressed');
         EventRepository().unsubscribeEvent(data.data.id);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) => super.widget));
       },
       child: Text('Unsubscribe'),
     );

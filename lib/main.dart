@@ -31,13 +31,13 @@ late final PageManager pageManager;
 
 class _MyAppState extends State<MyApp> {
   void initState() {
-     pageManager = PageManager();
+    pageManager = PageManager();
+
     super.initState();
   }
 
-    @override
+  @override
   void dispose() {
-    
     pageManager.dispose();
 
     super.dispose();

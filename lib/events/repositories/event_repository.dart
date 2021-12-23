@@ -120,7 +120,7 @@ class EventRepository {
     }
   }
 
-  Future<void> unsubscribeEvent(String eventId) async {
+  Future<String> unsubscribeEvent(String eventId) async {
     UserData user = await ProfileRepository().getUserProfile();
     if (user.success == true) {
       try {
@@ -128,13 +128,14 @@ class EventRepository {
             .manageEventSubscription(eventId, user.data!.id!, 'unsubscribe');
         if (response.statusCode == 200) {
           print('unsubscribe with success');
-        } else {
-          print('unsucscribe event failed');
+          return 'true';
         }
+        return 'false';
       } catch (e) {
         print('Something catch in the unsubscribe repository');
       }
     }
+    return 'false';
   }
 
   Future<void> addUserToEvent(
