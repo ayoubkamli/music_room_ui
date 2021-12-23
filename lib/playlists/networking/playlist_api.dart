@@ -59,7 +59,8 @@ class PlaylistDeleteWithBody {
     Map<String, dynamic> body = {'trackId': '$trackId'};
     Map<String, String> headers = await MyHeader().getHeaders();
 
-    final response = await http.delete(url, headers: headers, body: body);
+    final response =
+        await http.delete(url, headers: headers, body: jsonEncode(body));
     return response;
   }
 }

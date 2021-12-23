@@ -25,6 +25,9 @@ class PlaylistTrackCubit extends Cubit<PlaylistTrackState> {
   Future<void> removePlaylistTrack(String playlistId, String trackId) async {
     http.Response? response =
         await PlaylistRepository().removeTrackPlaylist(playlistId, trackId);
+    print(
+        'playlist id: $playlistId \n track id $trackId ****** mange playlist track cubit');
+    // print('${response!.body}');
     if (response != null && response.statusCode == 200) {
       print('track deleted with success');
     } else {

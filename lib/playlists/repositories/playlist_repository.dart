@@ -116,6 +116,8 @@ class PlaylistRepository {
   Future<http.Response?> removeTrackPlaylist(
       String playlistId, String trackId) async {
     final Uri url = Uri.parse('$playlistUrl/$playlistId/track');
+    print(url);
+    print('playlist id $trackId');
     try {
       final http.Response response =
           await PlaylistDeleteWithBody(url, trackId).deleteRequest();

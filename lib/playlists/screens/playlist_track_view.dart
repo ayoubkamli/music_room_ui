@@ -171,7 +171,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
                     children: List.generate(data.data.tracks.length, (index) {
                       // print('hhhhhhhhhhhhhhhhhhh' +
                       //     data.data.tracks[index].toString());
-                      return track(data.data.tracks[index], cubit.playlistId,
+                      return track(data.data.tracks[index], data.data.id,
                           data.data.ownerId, index);
                     }),
                   )
@@ -412,6 +412,7 @@ class _PlaylistTrackViewState extends State<PlaylistTrackView> {
   }
 
   removeTrack(playlistId, trackId) {
+    print('$playlistId ====== removeTrack');
     return BlocProvider(
         create: (context) => PlaylistTrackCubit(),
         child: BlocConsumer<PlaylistTrackCubit, PlaylistTrackState>(
